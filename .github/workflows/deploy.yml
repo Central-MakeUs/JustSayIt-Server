@@ -53,7 +53,7 @@ jobs:
         if: ${{ failure() }}
         run: echo "::set-output name=mergeable::false"
 
-      # 도커 이미지 빌드
+      # 도커 이미지 build & push
       - name: Docker build
         run: |
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
@@ -75,14 +75,23 @@ jobs:
           replace-with: '-'
           flags: 'g'
 
-      # Beanstalk 배포
+      - name: Generate deployment package
+        run: |
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions_dev deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r deploy.zip .
+
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v20
         with:
-          aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
-          application_name: jsi-app
-          environment_name: jsi-app-env
-          version_label: "github-action--${{ steps.format-time.outputs.replaced }}"
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: jsi-application
+          environment_name: jsi-application-env
+          version_label: github-action-${{ steps.current-time.outputs.replaced }}
           region: ap-northeast-2
-          deployment_package: Dockerrun.aws.json
+          deployment_package: deploy/deploy.zip
+          wait_for_environment_recovery: 60
