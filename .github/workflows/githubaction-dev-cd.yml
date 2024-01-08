@@ -8,18 +8,13 @@ name: CI/CD with GitHubAction
 
 on:
   pull_request:
-    branches:
-      - main
-      - dev
-
-permissions:
-  contents: read
-  pull-requests: write
-  checks: write
+    types: [closed]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
 
     steps:
       - uses: actions/checkout@v3
@@ -35,45 +30,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -x test
 
-      - name: Test with Gradle
-        run: |
-          TEST_RESULT=$(./gradlew test)
-          if [[ $TEST_RESULT == *"FAILURE"* ]]; then
-            echo "::error::Unit tests failed. Please check the code and try again."
-            exit 1
-          fi
-
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() }}
-        with:
-          files: build/test-results/**/*.xml
-
-      - name: Prevent merge on failure
-        if: ${{ failure() }}
-        run: echo "::set-output name=mergeable::false"
-
-      # 도커 이미지 build & push
-      - name: Docker build
-        run: |
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker build -t jsi .
-          docker tag jsi simhani1/jsi:latest
-          docker push simhani1/jsi:latest
-
-      # 현재시간 라벨링
-      - name: Get timestamp
-        uses: gerred/actions/current-time@master
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
         id: current-time
-
-      - name: Run string replace
-        uses: frabert/replace-string-action@master
-        id: format-time
         with:
-          pattern: '[:\.]+'
-          string: "${{ steps.current-time.outputs.time }}"
-          replace-with: '-'
-          flags: 'g'
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00" # (8).build 시점의 시간확보
+
+      - name: Show Current Time
+        run: echo "CurrentTime=$"
+        shell: bash # (9).확보한 시간 보여주기
 
       - name: Generate deployment package
         run: |
@@ -91,7 +57,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: jsi-application
           environment_name: jsi-application-env
-          version_label: github-action-${{ steps.current-time.outputs.replaced }}
+          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 60
