@@ -1,0 +1,8 @@
+version: "3"
+services:
+  spring-app:
+    container_name: jsi-app
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
