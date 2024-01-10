@@ -1,4 +1,4 @@
-package com.justsayit.member.service.command;
+package com.justsayit.member.service.auth.command;
 
 import lombok.Builder;
 import lombok.Getter;

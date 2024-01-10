@@ -41,9 +41,9 @@ public class Member extends BaseJpaEntity {
     private List<String> authorities = new ArrayList<>();
 
     @Builder
-    public Member(String token, LoginType loginType, ProfileInfo profileInfo) {
+    public Member(String token, String loginType, ProfileInfo profileInfo) {
         this.token = token;
-        this.loginType = loginType;
+        this.loginType = LoginType.valueOf(loginType);
         this.profileInfo = profileInfo;
         this.status = MemberStatus.ACTIVE;
     }

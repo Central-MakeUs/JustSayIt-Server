@@ -16,7 +16,7 @@ class ProfileInfoTest {
         // given
         Member member = Member.builder()
                 .token("토큰1")
-                .loginType(LoginType.NAVER)
+                .loginType("NAVER")
                 .profileInfo(ProfileInfo.builder()
                         .nickname("닉네임1")
                         .profileImg("프로필1")
@@ -41,7 +41,7 @@ class ProfileInfoTest {
         // given
         Member member = Member.builder()
                 .token("토큰1")
-                .loginType(LoginType.NAVER)
+                .loginType("NAVER")
                 .profileInfo(ProfileInfo.builder()
                         .nickname("닉네임1")
                         .profileImg("프로필1")

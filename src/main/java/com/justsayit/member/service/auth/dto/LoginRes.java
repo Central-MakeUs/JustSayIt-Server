@@ -1,4 +1,4 @@
-package com.justsayit.member.service.dto;
+package com.justsayit.member.service.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;
