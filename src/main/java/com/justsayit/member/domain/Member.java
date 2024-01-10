@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "Member")
+@Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseJpaEntity {
 
@@ -33,6 +33,7 @@ public class Member extends BaseJpaEntity {
     @AttributeOverride(name = "profileImg", column = @Column(name = "profile_img", nullable = false))
     private ProfileInfo profileInfo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private MemberStatus status;
 
