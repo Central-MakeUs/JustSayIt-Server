@@ -1,6 +1,6 @@
 package com.justsayit.member.domain;
 
-import com.justsayit.member.exception.MemberNicknameOverflowException;
+import com.justsayit.member.exception.NicknameOverflowException;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class ProfileInfoTest {
         // given
         Member member = Member.builder()
                 .token("토큰1")
-                .loginType(LoginType.NAVER)
+                .loginType("NAVER")
                 .profileInfo(ProfileInfo.builder()
                         .nickname("닉네임1")
                         .profileImg("프로필1")
@@ -37,11 +37,11 @@ class ProfileInfoTest {
 
     @DisplayName("닉네임이 한 글자 또는 12글자 초과라면 MemberNicknameOverflow 예외를 던진다")
     @Test
-    void thrMemberNicknameOverflowException() {
+    void thrNicknameOverflowException() {
         // given
         Member member = Member.builder()
                 .token("토큰1")
-                .loginType(LoginType.NAVER)
+                .loginType("NAVER")
                 .profileInfo(ProfileInfo.builder()
                         .nickname("닉네임1")
                         .profileImg("프로필1")
@@ -56,6 +56,6 @@ class ProfileInfoTest {
                 .nickname(randomNickname)
                 .profileImg("프로필1")
                 .build()))
-                .isInstanceOf(MemberNicknameOverflowException.class);
+                .isInstanceOf(NicknameOverflowException.class);
     }
 }
