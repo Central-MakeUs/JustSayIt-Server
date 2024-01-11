@@ -47,6 +47,7 @@ public class Member extends BaseJpaEntity {
         this.loginType = LoginType.valueOf(loginType);
         this.profileInfo = profileInfo;
         this.status = MemberStatus.ACTIVE;
+        this.authorities = List.of("MEMBER");
     }
 
     public void updateProfile(ProfileInfo profileInfo) {
