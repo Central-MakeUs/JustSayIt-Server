@@ -11,6 +11,18 @@ spring:
         format_sql: true
         use_sql_comments: true
 
+cloud:
+  aws:
+    credentials:
+      access-key: accessKey  # IAM 계정의 accessKey
+      secret-key: secretKey  # IAM 계정의 secretKey
+    region:
+      static: ap-northeast-2  # 버킷의 리전
+    s3:
+      bucket: test-bucket   # 버킷 이름
+    stack:
+      auto: false
+
 jwt:
   secret:
     key: secretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortest
