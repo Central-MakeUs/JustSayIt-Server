@@ -6,4 +6,8 @@ import lombok.Getter;
 public class ProfileImgInfo {
 
     private String url;
+
+    public ProfileImgInfo(String url) {
+        this.url = url;
+    }
 }
