@@ -21,7 +21,7 @@ public class MemberController {
     private final LoginFacade loginFacade;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginRes> login(@RequestPart(value = "login-info") LoginReq req, @RequestPart(value = "file", required = false) MultipartFile multipartFile) {
+    public ResponseEntity<LoginRes> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         LoginRes res = loginFacade.login(req, multipartFile);
         return ResponseEntity.ok(res);
     }
