@@ -5,8 +5,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
-import com.justsayit.infra.s3.exception.FailToUploadImage;
+import com.justsayit.infra.s3.exception.FileMaximumSizeException;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
+import com.justsayit.infra.s3.util.BasicProfileImgGenerator;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +32,8 @@ public class UploadImageService implements UploadImageUseCase {
 
     @Override
     public ProfileImgInfo uploadProfileImg(MultipartFile multipartFile) {
-        // 사진을 업로드 하지 않은 경우 기본 프로필 이미지로 생성함
-        // TODO 랜덤 이미지 생성기로 변경 필요
         if (multipartFile.isEmpty()) {
-            return new ProfileImgInfo("https://jsi-bucket.s3.ap-northeast-2.amazonaws.com/default-profile-blue.png");
+            return new ProfileImgInfo(BasicProfileImgGenerator.getRandom());
         }
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
@@ -50,8 +50,10 @@ public class UploadImageService implements UploadImageUseCase {
             amazonS3.putObject(
                     new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
+        } catch (FileSizeLimitExceededException e) {  // TODO 에러 핸들링
+            throw new FileMaximumSizeException(e);
         } catch (IOException e) {
-            throw new FailToUploadImage();
+            throw new RuntimeException(e);
         }
 
         String storeFileUrl = amazonS3.getUrl(bucket, key).toString();

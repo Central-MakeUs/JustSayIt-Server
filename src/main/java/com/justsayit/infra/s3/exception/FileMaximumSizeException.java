@@ -1,19 +1,19 @@
 package com.justsayit.infra.s3.exception;
 
-public class FailToUploadImage extends RuntimeException {
+public class FileMaximumSizeException extends RuntimeException {
 
-    public FailToUploadImage() {
+    public FileMaximumSizeException() {
     }
 
-    public FailToUploadImage(String message) {
+    public FileMaximumSizeException(String message) {
         super(message);
     }
 
-    public FailToUploadImage(String message, Throwable cause) {
+    public FileMaximumSizeException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public FailToUploadImage(Throwable cause) {
+    public FileMaximumSizeException(Throwable cause) {
         super(cause);
     }
 }
