@@ -57,9 +57,9 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: jsi-app
-          environment_name: jsi-app-env
+          application_name: justsayit-app
+          environment_name: justsayit-app-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
-          wait_for_environment_recovery: 60
+          wait_for_environment_recovery: 300
