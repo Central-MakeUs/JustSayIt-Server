@@ -9,7 +9,6 @@ import lombok.*;
 public class LoginReq {
 
     private String nickname;
-    private String profileImg;
     private String loginType;
     private String token;
 }

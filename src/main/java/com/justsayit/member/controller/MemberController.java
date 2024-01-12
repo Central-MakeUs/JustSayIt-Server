@@ -1,15 +1,16 @@
 package com.justsayit.member.controller;
 
 import com.justsayit.member.controller.request.LoginReq;
-import com.justsayit.member.service.auth.command.LoginCommand;
+import com.justsayit.member.service.LoginFacade;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.LoginUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping("/members")
 @RestController
@@ -17,15 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final LoginUseCase loginUseCase;
+    private final LoginFacade loginFacade;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginRes> login(@RequestBody LoginReq req) {
-        LoginRes res = loginUseCase.login(LoginCommand.builder()
-                .loginType(req.getLoginType())
-                .nickname(req.getNickname())
-                .profileImg(req.getProfileImg())
-                .token(req.getToken())
-                .build());
+    public ResponseEntity<LoginRes> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
+        LoginRes res = loginFacade.login(req, multipartFile);
         return ResponseEntity.ok(res);
     }
 }

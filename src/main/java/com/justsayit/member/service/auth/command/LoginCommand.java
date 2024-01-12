@@ -7,15 +7,15 @@ import lombok.Getter;
 public class LoginCommand {
 
     private String token;
-    private String profileImg;
-    private String nickname;
     private String loginType;
+    private String nickname;
+    private String profileImg;
 
     @Builder
-    public LoginCommand(String token, String profileImg, String nickname, String loginType) {
+    public LoginCommand(String token, String loginType, String nickname, String profileImg) {
         this.token = token;
-        this.profileImg = profileImg;
-        this.nickname = nickname;
         this.loginType = loginType;
+        this.nickname = nickname;
+        this.profileImg = profileImg;
     }
 }
