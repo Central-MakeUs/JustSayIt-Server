@@ -51,10 +51,8 @@ public class SecurityConfig {
                     .antMatchers("/health/**")
                     .permitAll()
                     // MEMBER
-                    .antMatchers("/members/login")
-                    .permitAll()
                     .antMatchers("/members/**")
-                    .authenticated();
+                    .permitAll();
             return http.build();
         } catch (Exception e) {
             log.info("security config 에러 발생", e);
