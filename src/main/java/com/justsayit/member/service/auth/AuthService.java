@@ -7,7 +7,7 @@ import com.justsayit.member.domain.ProfileInfo;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.auth.command.LoginCommand;
 import com.justsayit.member.service.auth.dto.LoginRes;
-import com.justsayit.member.service.auth.usecase.LoginUseCase;
+import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class LoginService implements LoginUseCase {
+public class AuthService implements AuthUseCase {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
@@ -41,5 +41,12 @@ public class LoginService implements LoginUseCase {
                         .profileImg(cmd.getProfileImg())
                         .build())
                 .build();
+    }
+
+    @Override
+    public void quit(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow();
+        member.deleteAccount();
     }
 }
