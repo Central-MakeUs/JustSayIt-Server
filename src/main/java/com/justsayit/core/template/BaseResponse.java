@@ -7,8 +7,8 @@ import lombok.Getter;
 public class BaseResponse<D> {
 
     private final String code;
-    private final String message;
     private final boolean isSuccess;
+    private final String message;
     private final D data;
     private static final String SUCCESS = "SUCCESS";
     private static final String FAIL = "FAIL";
