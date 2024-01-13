@@ -1,10 +1,12 @@
 package com.justsayit.member.controller;
 
 import com.justsayit.core.template.BaseResponse;
+import com.justsayit.member.controller.request.ChangedProfileReq;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.service.LoginFacade;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
+import com.justsayit.member.service.profile.usecase.ProfileUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ public class MemberController {
 
     private final LoginFacade loginFacade;
     private final AuthUseCase authUseCase;
+    private final ProfileUseCase profileUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
@@ -25,8 +28,14 @@ public class MemberController {
     }
 
     @PostMapping("/quit/{member-id}")
-    public ResponseEntity<BaseResponse> quit(@PathVariable(name = "member-id") Long memberId) {
+    public ResponseEntity<BaseResponse<Object>> quit(@PathVariable(name = "member-id") Long memberId) {
         authUseCase.quit(memberId);
         return ResponseEntity.ok(BaseResponse.ofSuccess("AUTH-002", "회원탈퇴 성공"));
+    }
+
+    @PatchMapping("/profile/me/{member-id}")
+    public ResponseEntity<BaseResponse<Object>> changeMyProfile(@RequestPart(value = "changedProfile") ChangedProfileReq req,
+                                                                            @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
+        return null;
     }
 }
