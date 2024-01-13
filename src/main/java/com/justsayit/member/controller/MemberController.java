@@ -24,13 +24,13 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         LoginRes res = loginFacade.login(req, multipartFile);
-        return ResponseEntity.ok(BaseResponse.ofSuccess("AUTH-001", "로그인 성공", res));  // TODO 응답 메시지 전역변수 처리
+        return ResponseEntity.ok(BaseResponse.ofSuccess("1001", "로그인 성공", res));  // TODO 응답 메시지 전역변수 처리
     }
 
     @PostMapping("/quit/{member-id}")
     public ResponseEntity<BaseResponse<Object>> quit(@PathVariable(name = "member-id") Long memberId) {
         authUseCase.quit(memberId);
-        return ResponseEntity.ok(BaseResponse.ofSuccess("AUTH-002", "회원탈퇴 성공"));
+        return ResponseEntity.ok(BaseResponse.ofSuccess("1002", "회원탈퇴 성공"));
     }
 
     @PatchMapping("/profile/me/{member-id}")
@@ -38,6 +38,6 @@ public class MemberController {
                                                                 @RequestPart(value = "updateProfile") UpdateProfileReq req,
                                                                 @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         updateProfileFacade.updateProfile(memberId, req, multipartFile);
-        return null;
+        return ResponseEntity.ok(BaseResponse.ofSuccess("1003", "프로필 수정 성공"));
     }
 }
