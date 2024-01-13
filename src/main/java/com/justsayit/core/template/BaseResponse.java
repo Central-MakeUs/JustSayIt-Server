@@ -46,7 +46,7 @@ public class BaseResponse<D> {
      * @return 자기 자신을 반환
      * @param <D> null
      */
-    public static <D> BaseResponse<D> ofFail(String code) {
-        return new BaseResponse<>(code, FAIL, null);
+    public static <D> BaseResponse<D> ofFail(String code, String cause) {
+        return new BaseResponse<>(code, cause, null);
     }
 }
