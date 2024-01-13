@@ -1,8 +1,8 @@
 package com.justsayit.member.controller;
 
 import com.justsayit.core.template.BaseResponse;
-import com.justsayit.member.controller.request.ChangedProfileReq;
 import com.justsayit.member.controller.request.LoginReq;
+import com.justsayit.member.controller.request.UpdateProfileReq;
 import com.justsayit.member.service.LoginFacade;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
@@ -34,8 +34,9 @@ public class MemberController {
     }
 
     @PatchMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> changeMyProfile(@RequestPart(value = "changedProfile") ChangedProfileReq req,
-                                                                            @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
+    public ResponseEntity<BaseResponse<Object>> updateMyProfile(@PathVariable(name = "member-id") Long memberId,
+                                                                @RequestPart(value = "updateProfile") UpdateProfileReq req,
+                                                                @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         return null;
     }
 }

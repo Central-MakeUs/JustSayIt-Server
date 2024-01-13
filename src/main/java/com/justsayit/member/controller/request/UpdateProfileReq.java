@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChangedProfileReq {
+public class UpdateProfileReq {
 
     private String nickname;
     private String profileImg;
