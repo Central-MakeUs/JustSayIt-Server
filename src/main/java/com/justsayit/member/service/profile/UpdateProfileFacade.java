@@ -23,7 +23,6 @@ public class UpdateProfileFacade {
         if (!multipartFile.isEmpty()) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
-        // 프로필 정보 수정
         profileUseCase.updateProfile(UpdateProfileCmd.builder()
                 .memberId(memberId)
                 .nickname(req.getNickname())

@@ -4,5 +4,5 @@ import com.justsayit.member.service.profile.command.UpdateProfileCmd;
 
 public interface ProfileUseCase {
 
-    void updateProfile(UpdateProfileCmd build);
+    void updateProfile(UpdateProfileCmd cmd);
 }
