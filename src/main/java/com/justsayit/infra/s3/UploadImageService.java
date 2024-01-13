@@ -7,7 +7,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
 import com.justsayit.infra.s3.exception.FileMaximumSizeException;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
-import com.justsayit.infra.s3.util.BasicProfileImgGenerator;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,9 +31,6 @@ public class UploadImageService implements UploadImageUseCase {
 
     @Override
     public ProfileImgInfo uploadProfileImg(MultipartFile multipartFile) {
-        if (multipartFile.isEmpty()) {
-            return new ProfileImgInfo(BasicProfileImgGenerator.getRandom());
-        }
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
         objectMetadata.setContentLength(multipartFile.getSize());
