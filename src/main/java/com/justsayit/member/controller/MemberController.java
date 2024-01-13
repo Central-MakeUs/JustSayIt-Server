@@ -3,10 +3,10 @@ package com.justsayit.member.controller;
 import com.justsayit.core.template.BaseResponse;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.controller.request.UpdateProfileReq;
-import com.justsayit.member.service.LoginFacade;
+import com.justsayit.member.service.auth.LoginFacade;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
-import com.justsayit.member.service.profile.usecase.ProfileUseCase;
+import com.justsayit.member.service.profile.UpdateProfileFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 
     private final LoginFacade loginFacade;
+    private final UpdateProfileFacade updateProfileFacade;
     private final AuthUseCase authUseCase;
-    private final ProfileUseCase profileUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
@@ -34,9 +34,10 @@ public class MemberController {
     }
 
     @PatchMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> updateMyProfile(@PathVariable(name = "member-id") Long memberId,
+    public ResponseEntity<BaseResponse<Object>> updateProfile(@PathVariable(name = "member-id") Long memberId,
                                                                 @RequestPart(value = "updateProfile") UpdateProfileReq req,
                                                                 @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
+        updateProfileFacade.updateProfile(memberId, req, multipartFile);
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.justsayit.member.service;
+package com.justsayit.member.service.auth;
 
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
