@@ -1,5 +1,6 @@
 package com.justsayit.core.template;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,16 +8,17 @@ import lombok.Getter;
 public class BaseResponse<D> {
 
     private final String code;
-    private final boolean isSuccess;
+    @JsonProperty(value="isSuccess")
+    private final boolean success;
     private final String message;
     private final D data;
     private static final String SUCCESS = "SUCCESS";
     private static final String FAIL = "FAIL";
 
     @Builder
-    private BaseResponse(String code, String message, boolean isSuccess, D data) {
+    private BaseResponse(String code, String message, boolean success, D data) {
         this.code = code;
-        this.isSuccess = isSuccess;
+        this.success = success;
         this.message = message;
         this.data = data;
     }
@@ -38,7 +40,7 @@ public class BaseResponse<D> {
     public static <D> BaseResponse<D> ofSuccess(String code, String message) {
         return BaseResponse.<D>builder()
                 .code(code)
-                .isSuccess(true)
+                .success(true)
                 .message(message)
                 .data(null)
                 .build();
@@ -55,7 +57,7 @@ public class BaseResponse<D> {
     public static <D> BaseResponse<D> ofSuccess(String code, String message, D data) {
         return BaseResponse.<D>builder()
                 .code(code)
-                .isSuccess(true)
+                .success(true)
                 .message(message)
                 .data(data)
                 .build();
@@ -71,7 +73,7 @@ public class BaseResponse<D> {
     public static <D> BaseResponse<D> ofFail(String code, String message) {
         return BaseResponse.<D>builder()
                 .code(code)
-                .isSuccess(false)
+                .success(false)
                 .message(message)
                 .data(null)
                 .build();
