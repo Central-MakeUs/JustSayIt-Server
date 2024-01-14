@@ -3,6 +3,7 @@ package com.justsayit.member.service.auth;
 import com.justsayit.core.jwt.JwtTokenProvider;
 import com.justsayit.core.jwt.dto.JwtToken;
 import com.justsayit.member.domain.Member;
+import com.justsayit.member.domain.PersonalInfo;
 import com.justsayit.member.domain.ProfileInfo;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.auth.command.LoginCommand;
@@ -39,6 +40,10 @@ public class AuthService implements AuthUseCase {
                 .profileInfo(ProfileInfo.builder()
                         .nickname(cmd.getNickname())
                         .profileImg(cmd.getProfileImg())
+                        .build())
+                .personalInfo(PersonalInfo.builder()
+                        .gender(cmd.getGender())
+                        .birth(cmd.getBirth())
                         .build())
                 .build();
     }

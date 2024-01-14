@@ -18,8 +18,8 @@ public class PersonalInfo {
     private LocalDate birth;
 
     @Builder
-    public PersonalInfo(Gender gender, LocalDate birth) {
-        this.gender = gender;
+    public PersonalInfo(String gender, LocalDate birth) {
+        this.gender = Gender.valueOf(gender);
         this.birth = birth;
     }
 }
