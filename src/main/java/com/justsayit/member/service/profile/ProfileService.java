@@ -2,6 +2,7 @@ package com.justsayit.member.service.profile;
 
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.domain.ProfileInfo;
+import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.profile.command.GetProfileCmd;
 import com.justsayit.member.service.profile.command.UpdateProfileCmd;
@@ -21,7 +22,7 @@ public class ProfileService implements ProfileUseCase {
     @Override
     public void updateProfile(UpdateProfileCmd cmd) {
         Member member = memberRepository.findById(cmd.getMemberId())
-                .orElseThrow();
+                .orElseThrow(NoMemberException::new);
         member.updateProfile(ProfileInfo.builder()
                 .nickname(cmd.getNickname())
                 .profileImg(cmd.getProfileImg())
@@ -31,7 +32,7 @@ public class ProfileService implements ProfileUseCase {
     @Override
     public GetProfileRes getProfile(GetProfileCmd cmd) {
         Member member = memberRepository.findById(cmd.getMemberId())
-                .orElseThrow();
+                .orElseThrow(NoMemberException::new);
         return GetProfileRes.builder()
                 .memberId(member.getId())
                 .loginType(member.getLoginType().toString())

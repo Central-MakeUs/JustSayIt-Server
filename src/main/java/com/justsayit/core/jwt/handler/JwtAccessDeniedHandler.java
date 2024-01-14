@@ -1,7 +1,8 @@
 package com.justsayit.core.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.justsayit.core.template.BaseResponse;
+import com.justsayit.core.template.response.BaseResponse;
+import com.justsayit.core.template.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,11 +30,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
-        BaseResponse baseResponse = BaseResponse.builder()
-                .code("AUTH-405")
-                .message("접근 권한이 없습니다.")
-                .data(null)
-                .build();
+        BaseResponse<Object> baseResponse = BaseResponse.ofFail(ResponseCode.NO_ACCESS_PERMISSION);
         try {
             writer.write(objectMapper.writeValueAsString(baseResponse));
         } catch (Exception ignored) {

@@ -5,6 +5,8 @@ import com.justsayit.core.jwt.dto.JwtToken;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.domain.PersonalInfo;
 import com.justsayit.member.domain.ProfileInfo;
+import com.justsayit.member.exception.AlreadyExistsMemberException;
+import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.auth.command.LoginCommand;
 import com.justsayit.member.service.auth.dto.LoginRes;
@@ -12,6 +14,8 @@ import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,10 @@ public class AuthService implements AuthUseCase {
 
     @Override
     public LoginRes login(LoginCommand cmd) {
+        Optional<Member> memberOpt = memberRepository.findByToken(cmd.getToken());
+        if (memberOpt.isPresent()) {
+            throw new AlreadyExistsMemberException();
+        }
         Member member = createMember(cmd);
         memberRepository.save(member);
         JwtToken accessToken = jwtTokenProvider.createToken(member.getId());
@@ -51,7 +59,7 @@ public class AuthService implements AuthUseCase {
     @Override
     public void quit(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow();
+                .orElseThrow(NoMemberException::new);
         member.deleteAccount();
     }
 }

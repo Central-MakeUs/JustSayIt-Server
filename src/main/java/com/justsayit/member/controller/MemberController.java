@@ -1,6 +1,6 @@
 package com.justsayit.member.controller;
 
-import com.justsayit.core.template.BaseResponse;
+import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.controller.request.UpdateProfileReq;
 import com.justsayit.member.service.auth.LoginFacade;
@@ -28,13 +28,13 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         LoginRes res = loginFacade.login(req, multipartFile);
-        return ResponseEntity.ok(BaseResponse.ofSuccess("1001", "로그인 성공", res));  // TODO 응답 메시지 전역변수 처리
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
     @PostMapping("/quit/{member-id}")
     public ResponseEntity<BaseResponse<Object>> quit(@PathVariable(name = "member-id") Long memberId) {
         authUseCase.quit(memberId);
-        return ResponseEntity.ok(BaseResponse.ofSuccess("1002", "회원탈퇴 성공"));
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
     @PatchMapping("/profile/me/{member-id}")
@@ -42,12 +42,12 @@ public class MemberController {
                                                               @RequestPart(value = "updateProfile") UpdateProfileReq req,
                                                               @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         updateProfileFacade.updateProfile(memberId, req, multipartFile);
-        return ResponseEntity.ok(BaseResponse.ofSuccess("1003", "프로필 수정 성공"));
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
     @GetMapping("/profile/me/{member-id}")
     public ResponseEntity<BaseResponse<GetProfileRes>> getProfile(@PathVariable(name = "member-id") Long memberId) {
         GetProfileRes getProfileRes = profileUseCase.getProfile(new GetProfileCmd(memberId));
-        return ResponseEntity.ok(BaseResponse.ofSuccess("1004", "프로필 조회 성공", getProfileRes));
+        return ResponseEntity.ok(BaseResponse.ofSuccess(getProfileRes));
     }
 }
