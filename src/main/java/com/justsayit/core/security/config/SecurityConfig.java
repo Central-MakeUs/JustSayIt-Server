@@ -51,7 +51,7 @@ public class SecurityConfig {
                     .antMatchers("/health/**")
                     .permitAll()
                     // MEMBER
-                    .antMatchers("/members/login")
+                    .antMatchers("/members/login", "/members/check")
                     .permitAll()
                     .antMatchers("/members/**")
                     .authenticated();
