@@ -8,7 +8,9 @@ import com.justsayit.member.domain.ProfileInfo;
 import com.justsayit.member.exception.AlreadyExistsMemberException;
 import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
+import com.justsayit.member.service.auth.command.CheckIsJoinedCmd;
 import com.justsayit.member.service.auth.command.LoginCommand;
+import com.justsayit.member.service.auth.dto.CheckIsJoinedRes;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import lombok.RequiredArgsConstructor;
@@ -61,5 +63,10 @@ public class AuthService implements AuthUseCase {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoMemberException::new);
         member.deleteAccount();
+    }
+
+    @Override
+    public CheckIsJoinedRes checkIsJoined(CheckIsJoinedCmd checkIsJoinedCmd) {
+        return null;
     }
 }
