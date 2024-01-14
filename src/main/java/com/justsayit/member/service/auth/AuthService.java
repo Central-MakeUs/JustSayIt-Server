@@ -36,10 +36,10 @@ public class AuthService implements AuthUseCase {
         }
         Member member = createMember(cmd);
         memberRepository.save(member);
-        JwtToken accessToken = jwtTokenProvider.createToken(member.getId());
+        JwtToken jwtToken = jwtTokenProvider.createToken(member.getId());
         return LoginRes.builder()
                 .memberId(member.getId())
-                .accessToken(accessToken.getAccessToken())
+                .accessToken(jwtToken.getAccessToken())
                 .build();
     }
 
@@ -66,7 +66,12 @@ public class AuthService implements AuthUseCase {
     }
 
     @Override
-    public CheckIsJoinedRes checkIsJoined(CheckIsJoinedCmd checkIsJoinedCmd) {
-        return null;
+    public CheckIsJoinedRes checkIsJoined(CheckIsJoinedCmd cmd) {
+        Optional<Member> memberOpt = memberRepository.findByToken(cmd.getToken());
+        if (memberOpt.isEmpty()) {
+            return CheckIsJoinedRes.isNotJoined();
+        }
+        JwtToken jwtToken = jwtTokenProvider.createToken(memberOpt.get().getId());
+        return CheckIsJoinedRes.isJoined(jwtToken.getAccessToken());
     }
 }
