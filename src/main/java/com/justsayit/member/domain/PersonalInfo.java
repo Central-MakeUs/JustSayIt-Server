@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 @Getter
@@ -14,7 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PersonalInfo {
 
+    @Enumerated(value = EnumType.STRING)
     private Gender gender;
+
     private LocalDate birth;
 
     @Builder
