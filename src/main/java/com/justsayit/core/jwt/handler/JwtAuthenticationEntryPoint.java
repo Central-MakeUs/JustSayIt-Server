@@ -1,7 +1,7 @@
 package com.justsayit.core.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.justsayit.core.template.BaseResponse;
+import com.justsayit.core.template.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

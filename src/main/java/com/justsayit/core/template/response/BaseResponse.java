@@ -1,4 +1,4 @@
-package com.justsayit.core.template;
+package com.justsayit.core.template.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -37,11 +37,11 @@ public class BaseResponse<D> {
      * @return 자기 자신을 반환
      * @param <D> null
      */
-    public static <D> BaseResponse<D> ofSuccess(String code, String message) {
+    public static <D> BaseResponse<D> ofSuccess() {
         return BaseResponse.<D>builder()
-                .code(code)
+                .code(ResponseCode.OK.getCode())
+                .message(ResponseCode.OK.getMessage())
                 .success(true)
-                .message(message)
                 .data(null)
                 .build();
     }
@@ -54,11 +54,11 @@ public class BaseResponse<D> {
      * @return 자기 자신을 반환
      * @param <D> 반환되는 객체
      */
-    public static <D> BaseResponse<D> ofSuccess(String code, String message, D data) {
+    public static <D> BaseResponse<D> ofSuccess(D data) {
         return BaseResponse.<D>builder()
-                .code(code)
+                .code(ResponseCode.OK.getCode())
+                .message(ResponseCode.OK.getMessage())
                 .success(true)
-                .message(message)
                 .data(data)
                 .build();
     }
