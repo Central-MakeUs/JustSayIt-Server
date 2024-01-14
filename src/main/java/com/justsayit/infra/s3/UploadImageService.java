@@ -5,7 +5,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
-import com.justsayit.infra.s3.exception.FileMaximumSizeException;
+import com.justsayit.infra.s3.exception.FailToUploadFileException;
+import com.justsayit.infra.s3.exception.FileSizeOverflowException;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,9 +48,9 @@ public class UploadImageService implements UploadImageUseCase {
                     new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (FileSizeLimitExceededException e) {  // TODO 에러 핸들링
-            throw new FileMaximumSizeException(e);
+            throw new FileSizeOverflowException();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FailToUploadFileException();
         }
 
         String storeFileUrl = amazonS3.getUrl(bucket, key).toString();

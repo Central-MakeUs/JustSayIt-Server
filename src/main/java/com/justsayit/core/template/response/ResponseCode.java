@@ -17,6 +17,10 @@ public enum ResponseCode {
     NO_MEMBER("3000", "회원이 존재하지 않습니다."),
     ALREADY_EXISTS_MEMBER("3001", "이미 가입한 회원입니다."),
     INVALID_NICKNAME_LENGTH("3002", "닉네임은 2글자 이상, 12글자 이하여야 합니다."),
+
+    // 4000 - S3
+    FILE_SIZE_OVERFLOW("4000", "개별 사진 사이즈는 최대 10MB, 총합 사이즈는 최대 100MB를 초과할 수 없습니다."),
+    FAIL_TO_UPLOAD_FILE("4001", "AWS 서비스가 원활하지 않아 사진 업로드에 실패했습니다."),
     ;
 
     private String code;
