@@ -1,6 +1,6 @@
 package com.justsayit.member.domain;
 
-import com.justsayit.member.exception.NicknameOverflowException;
+import com.justsayit.member.exception.InvalidNicknameLengthException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class ProfileInfo {
 
     private void validateLength(String nickname) {
         if (nickname.length() < 2 || nickname.length() > 12) {
-            throw new NicknameOverflowException();
+            throw new InvalidNicknameLengthException();
         }
     }
 }

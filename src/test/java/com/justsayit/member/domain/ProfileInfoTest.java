@@ -1,6 +1,6 @@
 package com.justsayit.member.domain;
 
-import com.justsayit.member.exception.NicknameOverflowException;
+import com.justsayit.member.exception.InvalidNicknameLengthException;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,6 +56,6 @@ class ProfileInfoTest {
                 .nickname(randomNickname)
                 .profileImg("프로필1")
                 .build()))
-                .isInstanceOf(NicknameOverflowException.class);
+                .isInstanceOf(InvalidNicknameLengthException.class);
     }
 }
