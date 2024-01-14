@@ -2,6 +2,7 @@ package com.justsayit.core.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.justsayit.core.template.response.BaseResponse;
+import com.justsayit.core.template.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -31,12 +32,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
-        BaseResponse baseResponse = null;
+        BaseResponse<Object> baseResponse = null;
         String exception = (String) request.getAttribute("exception");
         if (exception == null) {
-            baseResponse = getErrorMessage("AUTH-401", "인증되지 않은 사용자입니다.");
+            baseResponse = BaseResponse.ofFail(ResponseCode.UNAUTHENTICATED);
         } else if (exception.equals("ExpiredJwtException")) {
-            baseResponse = getErrorMessage("AUTH-410", "토큰이 만료되었습니다. 토큰 재발급을 받아야 합니다.");
+            baseResponse = BaseResponse.ofFail(ResponseCode.JWT_TOKEN_EXPIRED);
         }
         try {
             writer.write(objectMapper.writeValueAsString(baseResponse));
@@ -49,13 +50,5 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             }
         }
         response.getWriter().write(objectMapper.writeValueAsString(baseResponse));
-    }
-
-    private BaseResponse getErrorMessage(String code, String message) {
-        return BaseResponse.builder()
-                .data(null)
-                .code(code)
-                .message(message)
-                .build();
     }
 }

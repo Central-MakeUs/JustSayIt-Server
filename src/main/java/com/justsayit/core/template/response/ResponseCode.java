@@ -8,6 +8,11 @@ public enum ResponseCode {
     // 2000 - 성공
     OK("2000", "성공"),
 
+    // 1000 - SECURITY
+    UNAUTHENTICATED("1000", "인증되지 않은 사용자입니다."),
+    JWT_TOKEN_EXPIRED("1001", "jwt 토큰이 파기되었습니다."),
+    NO_ACCESS_PERMISSION("1002", "접근 권한이 없습니다."),
+
     // 3000 - MEMBER
     NO_MEMBER("3000", "회원이 존재하지 않습니다."),
     ALREADY_EXISTS_MEMBER("3001", "이미 가입한 회원입니다."),
