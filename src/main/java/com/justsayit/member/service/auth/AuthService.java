@@ -71,7 +71,8 @@ public class AuthService implements AuthUseCase {
         if (memberOpt.isEmpty()) {
             return CheckIsJoinedRes.isNotJoined();
         }
-        JwtToken jwtToken = jwtTokenProvider.createToken(memberOpt.get().getId());
-        return CheckIsJoinedRes.isJoined(jwtToken.getAccessToken());
+        Member member = memberOpt.get();
+        JwtToken jwtToken = jwtTokenProvider.createToken(member.getId());
+        return CheckIsJoinedRes.isJoined(member.getId(), jwtToken.getAccessToken());
     }
 }
