@@ -70,11 +70,11 @@ public class BaseResponse<D> {
      * @return 자기 자신을 반환
      * @param <D> null
      */
-    public static <D> BaseResponse<D> ofFail(String code, String message) {
+    public static <D> BaseResponse<D> ofFail(ResponseCode responseCode) {
         return BaseResponse.<D>builder()
-                .code(code)
+                .code(responseCode.getCode())
+                .message(responseCode.getMessage())
                 .success(false)
-                .message(message)
                 .data(null)
                 .build();
     }
