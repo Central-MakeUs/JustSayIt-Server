@@ -53,6 +53,6 @@ public class UploadImageService implements UploadImageUseCase {
         }
 
         String storeFileUrl = amazonS3.getUrl(bucket, key).toString();
-        return new ProfileImgInfo(storeFileUrl);
+        return ProfileImgInfo.of(storeFileUrl);
     }
 }

@@ -2,7 +2,6 @@ package com.justsayit.member.service.auth;
 
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
-import com.justsayit.infra.s3.util.BasicProfileImgGenerator;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.service.auth.command.LoginCommand;
 import com.justsayit.member.service.auth.dto.LoginRes;
@@ -21,8 +20,8 @@ public class LoginFacade {
     private final AuthUseCase authUseCase;
 
     public LoginRes login(LoginReq req, MultipartFile multipartFile) {
-        ProfileImgInfo profileImgInfo = new ProfileImgInfo(BasicProfileImgGenerator.getRandom());
-        if (multipartFile.isEmpty()) {
+        ProfileImgInfo profileImgInfo = ProfileImgInfo.ofDefault();
+        if (!multipartFile.isEmpty()) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
         return authUseCase.login(LoginCommand.builder()
