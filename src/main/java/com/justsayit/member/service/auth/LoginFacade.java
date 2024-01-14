@@ -30,6 +30,8 @@ public class LoginFacade {
                 .nickname(req.getNickname())
                 .loginType(req.getLoginType())
                 .profileImg(profileImgInfo.getUrl())
+                .birth(req.getBirth())
+                .gender(req.getGender())
                 .build());
     }
 }
