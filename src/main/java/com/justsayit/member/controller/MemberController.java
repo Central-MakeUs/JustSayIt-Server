@@ -4,6 +4,8 @@ import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.controller.request.UpdateProfileReq;
 import com.justsayit.member.service.auth.LoginFacade;
+import com.justsayit.member.service.auth.command.CheckIsJoinedCmd;
+import com.justsayit.member.service.auth.dto.CheckIsJoinedRes;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import com.justsayit.member.service.profile.UpdateProfileFacade;
@@ -28,6 +30,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
         LoginRes res = loginFacade.login(req, multipartFile);
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<BaseResponse<CheckIsJoinedRes>> checkIsJoined(@RequestParam("token") String token) {
+        CheckIsJoinedRes res = authUseCase.checkIsJoined(new CheckIsJoinedCmd(token));
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
