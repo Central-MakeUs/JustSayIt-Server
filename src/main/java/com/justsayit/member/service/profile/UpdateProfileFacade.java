@@ -19,7 +19,7 @@ public class UpdateProfileFacade {
     private final ProfileUseCase profileUseCase;
 
     public void updateProfile(Long memberId, UpdateProfileReq req, MultipartFile multipartFile) {
-        ProfileImgInfo profileImgInfo = new ProfileImgInfo(req.getProfileImg());
+        ProfileImgInfo profileImgInfo = ProfileImgInfo.of(req.getProfileImg());
         if (!multipartFile.isEmpty()) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
