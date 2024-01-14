@@ -33,6 +33,12 @@ public class Member extends BaseJpaEntity {
     @AttributeOverride(name = "profileImg", column = @Column(name = "profile_img", nullable = false))
     private ProfileInfo profileInfo;
 
+
+    @Embedded
+    @AttributeOverride(name = "gender", column = @Column(name = "gender", nullable = false))
+    @AttributeOverride(name = "birth", column = @Column(name = "birth", nullable = false))
+    private PersonalInfo personalInfo;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private MemberStatus status;
@@ -42,10 +48,11 @@ public class Member extends BaseJpaEntity {
     private List<String> authorities = new ArrayList<>();
 
     @Builder
-    public Member(String token, String loginType, ProfileInfo profileInfo) {
+    public Member(String token, String loginType, ProfileInfo profileInfo, PersonalInfo personalInfo) {
         this.token = token;
         this.loginType = LoginType.valueOf(loginType);
         this.profileInfo = profileInfo;
+        this.personalInfo = personalInfo;
         this.status = MemberStatus.ACTIVE;
         this.authorities = List.of("MEMBER");
     }
