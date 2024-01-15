@@ -32,34 +32,48 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: dev
 
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
-          format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Show Current Time
-        run: echo "CurrentTime=$"
-        shell: bash
-
-      - name: Generate deployment package
-        run: |
-          mkdir -p deploy
-          cp build/libs/*.jar deploy/application.jar
-          cp Procfile deploy/Procfile
-          cp -r .ebextensions_dev deploy/.ebextensions
-          cp -r .platform deploy/.platform
-          cd deploy && zip -r deploy.zip .
-
-      - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v20
+      - name: Build image and push to DockerHub
+        uses: docker/build-push-action@v2
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: just-say-it
-          environment_name: Just-say-it-env
-          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
-          region: ap-northeast-2
-          deployment_package: deploy/deploy.zip
-          wait_for_environment_recovery: 300
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          labels: simhani1/justsayit:latest
+#      - name: Get current time
+#        uses: 1466587594/get-current-time@v2
+#        id: current-time
+#        with:
+#          format: YYYY-MM-DDTHH-mm-ss
+#          utcOffset: "+09:00"
+#
+#      - name: Show Current Time
+#        run: echo "CurrentTime=$"
+#        shell: bash
+#
+#      - name: Generate deployment package
+#        run: |
+#          mkdir -p deploy
+#          cp build/libs/*.jar deploy/application.jar
+#          cp Procfile deploy/Procfile
+#          cp -r .ebextensions_dev deploy/.ebextensions
+#          cp -r .platform deploy/.platform
+#          cd deploy && zip -r deploy.zip .
+#
+#      - name: Beanstalk Deploy
+#        uses: einaregilsson/beanstalk-deploy@v20
+#        with:
+#          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          application_name: just-say-it
+#          environment_name: Just-say-it-env
+#          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
+#          region: ap-northeast-2
+#          deployment_package: deploy/deploy.zip
+#          wait_for_environment_recovery: 300
