@@ -1,6 +1,7 @@
 package com.justsayit.story.domain.feeling;
 
 import com.justsayit.story.domain.Feeling;
+import com.justsayit.story.domain.Story;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Happiness extends Feeling {
 
-    public Happiness(boolean isSelected) {
-        super(isSelected);
+    public Happiness(Story story, boolean isSelected) {
+        super(story, isSelected);
     }
 }

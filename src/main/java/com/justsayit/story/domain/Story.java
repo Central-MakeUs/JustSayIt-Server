@@ -1,6 +1,7 @@
 package com.justsayit.story.domain;
 
 import com.justsayit.core.entity.BaseJpaEntity;
+import com.justsayit.story.exception.EmptyMainContentException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,29 @@ public class Story extends BaseJpaEntity {
     @AttributeOverride(name = "deleted", column = @Column(name = "is_deleted", nullable = false))
     private MetaInfo metaInfo;
 
-    @OneToOne
-    @JoinColumn(name = "id")
-    private Feeling feelingsOfEmpathy;
+    @OneToMany(mappedBy = "feeling_id")
+    private List<Feeling> feelingsOfEmpathy = new ArrayList<>();
+
+    public Story(MainContent mainContent, List<Photo> photoList, MetaInfo metaInfo, List<Feeling> feelingsOfEmpathy) {
+        this.mainContent = mainContent;
+        this.photoList = photoList;
+        this.metaInfo = metaInfo;
+        this.feelingsOfEmpathy = feelingsOfEmpathy;
+    }
+
+    public void changeMainContent(MainContent mainContent) {
+        this.mainContent = mainContent;
+    }
+
+    public void changeMetaInfo(MetaInfo metaInfo) {
+        this.metaInfo = metaInfo;
+    }
+
+    public void changePhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
+    }
+
+    public void changeFeelingsOfEmpathy(List<Feeling> feelingsOfEmpathy) {
+        this.feelingsOfEmpathy = feelingsOfEmpathy;
+    }
 }

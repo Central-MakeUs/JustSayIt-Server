@@ -13,6 +13,7 @@ import com.justsayit.member.service.auth.command.LoginCommand;
 import com.justsayit.member.service.auth.dto.CheckIsJoinedRes;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
+import com.justsayit.story.domain.Story;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

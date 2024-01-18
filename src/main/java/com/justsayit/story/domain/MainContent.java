@@ -1,5 +1,6 @@
 package com.justsayit.story.domain;
 
+import com.justsayit.story.exception.InvlaidBodyTextLengthException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,15 +15,20 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MainContent {
 
-    private String title;
     @Enumerated(value = EnumType.STRING)
     private Emotion emotion;
     private String bodyText;
 
     @Builder
-    public MainContent(String title, Emotion emotion, String bodyText) {
-        this.title = title;
+    public MainContent(Emotion emotion, String bodyText) {
+        validateBodyTextLength(bodyText);
         this.emotion = emotion;
         this.bodyText = bodyText;
+    }
+
+    private void validateBodyTextLength(String bodyText) {
+        if (bodyText.length() > 300) {
+            throw new InvlaidBodyTextLengthException();
+        }
     }
 }
