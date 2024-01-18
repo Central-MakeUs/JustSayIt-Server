@@ -2,10 +2,8 @@ package com.justsayit.story.domain;
 
 import com.justsayit.core.entity.BaseJpaEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 
@@ -35,7 +33,8 @@ public class Photo extends BaseJpaEntity {
         this.imgUrl = imgUrl;
     }
 
-    public void addStory(Story story) {
+    // 연관관계 편의 메서드
+    private void addStory(Story story) {
         this.story = story;
         story.getPhotoList().add(this);
     }

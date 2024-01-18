@@ -1,19 +1,15 @@
 package com.justsayit.story.domain.feeling;
 
-import com.justsayit.story.domain.Feeling;
-import com.justsayit.story.domain.Story;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
-@DiscriminatorValue("HAPPINESS")
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Happiness extends Feeling {
 
-    public Happiness(Story story, boolean isSelected) {
-        super(story, isSelected);
+    public Happiness(int count, boolean selected) {
+        super(count, selected);
     }
 }

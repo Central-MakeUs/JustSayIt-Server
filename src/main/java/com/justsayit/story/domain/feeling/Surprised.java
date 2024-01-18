@@ -1,20 +1,16 @@
 package com.justsayit.story.domain.feeling;
 
-import com.justsayit.story.domain.Feeling;
-import com.justsayit.story.domain.Story;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
 
-@Entity
-@DiscriminatorValue("SURPRISED")
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Surprised extends Feeling {
 
-    public Surprised(Story story, boolean isSelected) {
-        super(story, isSelected);
+    public Surprised(int count, boolean selected) {
+        super(count, selected);
     }
 }
