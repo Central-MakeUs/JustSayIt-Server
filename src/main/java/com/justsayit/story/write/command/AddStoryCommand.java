@@ -1,4 +1,4 @@
-package com.justsayit.story.service.command;
+package com.justsayit.story.write.command;
 
 import com.justsayit.infra.s3.dto.StoryImgInfo;
 import lombok.AllArgsConstructor;
