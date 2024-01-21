@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,10 @@ public class AddStoryFacade {
     private final AddStoryUseCase addStoryUseCase;
 
     public void addStory(Long memberId, AddStoryReq req, List<MultipartFile> multipartFileList) {
-        List<StoryImgInfo> imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
+        List<StoryImgInfo> imgInfoList = new ArrayList<>();
+        if (multipartFileList != null) {
+            imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
+        }
         addStoryUseCase.addStory(AddStoryCommand.builder()
                 .memberId(memberId)
                 .emotion(req.getEmotion())

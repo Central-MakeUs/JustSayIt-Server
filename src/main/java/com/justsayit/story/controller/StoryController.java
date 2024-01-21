@@ -23,5 +23,6 @@ public class StoryController {
             @RequestPart(value = "storyInfo") AddStoryReq req,
             @RequestPart(value = "storyImg", required = false) List<MultipartFile> multipartFileList) {
         addStoryFacade.addStory(memberId, req, multipartFileList);
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }

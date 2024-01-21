@@ -2,7 +2,6 @@ package com.justsayit.story.domain;
 
 import com.justsayit.story.exception.InvlaidBodyTextLengthException;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,11 +18,14 @@ public class MainContent {
     private Emotion emotion;
     private String bodyText;
 
-    @Builder
-    public MainContent(Emotion emotion, String bodyText) {
+    private MainContent(Emotion emotion, String bodyText) {
         validateBodyTextLength(bodyText);
         this.emotion = emotion;
         this.bodyText = bodyText;
+    }
+
+    public static MainContent of(String emotion, String bodyText) {
+        return new MainContent(Emotion.valueOf(emotion), bodyText);
     }
 
     private void validateBodyTextLength(String bodyText) {
