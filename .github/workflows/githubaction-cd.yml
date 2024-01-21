@@ -49,7 +49,6 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: latest
-          labels: simhani1/justsayit:latest
 #      - name: Get current time
 #        uses: 1466587594/get-current-time@v2
 #        id: current-time
