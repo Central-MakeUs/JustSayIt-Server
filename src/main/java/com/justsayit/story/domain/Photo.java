@@ -28,6 +28,7 @@ public class Photo extends BaseJpaEntity {
     public static Photo createPhoto(Story story, String imgUrl) {
         return new Photo(story, imgUrl);
     }
+
     private Photo(Story story, String imgUrl) {
         addStory(story);
         this.imgUrl = imgUrl;
