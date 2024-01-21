@@ -1,10 +1,10 @@
-package com.justsayit.story.write;
+package com.justsayit.story.service.write;
 
 import com.justsayit.infra.s3.dto.StoryImgInfo;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
 import com.justsayit.story.controller.request.AddStoryReq;
-import com.justsayit.story.write.command.AddStoryCommand;
-import com.justsayit.story.write.usecase.AddStoryUseCase;
+import com.justsayit.story.service.write.command.AddStoryCommand;
+import com.justsayit.story.service.write.usecase.AddStoryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

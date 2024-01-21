@@ -2,7 +2,7 @@ package com.justsayit.story.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
-import com.justsayit.story.write.AddStoryFacade;
+import com.justsayit.story.service.write.AddStoryFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
