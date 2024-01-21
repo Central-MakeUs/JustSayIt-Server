@@ -21,7 +21,7 @@ public class LoginFacade {
 
     public LoginRes login(LoginReq req, MultipartFile multipartFile) {
         ProfileImgInfo profileImgInfo = ProfileImgInfo.ofDefault();
-        if (!multipartFile.isEmpty()) {
+        if (multipartFile != null) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
         return authUseCase.login(LoginCommand.builder()

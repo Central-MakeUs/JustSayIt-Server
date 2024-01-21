@@ -4,12 +4,13 @@ import com.justsayit.story.domain.feeling.Angry;
 import com.justsayit.story.domain.feeling.Happiness;
 import com.justsayit.story.domain.feeling.Sadness;
 import com.justsayit.story.domain.feeling.Surprised;
+import com.justsayit.story.exception.InvalidFeelingException;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +25,9 @@ public class FeelingsOfEmpathy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "feeling_id", nullable = false)
     private Long id;
+
+    @OneToOne(mappedBy = "feelingsOfEmpathy")
+    private Story story;
 
     @Embedded
     @AttributeOverride(name = "count", column = @Column(name = "angry_count", nullable = false))
@@ -45,19 +49,34 @@ public class FeelingsOfEmpathy {
     @AttributeOverride(name = "selected", column = @Column(name = "surprised_is_selected", nullable = false))
     private Surprised surprised;
 
-    @Builder
-    public FeelingsOfEmpathy(Angry angry, Happiness happiness, Sadness sadness, Surprised surprised) {
+    private FeelingsOfEmpathy(Angry angry, Happiness happiness, Sadness sadness, Surprised surprised) {
         this.angry = angry;
         this.happiness = happiness;
         this.sadness = sadness;
         this.surprised = surprised;
     }
 
-    public void changeFeelings(Angry angry, Happiness happiness, Sadness sadness, Surprised surprised) {
-        changeAngryStatus(angry);
-        changeHappinessStatus(happiness);
-        changeSadnessStatus(sadness);
-        changeSurprisedStatus(surprised);
+    public static FeelingsOfEmpathy of(List<String> feelings) {
+        FeelingsOfEmpathy feelingsOfEmpathy = new FeelingsOfEmpathy(new Angry(false), new Happiness(false), new Sadness(false), new Surprised(false));
+        for (String feeling : feelings) {
+            switch (feeling) {
+                case "ANGRY":
+                    feelingsOfEmpathy.changeAngryStatus(new Angry(true));
+                    break;
+                case "SADNESS":
+                    feelingsOfEmpathy.changeSadnessStatus(new Sadness(true));
+                    break;
+                case "SURPRISED":
+                    feelingsOfEmpathy.changeSurprisedStatus(new Surprised(true));
+                    break;
+                case "HAPPINESS":
+                    feelingsOfEmpathy.changeHappinessStatus(new Happiness(true));
+                    break;
+                default:
+                    throw new InvalidFeelingException();
+            }
+        }
+        return feelingsOfEmpathy;
     }
 
     private void changeAngryStatus(Angry angry) {

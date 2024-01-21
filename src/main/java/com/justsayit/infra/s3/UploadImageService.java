@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
+import com.justsayit.infra.s3.dto.StoryImgInfo;
 import com.justsayit.infra.s3.exception.FailToUploadFileException;
 import com.justsayit.infra.s3.exception.FileSizeOverflowException;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,28 +35,45 @@ public class UploadImageService implements UploadImageUseCase {
 
     @Override
     public ProfileImgInfo uploadProfileImg(MultipartFile multipartFile) {
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(multipartFile.getContentType());
-        objectMetadata.setContentLength(multipartFile.getSize());
-
         String originalFilename = multipartFile.getOriginalFilename();
         int index = originalFilename.lastIndexOf(".");
         String ext = originalFilename.substring(index + 1);
         String storeFileName = UUID.randomUUID() + "." + ext;
-        String key = "store/logo/" + storeFileName;
+        String key = "profile/" + storeFileName;
+        return ProfileImgInfo.of(putToS3(multipartFile, key));
+    }
 
+    @Override
+    public List<StoryImgInfo> uploadStoryImg(List<MultipartFile> multipartFileList) {
+        List<StoryImgInfo> storyImgInfoList = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFileList) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            int index = originalFilename.lastIndexOf(".");
+            String ext = originalFilename.substring(index + 1);
+            String storeFileName = UUID.randomUUID() + "." + ext;
+            String key = "story/" + storeFileName;
+            storyImgInfoList.add(StoryImgInfo.of(putToS3(multipartFile, key)));
+        }
+        return storyImgInfoList;
+    }
 
+    private String putToS3(MultipartFile multipartFile, String key) {
         try (InputStream inputStream = multipartFile.getInputStream()) {
             amazonS3.putObject(
-                    new PutObjectRequest(bucket, key, inputStream, objectMetadata)
+                    new PutObjectRequest(bucket, key, inputStream, getObjectMetadata(multipartFile))
                             .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (FileSizeLimitExceededException e) {  // TODO 에러 핸들링
+        } catch (FileSizeLimitExceededException e) {
             throw new FileSizeOverflowException();
         } catch (IOException e) {
             throw new FailToUploadFileException();
         }
+        return amazonS3.getUrl(bucket, key).toString();
+    }
 
-        String storeFileUrl = amazonS3.getUrl(bucket, key).toString();
-        return ProfileImgInfo.of(storeFileUrl);
+    private ObjectMetadata getObjectMetadata(MultipartFile multipartFile) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(multipartFile.getContentType());
+        objectMetadata.setContentLength(multipartFile.getSize());
+        return objectMetadata;
     }
 }

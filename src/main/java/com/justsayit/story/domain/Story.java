@@ -2,7 +2,6 @@ package com.justsayit.story.domain;
 
 import com.justsayit.core.entity.BaseJpaEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +25,9 @@ public class Story extends BaseJpaEntity {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
+
     @Embedded
     @AttributeOverride(name = "bodyText", column = @Column(name = "body_text", nullable = false))
     @AttributeOverride(name = "emotion", column = @Column(name = "emotion", nullable = false))
@@ -38,18 +40,19 @@ public class Story extends BaseJpaEntity {
     @AttributeOverride(name = "opened", column = @Column(name = "is_opened", nullable = false))
     @AttributeOverride(name = "anonymous", column = @Column(name = "is_anonymous", nullable = false))
     @AttributeOverride(name = "deleted", column = @Column(name = "is_deleted", nullable = false))
+    @AttributeOverride(name = "modified", column = @Column(name = "is_modified", nullable = false))
     private MetaInfo metaInfo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "feeling_id")
     private FeelingsOfEmpathy feelingsOfEmpathy;
 
-    @Builder
-    private Story(MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
+    private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
+        this.uuid = createUUID();
+        this.memberId = memberId;
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
-        this.uuid = createUUID();
     }
 
     private String createUUID() {
@@ -57,6 +60,10 @@ public class Story extends BaseJpaEntity {
         return sb.append(UUID.randomUUID())
                 .append(LocalDateTime.now())
                 .toString();
+    }
+
+    public static Story createStory(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
+        return new Story(memberId, mainContent, metaInfo, feelingsOfEmpathy);
     }
 
     public void changeMainContent(MainContent mainContent) {
