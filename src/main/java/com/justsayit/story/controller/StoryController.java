@@ -50,8 +50,8 @@ public class StoryController {
 
     @GetMapping("/me/{member-id}")
     public ResponseEntity<BaseResponse<List<GetStoryRes>>> getMyStories(@PathVariable(name = "member-id") Long memberId,
-                                                                        @RequestParam(name = "latest", required = false) boolean latest,
-                                                                        @RequestParam(name = "popularity", required = false) boolean sortByPopularity,
+                                                                        @RequestParam(name = "latest", required = false) Boolean latest,
+                                                                        @RequestParam(name = "popularity", required = false) Boolean sortByPopularity,
                                                                         @RequestParam(name = "emotion") String emotion,
                                                                         Pageable pageable) {
         List<GetStoryRes> res = getStoryUseCase.getMyStories(memberId,
