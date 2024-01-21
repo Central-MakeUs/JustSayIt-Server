@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "member")
+@Table(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseJpaEntity {
 
@@ -44,7 +44,7 @@ public class Member extends BaseJpaEntity {
     private MemberStatus status;
 
     @ElementCollection
-    @CollectionTable(name = "authority", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "AUTHORITY", joinColumns = @JoinColumn(name = "id"))
     private List<String> authorities = new ArrayList<>();
 
     @Builder
