@@ -2,9 +2,12 @@ package com.justsayit.story.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
+import com.justsayit.story.service.read.command.StorySearchCondition;
+import com.justsayit.story.service.read.dto.GetStoryRes;
 import com.justsayit.story.service.read.usecase.GetStoryUseCase;
 import com.justsayit.story.service.write.AddStoryFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,4 +47,20 @@ public class StoryController {
 //                pageable);
 //        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
 //    }
+
+    @GetMapping("/me/{member-id}")
+    public ResponseEntity<BaseResponse<List<GetStoryRes>>> getMyStories(@PathVariable(name = "member-id") Long memberId,
+                                                                        @RequestParam(name = "latest", required = false) boolean latest,
+                                                                        @RequestParam(name = "popularity", required = false) boolean sortByPopularity,
+                                                                        @RequestParam(name = "emotion") String emotion,
+                                                                        Pageable pageable) {
+        List<GetStoryRes> res = getStoryUseCase.getMyStories(memberId,
+                StorySearchCondition.builder()
+                        .latest(latest)
+                        .sortByPopularity(sortByPopularity)
+                        .emotion(emotion)
+                        .build(),
+                pageable);
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
 }
