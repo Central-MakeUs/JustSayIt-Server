@@ -59,35 +59,24 @@ public class FeelingsOfEmpathy {
     public static FeelingsOfEmpathy of(List<String> feelings) {
         FeelingsOfEmpathy feelingsOfEmpathy = new FeelingsOfEmpathy(new Angry(false), new Happiness(false), new Sadness(false), new Surprised(false));
         for (String feeling : feelings) {
-            if (feeling.equals("ANGRY")) {
-                feelingsOfEmpathy.changeAngryStatus(new Angry(true));
-            } else if (feeling.equals("SADNESS")) {
-                feelingsOfEmpathy.changeSadnessStatus(new Sadness(true));
-            } else if (feeling.equals("SURPRISED")) {
-                feelingsOfEmpathy.changeSurprisedStatus(new Surprised(true));
-            } else if (feeling.equals("HAPPINESS")) {
-                feelingsOfEmpathy.changeHappinessStatus(new Happiness(true));
-            } else {
-                throw new InvalidFeelingException();
+            switch (feeling) {
+                case "ANGRY":
+                    feelingsOfEmpathy.changeAngryStatus(new Angry(true));
+                    break;
+                case "SADNESS":
+                    feelingsOfEmpathy.changeSadnessStatus(new Sadness(true));
+                    break;
+                case "SURPRISED":
+                    feelingsOfEmpathy.changeSurprisedStatus(new Surprised(true));
+                    break;
+                case "HAPPINESS":
+                    feelingsOfEmpathy.changeHappinessStatus(new Happiness(true));
+                    break;
+                default:
+                    throw new InvalidFeelingException();
             }
         }
         return feelingsOfEmpathy;
-    }
-
-    public void changeFeelings(List<String> feelings) {
-        for (String feeling : feelings) {
-            if (feeling.equals("ANGRY")) {
-                this.changeAngryStatus(new Angry(true));
-            } else if (feeling.equals("SADNESS")) {
-                this.changeSadnessStatus(new Sadness(true));
-            } else if (feeling.equals("SURPRISED")) {
-                this.changeSurprisedStatus(new Surprised(true));
-            } else if (feeling.equals("HAPPINESS")) {
-                this.changeHappinessStatus(new Happiness(true));
-            } else {
-                throw new InvalidFeelingException();
-            }
-        }
     }
 
     private void changeAngryStatus(Angry angry) {
