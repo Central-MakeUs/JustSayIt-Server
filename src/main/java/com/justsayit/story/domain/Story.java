@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -20,6 +22,9 @@ public class Story extends BaseJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "story_id")
     private Long id;
+
+    @Column(name = "uuid", nullable = false)
+    private String uuid;
 
     @Embedded
     @AttributeOverride(name = "bodyText", column = @Column(name = "body_text", nullable = false))
@@ -44,6 +49,14 @@ public class Story extends BaseJpaEntity {
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.uuid = createUUID();
+    }
+
+    private String createUUID() {
+        StringBuilder sb = new StringBuilder();
+        return sb.append(UUID.randomUUID())
+                .append(LocalDateTime.now())
+                .toString();
     }
 
     public void changeMainContent(MainContent mainContent) {
