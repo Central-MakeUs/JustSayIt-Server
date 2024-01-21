@@ -37,11 +37,15 @@ public class AddStoryService implements AddStoryUseCase {
         storyRepository.save(story);
         List<StoryImgInfo> imgInfoList = cmd.getStoryImgInfoList();
         if (!imgInfoList.isEmpty()) {
-            List<Photo> photoList = new ArrayList<>();
-            for (StoryImgInfo storyImgInfo : imgInfoList) {
-                photoList.add(Photo.createPhoto(story, storyImgInfo.getUrl()));
-            }
-            photoRepository.saveAll(photoList);
+            saveImg(story, imgInfoList);
         }
+    }
+
+    private void saveImg(Story story, List<StoryImgInfo> imgInfoList) {
+        List<Photo> photoList = new ArrayList<>();
+        for (StoryImgInfo storyImgInfo : imgInfoList) {
+            photoList.add(Photo.createPhoto(story, storyImgInfo.getUrl()));
+        }
+        photoRepository.saveAll(photoList);
     }
 }
