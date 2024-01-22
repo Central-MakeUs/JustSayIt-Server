@@ -6,14 +6,12 @@ import lombok.Getter;
 @Getter
 public class StorySearchCondition {
 
-    private boolean latest;
-    private boolean sortByPopularity;
+    private String sortBy;
     private String emotion;
 
     @Builder
-    public StorySearchCondition(boolean latest, boolean sortByPopularity, String emotion) {
-        this.latest = latest;
-        this.sortByPopularity = sortByPopularity;
+    public StorySearchCondition(String sortBy, String emotion) {
+        this.sortBy = sortBy;
         this.emotion = emotion;
     }
 }

@@ -1,12 +1,15 @@
 package com.justsayit.story.repository;
 
-import com.justsayit.story.repository.dao.StoryDao;
+import com.justsayit.story.domain.Story;
+import com.justsayit.story.domain.StoryStatus;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
+import java.util.List;
+
+import static com.justsayit.story.domain.QStory.story;
 
 public class StoryRepositoryImpl implements StoryRepositoryCustom {
 
@@ -17,7 +20,12 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     @Override
-    public Page<StoryDao> searchMyStories(Long memberId, StorySearchCondition cond, Pageable pageable) {
-        return null;
+    public List<Story> searchMyStories(Long memberId, StorySearchCondition cond, Pageable pageable) {
+        return queryFactory.selectFrom(story)
+                .where(story.memberId.eq(memberId).and(story.status.eq(StoryStatus.POSTED)))
+                .orderBy(story.createdAt.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
     }
 }

@@ -25,6 +25,9 @@ public class Story extends BaseJpaEntity {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
+    @Enumerated(EnumType.STRING)
+    private StoryStatus status;
+
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
@@ -53,6 +56,7 @@ public class Story extends BaseJpaEntity {
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.status = StoryStatus.POSTED;
     }
 
     private String createUUID() {
