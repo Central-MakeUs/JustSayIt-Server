@@ -50,12 +50,15 @@ public class StoryController {
 
     @GetMapping("/me/{member-id}")
     public ResponseEntity<BaseResponse<List<GetStoryRes>>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
-                                                                        @RequestParam(name = "sort_by") String sortBy,
-                                                                        @RequestParam(name = "emotion") String emotion,
-                                                                        Pageable pageable) {
-        List<GetStoryRes> res = getStoryUseCase.getMyStories(memberId,
+                                                                                    @RequestParam(name = "latest", required = false) Boolean latest,
+                                                                                    @RequestParam(name = "popular", required = false) Boolean popular,
+                                                                                    @RequestParam(name = "emotion", required = false) String emotion,
+                                                                                    Pageable pageable) {
+        List<GetStoryRes> res = getStoryUseCase.getMyStories(
+                memberId,
                 StorySearchCondition.builder()
-                        .sortBy(sortBy)
+                        .latest(latest)
+                        .popular(popular)
                         .emotion(emotion)
                         .build(),
                 pageable);

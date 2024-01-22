@@ -16,21 +16,23 @@ public class GetStoryRes {
     @JsonProperty(value="isMine")
     private boolean mine;
     private ProfileInfo profileInfo;
-    private StoryMainInfo storyInfo;
+    private StoryMainInfo storyMainInfo;
     private StoryMetaInfo storyMetaInfo;
+    private FeelingsOfEmpathy feelingsOfEmpathy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
 
     @Builder
-    public GetStoryRes(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainInfo storyInfo, StoryMetaInfo storyMetaInfo, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public GetStoryRes(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainInfo storyMainInfo, StoryMetaInfo storyMetaInfo, FeelingsOfEmpathy feelingsOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.storyId = storyId;
         this.storyUUID = storyUUID;
         this.writerId = writerId;
         this.mine = mine;
         this.profileInfo = profileInfo;
-        this.storyInfo = storyInfo;
+        this.storyMainInfo = storyMainInfo;
         this.storyMetaInfo = storyMetaInfo;
+        this.feelingsOfEmpathy = feelingsOfEmpathy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -53,13 +55,26 @@ public class GetStoryRes {
 
         private String writerEmotion;
         private String bodyText;
-        private List<String> photos;
+        private List<Photo> photos;
 
         @Builder
-        public StoryMainInfo(String writerEmotion, String bodyText, List<String> photos) {
+        public StoryMainInfo(String writerEmotion, String bodyText, List<Photo> photos) {
             this.writerEmotion = writerEmotion;
             this.bodyText = bodyText;
             this.photos = photos;
+        }
+    }
+
+    @Getter
+    public static class Photo {
+
+        private Long photoId;
+        private String photoUrl;
+
+        @Builder
+        public Photo(Long photoId, String photoUrl) {
+            this.photoId = photoId;
+            this.photoUrl = photoUrl;
         }
     }
 
@@ -81,6 +96,39 @@ public class GetStoryRes {
             this.anonymous = anonymous;
             this.deleted = deleted;
             this.modified = modified;
+        }
+    }
+
+    @Getter
+    public static class FeelingsOfEmpathy {
+
+        private Long feelingId;
+        private int totalCount;
+        private int angryCount;
+        @JsonProperty(value = "isAngrySelected")
+        private boolean angrySelected;
+        private int happinessCount;
+        @JsonProperty(value = "isHappinessSelected")
+        private boolean happinessSelected;
+        private int sadnessCount;
+        @JsonProperty(value = "isSadnessSelected")
+        private boolean sadnessSelected;
+        private int surprisedCount;
+        @JsonProperty(value = "isSurprisedSelected")
+        private boolean surprisedSelected;
+
+        @Builder
+        public FeelingsOfEmpathy(Long feelingId, int totalCount, int angryCount, boolean angrySelected, int happinessCount, boolean happinessSelected, int sadnessCount, boolean sadnessSelected, int surprisedCount, boolean surprisedSelected) {
+            this.feelingId = feelingId;
+            this.totalCount = totalCount;
+            this.angryCount = angryCount;
+            this.angrySelected = angrySelected;
+            this.happinessCount = happinessCount;
+            this.happinessSelected = happinessSelected;
+            this.sadnessCount = sadnessCount;
+            this.sadnessSelected = sadnessSelected;
+            this.surprisedCount = surprisedCount;
+            this.surprisedSelected = surprisedSelected;
         }
     }
 }

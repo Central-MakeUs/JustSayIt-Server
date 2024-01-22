@@ -1,8 +1,10 @@
 package com.justsayit.story.repository;
 
+import com.justsayit.story.domain.Emotion;
 import com.justsayit.story.domain.Story;
 import com.justsayit.story.domain.StoryStatus;
 import com.justsayit.story.service.read.command.StorySearchCondition;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
 
@@ -20,12 +22,26 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     @Override
-    public List<Story> searchMyStories(Long memberId, StorySearchCondition cond, Pageable pageable) {
+    public List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond, Pageable pageable) {
         return queryFactory.selectFrom(story)
-                .where(story.memberId.eq(memberId).and(story.status.eq(StoryStatus.POSTED)))
-                .orderBy(story.createdAt.asc())
+                .where(memberIdEq(memberId),
+                        isPosted(),
+                        emotionEq(cond.getEmotion()))
+                .orderBy(story.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    private BooleanExpression memberIdEq(Long memberId) {
+        return memberId != null ? story.memberId.eq(memberId) : null;
+    }
+
+    private BooleanExpression isPosted() {
+        return story.status.eq(StoryStatus.POSTED);
+    }
+
+    private BooleanExpression emotionEq(String emotion) {
+        return emotion != null ? story.mainContent.emotion.eq(Emotion.valueOf(emotion)) : null;
     }
 }

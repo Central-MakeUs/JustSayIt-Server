@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface StoryRepositoryCustom {
 
-    List<Story> searchMyStories(Long memberId, StorySearchCondition cond, Pageable pageable);
+    List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond, Pageable pageable);
 }

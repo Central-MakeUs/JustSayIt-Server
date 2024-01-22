@@ -13,8 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,31 +28,44 @@ public class GetStoryService implements GetStoryUseCase {
     public List<GetStoryRes> getMyStories(Long memberId, StorySearchCondition cond, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoMemberException::new);
-        List<Story> storyList = storyRepository.searchMyStories(memberId, cond, pageable);
-        List<GetStoryRes> res = new ArrayList<>();
-        storyList.forEach(story -> res.add(GetStoryRes.builder()
-                .createdAt(story.getCreatedAt())
-                .updatedAt(story.getUpdatedAt())
-                .storyId(story.getId())
-                .mine(story.getMemberId().equals(memberId))
-                .storyUUID(story.getUuid())
-                .writerId(story.getMemberId())
-                .storyInfo(GetStoryRes.StoryMainInfo.builder()
-                        .bodyText(story.getMainContent().getBodyText())
-                        .photos(null)
-                        .writerEmotion(story.getMainContent().getEmotion().toString())
+        List<Story> storyList = storyRepository.searchMyStoriesOrderByLatest(memberId, cond, pageable);
+        List<GetStoryRes> res = storyList.stream()
+                .map(story -> GetStoryRes.builder()
+                        .createdAt(story.getCreatedAt())
+                        .updatedAt(story.getUpdatedAt())
+                        .storyId(story.getId())
+                        .mine(story.getMemberId().equals(memberId))
+                        .storyUUID(story.getUuid())
+                        .writerId(story.getMemberId())
+                        .storyMainInfo(GetStoryRes.StoryMainInfo.builder()
+                                .bodyText(story.getMainContent().getBodyText())
+                                .photos(null)
+                                .writerEmotion(story.getMainContent().getEmotion().toString())
+                                .build())
+                        .storyMetaInfo(GetStoryRes.StoryMetaInfo.builder()
+                                .opened(story.getMetaInfo().isOpened())
+                                .anonymous(story.getMetaInfo().isAnonymous())
+                                .deleted(story.getMetaInfo().isDeleted())
+                                .modified(story.getMetaInfo().isModified())
+                                .build())
+                        .profileInfo(GetStoryRes.ProfileInfo.builder()
+                                .nickname(member.getProfileInfo().getNickname())
+                                .profileImg(member.getProfileInfo().getProfileImg())
+                                .build())
+                        .feelingsOfEmpathy(GetStoryRes.FeelingsOfEmpathy.builder()
+                                .feelingId(story.getFeelingsOfEmpathy().getId())
+                                .totalCount(story.getFeelingsOfEmpathy().getTotalCount())
+                                .angryCount(story.getFeelingsOfEmpathy().getAngry().getCount())
+                                .angrySelected(story.getFeelingsOfEmpathy().getAngry().isSelected())
+                                .happinessCount(story.getFeelingsOfEmpathy().getHappiness().getCount())
+                                .happinessSelected(story.getFeelingsOfEmpathy().getHappiness().isSelected())
+                                .surprisedCount(story.getFeelingsOfEmpathy().getSurprised().getCount())
+                                .surprisedSelected(story.getFeelingsOfEmpathy().getSurprised().isSelected())
+                                .sadnessCount(story.getFeelingsOfEmpathy().getSadness().getCount())
+                                .sadnessSelected(story.getFeelingsOfEmpathy().getSadness().isSelected())
+                                .build())
                         .build())
-                .storyMetaInfo(GetStoryRes.StoryMetaInfo.builder()
-                        .opened(story.getMetaInfo().isOpened())
-                        .anonymous(story.getMetaInfo().isAnonymous())
-                        .deleted(story.getMetaInfo().isDeleted())
-                        .modified(story.getMetaInfo().isModified())
-                        .build())
-                .profileInfo(GetStoryRes.ProfileInfo.builder()
-                        .nickname(member.getProfileInfo().getNickname())
-                        .profileImg(member.getProfileInfo().getProfileImg())
-                        .build())
-                .build()));
+                .collect(Collectors.toList());
         return res;
     }
 }
