@@ -2,7 +2,6 @@ package com.justsayit.story.repository;
 
 import com.justsayit.story.domain.Emotion;
 import com.justsayit.story.domain.Story;
-import com.justsayit.story.domain.StoryStatus;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -38,7 +37,7 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     private BooleanExpression isPosted() {
-        return story.status.eq(StoryStatus.POSTED);
+        return story.metaInfo.deleted.eq(true);
     }
 
     private BooleanExpression emotionEq(String emotion) {

@@ -29,7 +29,7 @@ public class GetStoryService implements GetStoryUseCase {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoMemberException::new);
         List<Story> storyList = storyRepository.searchMyStoriesOrderByLatest(memberId, cond, pageable);
-        List<GetStoryRes> res = storyList.stream()
+        return storyList.stream()
                 .map(story -> GetStoryRes.builder()
                         .createdAt(story.getCreatedAt())
                         .updatedAt(story.getUpdatedAt())
@@ -39,7 +39,13 @@ public class GetStoryService implements GetStoryUseCase {
                         .writerId(story.getMemberId())
                         .storyMainInfo(GetStoryRes.StoryMainInfo.builder()
                                 .bodyText(story.getMainContent().getBodyText())
-                                .photos(null)
+                                .photos(story.getPhotoList()
+                                        .stream()
+                                        .map(photo -> GetStoryRes.Photo.builder()
+                                                .photoId(photo.getId())
+                                                .photoUrl(photo.getImgUrl())
+                                                .build())
+                                        .collect(Collectors.toList()))
                                 .writerEmotion(story.getMainContent().getEmotion().toString())
                                 .build())
                         .storyMetaInfo(GetStoryRes.StoryMetaInfo.builder()
@@ -66,6 +72,5 @@ public class GetStoryService implements GetStoryUseCase {
                                 .build())
                         .build())
                 .collect(Collectors.toList());
-        return res;
     }
 }
