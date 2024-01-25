@@ -6,34 +6,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 import java.util.List;
 
 @Getter
-@Entity
-@Table(name = "FEELINGS_OF_EMPATHY")
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeelingsOfEmpathy {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feeling_id", nullable = false)
-    private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "story_id")
-    private Story story;
-
-    @Column(name = "is_angry_selected", nullable = false)
     private boolean angrySelected;
-
-    @Column(name = "is_happiness_selected", nullable = false)
     private boolean happinessSelected;
-
-    @Column(name = "is_sadness_selected", nullable = false)
     private boolean sadnessSelected;
-
-    @Column(name = "is_surprised_selected", nullable = false)
     private boolean surprisedSelected;
 
     @Builder
@@ -73,10 +56,5 @@ public class FeelingsOfEmpathy {
                 .sadnessSelected(sadnessSelected)
                 .surprisedSelected(surprisedSelected)
                 .build();
-    }
-
-    public void addStory(Story story) {
-        this.story = story;
-        story.setFeelingsOfEmpathy(this);
     }
 }

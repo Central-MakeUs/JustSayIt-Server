@@ -42,7 +42,11 @@ public class Story extends BaseJpaEntity {
     @AttributeOverride(name = "modified", column = @Column(name = "is_modified", nullable = false))
     private MetaInfo metaInfo;
 
-    @OneToOne(mappedBy = "story")
+    @Embedded
+    @AttributeOverride(name = "angrySelected", column = @Column(name = "is_angry_selected", nullable = false))
+    @AttributeOverride(name = "happinessSelected", column = @Column(name = "is_happiness_selected", nullable = false))
+    @AttributeOverride(name = "sadnessSelected", column = @Column(name = "is_sadness_selected", nullable = false))
+    @AttributeOverride(name = "surprisedSelected", column = @Column(name = "is_surprised_selected", nullable = false))
     private FeelingsOfEmpathy feelingsOfEmpathy;
 
     @Enumerated(EnumType.STRING)
@@ -81,10 +85,6 @@ public class Story extends BaseJpaEntity {
     }
 
     public void changeFeelingsOfEmpathy(FeelingsOfEmpathy feelingsOfEmpathy) {
-        this.feelingsOfEmpathy = feelingsOfEmpathy;
-    }
-
-    public void setFeelingsOfEmpathy(FeelingsOfEmpathy feelingsOfEmpathy) {
         this.feelingsOfEmpathy = feelingsOfEmpathy;
     }
 }
