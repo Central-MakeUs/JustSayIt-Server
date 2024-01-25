@@ -83,4 +83,8 @@ public class Story extends BaseJpaEntity {
     public void changeFeelingsOfEmpathy(FeelingsOfEmpathy feelingsOfEmpathy) {
         this.feelingsOfEmpathy = feelingsOfEmpathy;
     }
+
+    public void setFeelingsOfEmpathy(FeelingsOfEmpathy feelingsOfEmpathy) {
+        this.feelingsOfEmpathy = feelingsOfEmpathy;
+    }
 }

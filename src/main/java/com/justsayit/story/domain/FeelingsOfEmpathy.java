@@ -20,7 +20,7 @@ public class FeelingsOfEmpathy {
     @Column(name = "feeling_id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "story_id")
     private Story story;
 
@@ -73,5 +73,10 @@ public class FeelingsOfEmpathy {
                 .sadnessSelected(sadnessSelected)
                 .surprisedSelected(surprisedSelected)
                 .build();
+    }
+
+    public void addStory(Story story) {
+        this.story = story;
+        story.setFeelingsOfEmpathy(this);
     }
 }

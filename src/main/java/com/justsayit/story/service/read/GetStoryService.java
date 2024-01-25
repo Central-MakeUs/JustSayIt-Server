@@ -39,7 +39,7 @@ public class GetStoryService implements GetStoryUseCase {
                         .writerId(story.getMemberId())
                         .storyMainInfo(GetStoryRes.StoryMainInfo.builder()
                                 .bodyText(story.getMainContent().getBodyText())
-                                .photos(story.getPhotoList()
+                                .photo(story.getPhotoList()
                                         .stream()
                                         .map(photo -> GetStoryRes.Photo.builder()
                                                 .photoId(photo.getId())
