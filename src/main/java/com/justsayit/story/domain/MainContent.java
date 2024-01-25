@@ -15,17 +15,17 @@ import javax.persistence.Enumerated;
 public class MainContent {
 
     @Enumerated(value = EnumType.STRING)
-    private Emotion emotion;
+    private Feeling feeling;
     private String bodyText;
 
-    private MainContent(Emotion emotion, String bodyText) {
+    private MainContent(Feeling feeling, String bodyText) {
         validateBodyTextLength(bodyText);
-        this.emotion = emotion;
+        this.feeling = feeling;
         this.bodyText = bodyText;
     }
 
     public static MainContent of(String emotion, String bodyText) {
-        return new MainContent(Emotion.valueOf(emotion), bodyText);
+        return new MainContent(Feeling.valueOf(emotion), bodyText);
     }
 
     private void validateBodyTextLength(String bodyText) {

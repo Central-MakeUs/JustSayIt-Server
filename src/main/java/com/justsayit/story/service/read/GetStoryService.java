@@ -46,7 +46,7 @@ public class GetStoryService implements GetStoryUseCase {
                                                 .photoUrl(photo.getImgUrl())
                                                 .build())
                                         .collect(Collectors.toList()))
-                                .writerEmotion(story.getMainContent().getEmotion().toString())
+                                .writerEmotion(story.getMainContent().getFeeling().toString())
                                 .build())
                         .storyMetaInfo(GetStoryRes.StoryMetaInfo.builder()
                                 .opened(story.getMetaInfo().isOpened())

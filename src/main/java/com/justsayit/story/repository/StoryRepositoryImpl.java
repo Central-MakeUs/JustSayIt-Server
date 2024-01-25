@@ -1,6 +1,6 @@
 package com.justsayit.story.repository;
 
-import com.justsayit.story.domain.Emotion;
+import com.justsayit.story.domain.Feeling;
 import com.justsayit.story.domain.Story;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -41,6 +41,6 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     private BooleanExpression emotionEq(String emotion) {
-        return emotion != null ? story.mainContent.emotion.eq(Emotion.valueOf(emotion)) : null;
+        return emotion != null ? story.mainContent.emotion.eq(Feeling.valueOf(emotion)) : null;
     }
 }
