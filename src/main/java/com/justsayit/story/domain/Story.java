@@ -39,7 +39,6 @@ public class Story extends BaseJpaEntity {
     @Embedded
     @AttributeOverride(name = "opened", column = @Column(name = "is_opened", nullable = false))
     @AttributeOverride(name = "anonymous", column = @Column(name = "is_anonymous", nullable = false))
-    @AttributeOverride(name = "deleted", column = @Column(name = "is_deleted", nullable = false))
     @AttributeOverride(name = "modified", column = @Column(name = "is_modified", nullable = false))
     private MetaInfo metaInfo;
 
@@ -47,12 +46,16 @@ public class Story extends BaseJpaEntity {
     @JoinColumn(name = "feeling_id")
     private FeelingsOfEmpathy feelingsOfEmpathy;
 
+    @Enumerated(EnumType.STRING)
+    private StoryStatus status;
+
     private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
         this.uuid = createUUID();
         this.memberId = memberId;
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.status = StoryStatus.ACTIVE;
     }
 
     private String createUUID() {

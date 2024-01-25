@@ -32,7 +32,7 @@ public class AddStoryService implements AddStoryUseCase {
         Story story = Story.createStory(
                 member.getId(),
                 MainContent.of(cmd.getEmotion(), cmd.getContent()),
-                MetaInfo.newMetaInfo(cmd.isOpened(), cmd.isAnonymous()),
+                MetaInfo.ofNew(cmd.isOpened(), cmd.isAnonymous()),
                 FeelingsOfEmpathy.of(cmd.getFeelingsOfEmpathy()));
         storyRepository.save(story);
         List<StoryImgInfo> imgInfoList = cmd.getStoryImgInfoList();
