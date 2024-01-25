@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Entity
@@ -22,8 +21,8 @@ public class Story extends BaseJpaEntity {
     @Column(name = "story_id")
     private Long id;
 
-    @Column(name = "uuid", nullable = false)
-    private String uuid;
+    @Column(name = "UUID", nullable = false)
+    private String UUID;
 
     @Column(name = "member_id", nullable = false)
     private Long memberId;
@@ -53,7 +52,7 @@ public class Story extends BaseJpaEntity {
     private StoryStatus status;
 
     private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
-        this.uuid = createUUID();
+        this.UUID = createUUID();
         this.memberId = memberId;
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
@@ -63,7 +62,7 @@ public class Story extends BaseJpaEntity {
 
     private String createUUID() {
         StringBuilder sb = new StringBuilder();
-        return sb.append(UUID.randomUUID())
+        return sb.append(java.util.UUID.randomUUID())
                 .append(LocalDateTime.now())
                 .toString();
     }

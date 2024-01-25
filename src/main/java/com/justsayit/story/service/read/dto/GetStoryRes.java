@@ -10,122 +10,132 @@ import java.util.List;
 @Getter
 public class GetStoryRes {
 
-    private Long storyId;
-    private String storyUUID;
-    private Long writerId;
-    @JsonProperty(value="isMine")
-    private boolean mine;
-    private ProfileInfo profileInfo;
-    private StoryMainInfo storyMainInfo;
-    private StoryMetaInfo storyMetaInfo;
-    private FeelingsOfEmpathy feelingsOfEmpathy;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @JsonProperty(value = "hasNext")
+    private boolean hasNext;
+    private List<StoryInfo> storyInfo;
 
-
-    @Builder
-    public GetStoryRes(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainInfo storyMainInfo, StoryMetaInfo storyMetaInfo, FeelingsOfEmpathy feelingsOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.storyId = storyId;
-        this.storyUUID = storyUUID;
-        this.writerId = writerId;
-        this.mine = mine;
-        this.profileInfo = profileInfo;
-        this.storyMainInfo = storyMainInfo;
-        this.storyMetaInfo = storyMetaInfo;
-        this.feelingsOfEmpathy = feelingsOfEmpathy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public GetStoryRes(boolean hasNext, List<StoryInfo> storyInfo) {
+        this.hasNext = hasNext;
+        this.storyInfo = storyInfo;
     }
 
     @Getter
-    public static class ProfileInfo {
-
-        private String profileImg;
-        private String nickname;
+    public static class StoryInfo {
+        private Long storyId;
+        private String storyUUID;
+        private Long writerId;
+        @JsonProperty(value="isMine")
+        private boolean mine;
+        private ProfileInfo profileInfo;
+        private StoryMainContent storyMainContent;
+        private StoryMetaInfo storyMetaInfo;
+        private FeelingsOfEmpathy feelingsOfEmpathy;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
         @Builder
-        public ProfileInfo(String profileImg, String nickname) {
-            this.profileImg = profileImg;
-            this.nickname = nickname;
+        public StoryInfo(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainContent storyMainContent, StoryMetaInfo storyMetaInfo, FeelingsOfEmpathy feelingsOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            this.storyId = storyId;
+            this.storyUUID = storyUUID;
+            this.writerId = writerId;
+            this.mine = mine;
+            this.profileInfo = profileInfo;
+            this.storyMainContent = storyMainContent;
+            this.storyMetaInfo = storyMetaInfo;
+            this.feelingsOfEmpathy = feelingsOfEmpathy;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
         }
-    }
 
-    @Getter
-    public static class StoryMainInfo {
 
-        private String writerEmotion;
-        private String bodyText;
-        private List<Photo> photo;
+        @Getter
+        public static class ProfileInfo {
 
-        @Builder
-        public StoryMainInfo(String writerEmotion, String bodyText, List<Photo> photo) {
-            this.writerEmotion = writerEmotion;
-            this.bodyText = bodyText;
-            this.photo = photo;
+            private String profileImg;
+            private String nickname;
+
+            @Builder
+            public ProfileInfo(String profileImg, String nickname) {
+                this.profileImg = profileImg;
+                this.nickname = nickname;
+            }
         }
-    }
 
-    @Getter
-    public static class Photo {
+        @Getter
+        public static class StoryMainContent {
 
-        private Long photoId;
-        private String photoUrl;
+            private String writerEmotion;
+            private String bodyText;
+            private List<Photo> photo;
 
-        @Builder
-        public Photo(Long photoId, String photoUrl) {
-            this.photoId = photoId;
-            this.photoUrl = photoUrl;
+            @Builder
+            public StoryMainContent(String writerEmotion, String bodyText, List<Photo> photo) {
+                this.writerEmotion = writerEmotion;
+                this.bodyText = bodyText;
+                this.photo = photo;
+            }
         }
-    }
 
-    @Getter
-    public static class StoryMetaInfo {
+        @Getter
+        public static class Photo {
 
-        @JsonProperty(value="isOpened")
-        private boolean opened;
-        @JsonProperty(value="isAnonymous")
-        private boolean anonymous;
-        @JsonProperty(value = "isModified")
-        private boolean modified;
+            private Long photoId;
+            private String photoUrl;
 
-        @Builder
-        public StoryMetaInfo(boolean opened, boolean anonymous, boolean modified) {
-            this.opened = opened;
-            this.anonymous = anonymous;
-            this.modified = modified;
+            @Builder
+            public Photo(Long photoId, String photoUrl) {
+                this.photoId = photoId;
+                this.photoUrl = photoUrl;
+            }
         }
-    }
 
-    @Getter
-    public static class FeelingsOfEmpathy {
+        @Getter
+        public static class StoryMetaInfo {
 
-        private Long feelingId;
-        private int totalCount;
-        private int angryCount;
-        @JsonProperty(value = "isAngrySelected")
-        private boolean angrySelected;
-        private int happinessCount;
-        @JsonProperty(value = "isHappinessSelected")
-        private boolean happinessSelected;
-        private int sadnessCount;
-        @JsonProperty(value = "isSadnessSelected")
-        private boolean sadnessSelected;
-        private int surprisedCount;
-        @JsonProperty(value = "isSurprisedSelected")
-        private boolean surprisedSelected;
+            @JsonProperty(value="isOpened")
+            private boolean opened;
+            @JsonProperty(value="isAnonymous")
+            private boolean anonymous;
+            @JsonProperty(value = "isModified")
+            private boolean modified;
 
-        @Builder
-        public FeelingsOfEmpathy(Long feelingId, int totalCount, int angryCount, boolean angrySelected, int happinessCount, boolean happinessSelected, int sadnessCount, boolean sadnessSelected, int surprisedCount, boolean surprisedSelected) {
-            this.feelingId = feelingId;
-            this.totalCount = totalCount;
-            this.angryCount = angryCount;
-            this.angrySelected = angrySelected;
-            this.happinessCount = happinessCount;
-            this.happinessSelected = happinessSelected;
-            this.sadnessCount = sadnessCount;
-            this.sadnessSelected = sadnessSelected;
-            this.surprisedCount = surprisedCount;
-            this.surprisedSelected = surprisedSelected;
+            @Builder
+            public StoryMetaInfo(boolean opened, boolean anonymous, boolean modified) {
+                this.opened = opened;
+                this.anonymous = anonymous;
+                this.modified = modified;
+            }
+        }
+
+        @Getter
+        public static class FeelingsOfEmpathy {
+
+            private Long totalCount;
+            private Long angryCount;
+            @JsonProperty(value = "isAngrySelected")
+            private boolean angrySelected;
+            private Long happinessCount;
+            @JsonProperty(value = "isHappinessSelected")
+            private boolean happinessSelected;
+            private Long sadnessCount;
+            @JsonProperty(value = "isSadnessSelected")
+            private boolean sadnessSelected;
+            private Long surprisedCount;
+            @JsonProperty(value = "isSurprisedSelected")
+            private boolean surprisedSelected;
+
+            @Builder
+            public FeelingsOfEmpathy(Long totalCount, Long angryCount, boolean angrySelected, Long happinessCount, boolean happinessSelected, Long sadnessCount, boolean sadnessSelected, Long surprisedCount, boolean surprisedSelected) {
+                this.totalCount = totalCount;
+                this.angryCount = angryCount;
+                this.angrySelected = angrySelected;
+                this.happinessCount = happinessCount;
+                this.happinessSelected = happinessSelected;
+                this.sadnessCount = sadnessCount;
+                this.sadnessSelected = sadnessSelected;
+                this.surprisedCount = surprisedCount;
+                this.surprisedSelected = surprisedSelected;
+            }
         }
     }
 }

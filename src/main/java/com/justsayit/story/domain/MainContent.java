@@ -24,8 +24,8 @@ public class MainContent {
         this.bodyText = bodyText;
     }
 
-    public static MainContent of(String emotion, String bodyText) {
-        return new MainContent(Feeling.valueOf(emotion), bodyText);
+    public static MainContent of(String emotionCode, String bodyText) {
+        return new MainContent(Feeling.valueOfCode(emotionCode), bodyText);
     }
 
     private void validateBodyTextLength(String bodyText) {

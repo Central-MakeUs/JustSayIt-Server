@@ -48,19 +48,15 @@ public class StoryController {
 //    }
 
     @GetMapping("/me/{member-id}")
-    public ResponseEntity<BaseResponse<List<GetStoryRes>>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
-                                                                                    @RequestParam(name = "story_id", required = false) Long storyId,
-                                                                                    @RequestParam(name = "latest", required = false) Boolean latest,
-                                                                                    @RequestParam(name = "popular", required = false) Boolean popular,
-                                                                                    @RequestParam(name = "emotion", required = false) String emotion,
+    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
+                                                                                    @RequestParam(name = "story-id", required = false) Long storyId,
+                                                                                    @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                                     @RequestParam(name = "size") int size) {
-        List<GetStoryRes> res = getStoryUseCase.getMyStories(
+        GetStoryRes res = getStoryUseCase.getMyPostedStoriesOrderByLatest(
                 memberId,
                 StorySearchCondition.builder()
                         .storyId(storyId)
-                        .latest(latest)
-                        .popular(popular)
-                        .emotion(emotion)
+                        .emotion(emotionCode)
                         .size(size)
                         .build());
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));

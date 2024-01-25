@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StoryRepositoryCustom {
 
-    List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond);
+    List<Story> searchMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond);
 }

@@ -21,13 +21,13 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     @Override
-    public List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public List<Story> searchMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
         return queryFactory.selectFrom(story)
                 .where(memberIdEq(memberId),
                         ltStoryId(cond.getStoryId()),
                         isPosted(),
                         emotionEq(cond.getEmotion()))
-                .orderBy(story.createdAt.desc())
+                .orderBy(story.id.desc())
                 .limit(cond.getSize() + 1)
                 .fetch();
     }
@@ -41,7 +41,7 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     private BooleanExpression emotionEq(String emotion) {
-        return emotion != null ? story.mainContent.feeling.eq(Feeling.valueOf(emotion)) : null;
+        return emotion != null ? story.mainContent.feeling.eq(Feeling.valueOfCode(emotion)) : null;
     }
 
     private BooleanExpression ltStoryId(Long storyId) {

@@ -32,19 +32,19 @@ public class FeelingsOfEmpathy {
         boolean happinessSelected = false;
         boolean sadnessSelected = false;
         boolean surprisedSelected = false;
-        for (String s : feelingsOfEmpathy) {
-            switch (Feeling.valueOfCode(s)) {
-                case ANGRY:
-                    angrySelected = true;
-                    break;
-                case HAPPINESS:
+        for (String feeling : feelingsOfEmpathy) {
+            switch (feeling) {
+                case "FEELING001":
                     happinessSelected = true;
                     break;
-                case SADNESS:
+                case "FEELING002":
                     sadnessSelected = true;
                     break;
-                case SURPRISED:
+                case "FEELING003":
                     surprisedSelected = true;
+                    break;
+                case "FEELING004":
+                    angrySelected = true;
                     break;
                 default:
                     throw new InvalidFeelingCodeException();
