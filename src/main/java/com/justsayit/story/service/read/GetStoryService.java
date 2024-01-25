@@ -9,7 +9,6 @@ import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.justsayit.story.service.read.dto.GetStoryRes;
 import com.justsayit.story.service.read.usecase.GetStoryUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +24,10 @@ public class GetStoryService implements GetStoryUseCase {
     private final StoryRepository storyRepository;
 
     @Override
-    public List<GetStoryRes> getMyStories(Long memberId, StorySearchCondition cond, Pageable pageable) {
+    public List<GetStoryRes> getMyStories(Long memberId, StorySearchCondition cond) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoMemberException::new);
-        List<Story> storyList = storyRepository.searchMyStoriesOrderByLatest(memberId, cond, pageable);
+        List<Story> storyList = storyRepository.searchMyStoriesOrderByLatest(memberId, cond);
         return storyList.stream()
                 .map(story -> GetStoryRes.builder()
                         .createdAt(story.getCreatedAt())

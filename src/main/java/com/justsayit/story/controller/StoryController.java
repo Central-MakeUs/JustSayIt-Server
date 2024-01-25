@@ -7,7 +7,6 @@ import com.justsayit.story.service.read.dto.GetStoryRes;
 import com.justsayit.story.service.read.usecase.GetStoryUseCase;
 import com.justsayit.story.service.write.AddStoryFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,18 +49,20 @@ public class StoryController {
 
     @GetMapping("/me/{member-id}")
     public ResponseEntity<BaseResponse<List<GetStoryRes>>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
+                                                                                    @RequestParam(name = "story_id", required = false) Long storyId,
                                                                                     @RequestParam(name = "latest", required = false) Boolean latest,
                                                                                     @RequestParam(name = "popular", required = false) Boolean popular,
                                                                                     @RequestParam(name = "emotion", required = false) String emotion,
-                                                                                    Pageable pageable) {
+                                                                                    @RequestParam(name = "size") int size) {
         List<GetStoryRes> res = getStoryUseCase.getMyStories(
                 memberId,
                 StorySearchCondition.builder()
+                        .storyId(storyId)
                         .latest(latest)
                         .popular(popular)
                         .emotion(emotion)
-                        .build(),
-                pageable);
+                        .size(size)
+                        .build());
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 }

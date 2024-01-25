@@ -6,7 +6,6 @@ import com.justsayit.story.domain.StoryStatus;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -22,14 +21,14 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     }
 
     @Override
-    public List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond, Pageable pageable) {
+    public List<Story> searchMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
         return queryFactory.selectFrom(story)
                 .where(memberIdEq(memberId),
+                        ltStoryId(cond.getStoryId()),
                         isPosted(),
                         emotionEq(cond.getEmotion()))
                 .orderBy(story.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(cond.getSize() + 1)
                 .fetch();
     }
 
@@ -43,5 +42,9 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
 
     private BooleanExpression emotionEq(String emotion) {
         return emotion != null ? story.mainContent.feeling.eq(Feeling.valueOf(emotion)) : null;
+    }
+
+    private BooleanExpression ltStoryId(Long storyId) {
+        return storyId != null ? story.id.lt(storyId) : null;
     }
 }
