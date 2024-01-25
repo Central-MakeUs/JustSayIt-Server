@@ -18,7 +18,7 @@ public class Member extends BaseJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "token", nullable = false)
@@ -44,7 +44,7 @@ public class Member extends BaseJpaEntity {
     private MemberStatus status;
 
     @ElementCollection
-    @CollectionTable(name = "AUTHORITY", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "AUTHORITY", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> authorities = new ArrayList<>();
 
     @Builder

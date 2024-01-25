@@ -30,7 +30,7 @@ public class Story extends BaseJpaEntity {
 
     @Embedded
     @AttributeOverride(name = "bodyText", column = @Column(name = "body_text", nullable = false))
-    @AttributeOverride(name = "emotion", column = @Column(name = "emotion", nullable = false))
+    @AttributeOverride(name = "feeling", column = @Column(name = "feeling", nullable = false))
     private MainContent mainContent;
 
     @OneToMany(mappedBy = "story")
