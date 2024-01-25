@@ -42,8 +42,7 @@ public class Story extends BaseJpaEntity {
     @AttributeOverride(name = "modified", column = @Column(name = "is_modified", nullable = false))
     private MetaInfo metaInfo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "feeling_id")
+    @OneToOne(mappedBy = "story")
     private FeelingsOfEmpathy feelingsOfEmpathy;
 
     @Enumerated(EnumType.STRING)
@@ -55,7 +54,7 @@ public class Story extends BaseJpaEntity {
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
-        this.status = StoryStatus.ACTIVE;
+        this.status = StoryStatus.POSTED;
     }
 
     private String createUUID() {

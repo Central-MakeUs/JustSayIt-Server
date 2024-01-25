@@ -20,7 +20,8 @@ public class FeelingsOfEmpathy {
     @Column(name = "feeling_id", nullable = false)
     private Long id;
 
-    @OneToOne(mappedBy = "feelingsOfEmpathy")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "story_id")
     private Story story;
 
     @Column(name = "is_angry_selected", nullable = false)

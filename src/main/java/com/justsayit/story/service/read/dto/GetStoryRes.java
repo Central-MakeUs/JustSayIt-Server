@@ -55,13 +55,13 @@ public class GetStoryRes {
 
         private String writerEmotion;
         private String bodyText;
-        private List<Photo> photos;
+        private List<Photo> photo;
 
         @Builder
-        public StoryMainInfo(String writerEmotion, String bodyText, List<Photo> photos) {
+        public StoryMainInfo(String writerEmotion, String bodyText, List<Photo> photo) {
             this.writerEmotion = writerEmotion;
             this.bodyText = bodyText;
-            this.photos = photos;
+            this.photo = photo;
         }
     }
 
@@ -85,16 +85,13 @@ public class GetStoryRes {
         private boolean opened;
         @JsonProperty(value="isAnonymous")
         private boolean anonymous;
-        @JsonProperty(value="isDeleted")
-        private boolean deleted;
         @JsonProperty(value = "isModified")
         private boolean modified;
 
         @Builder
-        public StoryMetaInfo(boolean opened, boolean anonymous, boolean deleted, boolean modified) {
+        public StoryMetaInfo(boolean opened, boolean anonymous, boolean modified) {
             this.opened = opened;
             this.anonymous = anonymous;
-            this.deleted = deleted;
             this.modified = modified;
         }
     }
