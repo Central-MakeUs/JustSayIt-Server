@@ -7,16 +7,14 @@ import lombok.Getter;
 public class StorySearchCondition {
 
     private Long storyId;
-    private Boolean latest;
-    private Boolean popular;
+    private Boolean popularity;
     private String emotion;
     private int size;
 
     @Builder
-    public StorySearchCondition(Long storyId, Boolean latest, Boolean popular, String emotion, int size) {
+    public StorySearchCondition(Long storyId, Boolean popularity, String emotion, int size) {
         this.storyId = storyId;
-        this.latest = latest;
-        this.popular = popular;
+        this.popularity = popularity;
         this.emotion = emotion;
         this.size = size;
     }
