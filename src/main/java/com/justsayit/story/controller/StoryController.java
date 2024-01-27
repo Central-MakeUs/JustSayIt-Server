@@ -46,7 +46,7 @@ public class StoryController {
     }
 
     @GetMapping("/me/oldest/{member-id}")
-    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
+    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByOldest(@PathVariable(name = "member-id") Long memberId,
                                                                               @RequestParam(name = "story-id", required = false) Long storyId,
                                                                               @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                               @RequestParam(name = "size") int size) {
