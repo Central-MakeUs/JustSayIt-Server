@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -20,7 +22,7 @@ public class UpdateProfileFacade {
 
     public void updateProfile(Long memberId, UpdateProfileReq req, MultipartFile multipartFile) {
         ProfileImgInfo profileImgInfo = ProfileImgInfo.of(req.getProfileImg());
-        if (!multipartFile.isEmpty()) {
+        if (Objects.nonNull(multipartFile)) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
         profileUseCase.updateProfile(UpdateProfileCmd.builder()

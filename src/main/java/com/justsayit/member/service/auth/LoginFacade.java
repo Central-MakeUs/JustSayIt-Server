@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,7 +23,7 @@ public class LoginFacade {
 
     public LoginRes login(LoginReq req, MultipartFile multipartFile) {
         ProfileImgInfo profileImgInfo = ProfileImgInfo.ofDefault();
-        if (multipartFile != null) {
+        if (Objects.nonNull(multipartFile)) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
         return authUseCase.login(LoginCommand.builder()
