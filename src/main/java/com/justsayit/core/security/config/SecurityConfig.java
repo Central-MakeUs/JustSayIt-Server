@@ -47,13 +47,13 @@ public class SecurityConfig {
             http.apply(new MyCustomDsl())
                     .and()
                     .authorizeRequests()
-                    // HEALTH
-                    .antMatchers("/health/**")
-                    .permitAll()
                     // MEMBER
                     .antMatchers("/members/login", "/members/check")
                     .permitAll()
                     .antMatchers("/members/**")
+                    .authenticated()
+                    // STORY
+                    .antMatchers("/stories/**")
                     .authenticated();
             return http.build();
         } catch (Exception e) {

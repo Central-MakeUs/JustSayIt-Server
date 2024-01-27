@@ -1,8 +1,8 @@
 package com.justsayit.story.service.read;
 
 import com.justsayit.member.domain.Member;
-import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
+import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.story.domain.Feeling;
 import com.justsayit.story.domain.Story;
 import com.justsayit.story.repository.EmpathyCountRepository;
@@ -30,8 +30,7 @@ public class GetStoryService implements GetStoryUseCase {
 
     @Override
     public GetStoryRes getMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NoMemberException::new);
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByLatest(memberId, cond);
 
         // 조회 결과가 요청한 size보다 큰 경우
@@ -107,8 +106,7 @@ public class GetStoryService implements GetStoryUseCase {
 
     @Override
     public GetStoryRes getMyPostedStoriesOrderByOldest(Long memberId, StorySearchCondition cond) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NoMemberException::new);
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByOldest(memberId, cond);
 
         // 조회 결과가 요청한 size보다 큰 경우

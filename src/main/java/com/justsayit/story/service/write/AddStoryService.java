@@ -2,8 +2,8 @@ package com.justsayit.story.service.write;
 
 import com.justsayit.infra.s3.dto.StoryPhoto;
 import com.justsayit.member.domain.Member;
-import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
+import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.story.domain.*;
 import com.justsayit.story.repository.PhotoRepository;
 import com.justsayit.story.repository.StoryRepository;
@@ -27,8 +27,7 @@ public class AddStoryService implements AddStoryUseCase {
 
     @Override
     public void addStory(AddStoryCommand cmd) {
-        Member member = memberRepository.findById(cmd.getMemberId())
-                .orElseThrow(NoMemberException::new);
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
         Story story = Story.createStory(
                 member.getId(),
                 MainContent.of(cmd.getEmotion(), cmd.getContent()),

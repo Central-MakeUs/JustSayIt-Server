@@ -1,6 +1,6 @@
 package com.justsayit.story.domain;
 
-import com.justsayit.story.exception.InvalidFeelingCodeException;
+import com.justsayit.story.exception.InvalidEmotionCodeException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,7 +47,7 @@ public class FeelingsOfEmpathy {
                     angrySelected = true;
                     break;
                 default:
-                    throw new InvalidFeelingCodeException();
+                    throw new InvalidEmotionCodeException();
             }
         }
         return FeelingsOfEmpathy.builder()
