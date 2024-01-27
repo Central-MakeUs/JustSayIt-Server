@@ -6,4 +6,6 @@ import com.justsayit.story.service.read.dto.GetStoryRes;
 public interface GetStoryUseCase {
 
     GetStoryRes getMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond);
+
+    GetStoryRes getMyPostedStoriesOrderByOldest(Long memberId, StorySearchCondition cond);
 }

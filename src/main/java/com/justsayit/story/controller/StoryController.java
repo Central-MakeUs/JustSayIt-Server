@@ -44,4 +44,19 @@ public class StoryController {
                         .build());
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
+
+    @GetMapping("/me/oldest/{member-id}")
+    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
+                                                                              @RequestParam(name = "story-id", required = false) Long storyId,
+                                                                              @RequestParam(name = "emotion-code", required = false) String emotionCode,
+                                                                              @RequestParam(name = "size") int size) {
+        GetStoryRes res = getStoryUseCase.getMyPostedStoriesOrderByOldest(
+                memberId,
+                StorySearchCondition.builder()
+                        .storyId(storyId)
+                        .emotion(emotionCode)
+                        .size(size)
+                        .build());
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
 }
