@@ -6,8 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,16 +19,4 @@ public class BaseJpaEntity {
     @UpdateTimestamp
     @Column(name = "updatedAt", nullable = false)
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    private void prePersistFunction() {
-        LocalDateTime now = LocalDateTime.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    private void preUpdateFunction() {
-        updatedAt = LocalDateTime.now();
-    }
 }
