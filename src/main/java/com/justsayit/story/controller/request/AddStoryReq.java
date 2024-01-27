@@ -14,5 +14,5 @@ public class AddStoryReq {
     private String content;
     private boolean opened;
     private boolean anonymous;
-    private List<String> feelingsOfEmpathy;
+    private List<String> emotionOfEmpathy;
 }

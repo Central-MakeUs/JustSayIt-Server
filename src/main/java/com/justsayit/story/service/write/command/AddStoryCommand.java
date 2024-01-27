@@ -18,5 +18,5 @@ public class AddStoryCommand {
     private List<StoryPhoto> storyPhotoList;
     private boolean opened;
     private boolean anonymous;
-    private List<String> feelingsOfEmpathy;
+    private List<String> emotionOfEmpathy;
 }

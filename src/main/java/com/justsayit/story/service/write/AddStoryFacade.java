@@ -39,7 +39,7 @@ public class AddStoryFacade {
                 .storyPhotoList(imgInfoList)
                 .opened(req.isOpened())
                 .anonymous(req.isAnonymous())
-                .feelingsOfEmpathy(req.getFeelingsOfEmpathy())
+                .emotionOfEmpathy(req.getEmotionOfEmpathy())
                 .build());
     }
 }
