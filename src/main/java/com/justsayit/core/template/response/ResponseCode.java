@@ -21,7 +21,11 @@ public enum ResponseCode {
     // 4000 - S3
     FILE_SIZE_OVERFLOW("4000", "개별 사진 사이즈는 최대 10MB, 총합 사이즈는 최대 100MB를 초과할 수 없습니다."),
     FAIL_TO_UPLOAD_FILE("4001", "AWS 서비스가 원활하지 않아 사진 업로드에 실패했습니다."),
-    ;
+
+    // 5000 - story
+    EMPTY_MAIN_CONTENT("5000", "본문 내용이 없습니다."),
+    INVALID_EMOTION_CODE("5001", "잘못된 감정코드입니다."),
+    INVALID_NUMBER_OF_IMG("5002", "스토리에 업로드 가능한 사진은 최대 4장입니다.");
 
     private String code;
     private String message;
