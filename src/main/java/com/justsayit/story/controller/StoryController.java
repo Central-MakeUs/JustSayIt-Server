@@ -30,7 +30,7 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @GetMapping("/me/{member-id}")
+    @GetMapping("/me/latest/{member-id}")
     public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
                                                                                     @RequestParam(name = "story-id", required = false) Long storyId,
                                                                                     @RequestParam(name = "emotion-code", required = false) String emotionCode,
