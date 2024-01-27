@@ -30,23 +30,6 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-//    @GetMapping("/all/{member-id}")
-//    public ResponseEntity<BaseResponse<List<GetStoryRes>>> getAllStories(@PathVariable(name = "member-id") Long memberId,
-//                                                                         @RequestParam(name = "latest") boolean latest,
-//                                                                         @RequestParam(name = "popularity") boolean sortByPopularity,
-//                                                                         @RequestParam(name = "emotion") String emotion,
-//                                                                         Pageable pageable) {
-//        List<GetStoryRes> res = getStoryUseCase.getAllStories(
-//                memberId,
-//                StorySearchCondition.builder()
-//                        .latest(latest)
-//                        .sortByPopularity(sortByPopularity)
-//                        .emotion(emotion)
-//                        .build(),
-//                pageable);
-//        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
-//    }
-
     @GetMapping("/me/{member-id}")
     public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
                                                                                     @RequestParam(name = "popularity", required = false) Boolean popularity,
