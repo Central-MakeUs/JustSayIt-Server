@@ -32,7 +32,6 @@ public class StoryController {
 
     @GetMapping("/me/{member-id}")
     public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
-                                                                                    @RequestParam(name = "popularity", required = false) Boolean popularity,
                                                                                     @RequestParam(name = "story-id", required = false) Long storyId,
                                                                                     @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                                     @RequestParam(name = "size") int size) {
@@ -40,7 +39,6 @@ public class StoryController {
                 memberId,
                 StorySearchCondition.builder()
                         .storyId(storyId)
-                        .popularity(popularity)
                         .emotion(emotionCode)
                         .size(size)
                         .build());
