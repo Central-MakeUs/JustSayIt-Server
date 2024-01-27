@@ -1,101 +1,60 @@
 package com.justsayit.story.domain;
 
-import com.justsayit.story.domain.feeling.Angry;
-import com.justsayit.story.domain.feeling.Happiness;
-import com.justsayit.story.domain.feeling.Sadness;
-import com.justsayit.story.domain.feeling.Surprised;
-import com.justsayit.story.exception.InvalidFeelingException;
+import com.justsayit.story.exception.InvalidFeelingCodeException;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 import java.util.List;
 
 @Getter
-@Entity
-@Table(name = "FEELING")
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeelingsOfEmpathy {
 
-    @Transient
-    private static final Long ZERO = 0L;
+    private boolean angrySelected;
+    private boolean happinessSelected;
+    private boolean sadnessSelected;
+    private boolean surprisedSelected;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feeling_id", nullable = false)
-    private Long id;
-
-    @OneToOne(mappedBy = "feelingsOfEmpathy")
-    private Story story;
-
-    @Embedded
-    @AttributeOverride(name = "count", column = @Column(name = "angry_count", nullable = false))
-    @AttributeOverride(name = "selected", column = @Column(name = "angry_is_selected", nullable = false))
-    private Angry angry;
-
-    @Embedded
-    @AttributeOverride(name = "count", column = @Column(name = "happiness_count", nullable = false))
-    @AttributeOverride(name = "selected", column = @Column(name = "happiness_is_selected", nullable = false))
-    private Happiness happiness;
-
-    @Embedded
-    @AttributeOverride(name = "count", column = @Column(name = "sadness_count", nullable = false))
-    @AttributeOverride(name = "selected", column = @Column(name = "sadness_is_selected", nullable = false))
-    private Sadness sadness;
-
-    @Embedded
-    @AttributeOverride(name = "count", column = @Column(name = "surprised_count", nullable = false))
-    @AttributeOverride(name = "selected", column = @Column(name = "surprised_is_selected", nullable = false))
-    private Surprised surprised;
-
-    private FeelingsOfEmpathy(Angry angry, Happiness happiness, Sadness sadness, Surprised surprised) {
-        this.angry = angry;
-        this.happiness = happiness;
-        this.sadness = sadness;
-        this.surprised = surprised;
+    @Builder
+    private FeelingsOfEmpathy(boolean angrySelected, boolean happinessSelected, boolean sadnessSelected, boolean surprisedSelected) {
+        this.angrySelected = angrySelected;
+        this.happinessSelected = happinessSelected;
+        this.sadnessSelected = sadnessSelected;
+        this.surprisedSelected = surprisedSelected;
     }
 
-    public static FeelingsOfEmpathy of(List<String> feelings) {
-        FeelingsOfEmpathy feelingsOfEmpathy = new FeelingsOfEmpathy(new Angry(false), new Happiness(false), new Sadness(false), new Surprised(false));
-        for (String feeling : feelings) {
+    public static FeelingsOfEmpathy of(List<String> feelingsOfEmpathy) {
+        boolean angrySelected = false;
+        boolean happinessSelected = false;
+        boolean sadnessSelected = false;
+        boolean surprisedSelected = false;
+        for (String feeling : feelingsOfEmpathy) {
             switch (feeling) {
-                case "ANGRY":
-                    feelingsOfEmpathy.changeAngryStatus(new Angry(true));
+                case "FEELING001":
+                    happinessSelected = true;
                     break;
-                case "SADNESS":
-                    feelingsOfEmpathy.changeSadnessStatus(new Sadness(true));
+                case "FEELING002":
+                    sadnessSelected = true;
                     break;
-                case "SURPRISED":
-                    feelingsOfEmpathy.changeSurprisedStatus(new Surprised(true));
+                case "FEELING003":
+                    surprisedSelected = true;
                     break;
-                case "HAPPINESS":
-                    feelingsOfEmpathy.changeHappinessStatus(new Happiness(true));
+                case "FEELING004":
+                    angrySelected = true;
                     break;
                 default:
-                    throw new InvalidFeelingException();
+                    throw new InvalidFeelingCodeException();
             }
         }
-        return feelingsOfEmpathy;
-    }
-
-    private void changeAngryStatus(Angry angry) {
-        this.angry = angry;
-    }
-
-    private void changeHappinessStatus(Happiness happiness) {
-        this.happiness = happiness;
-    }
-
-    private void changeSadnessStatus(Sadness sadness) {
-        this.sadness = sadness;
-    }
-
-    private void changeSurprisedStatus(Surprised surprised) {
-        this.surprised = surprised;
-    }
-
-    public int getTotalCount() {
-        return angry.getCount() + happiness.getCount() + sadness.getCount() + surprised.getCount();
+        return FeelingsOfEmpathy.builder()
+                .angrySelected(angrySelected)
+                .happinessSelected(happinessSelected)
+                .sadnessSelected(sadnessSelected)
+                .surprisedSelected(surprisedSelected)
+                .build();
     }
 }

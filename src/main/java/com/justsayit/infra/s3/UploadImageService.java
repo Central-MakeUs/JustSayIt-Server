@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.justsayit.infra.s3.dto.ProfileImgInfo;
-import com.justsayit.infra.s3.dto.StoryImgInfo;
+import com.justsayit.infra.s3.dto.StoryPhoto;
 import com.justsayit.infra.s3.exception.FailToUploadFileException;
 import com.justsayit.infra.s3.exception.FileSizeOverflowException;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
@@ -44,17 +44,17 @@ public class UploadImageService implements UploadImageUseCase {
     }
 
     @Override
-    public List<StoryImgInfo> uploadStoryImg(List<MultipartFile> multipartFileList) {
-        List<StoryImgInfo> storyImgInfoList = new ArrayList<>();
+    public List<StoryPhoto> uploadStoryImg(List<MultipartFile> multipartFileList) {
+        List<StoryPhoto> storyPhotoList = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFileList) {
             String originalFilename = multipartFile.getOriginalFilename();
             int index = originalFilename.lastIndexOf(".");
             String ext = originalFilename.substring(index + 1);
             String storeFileName = UUID.randomUUID() + "." + ext;
             String key = "story/" + storeFileName;
-            storyImgInfoList.add(StoryImgInfo.of(putToS3(multipartFile, key)));
+            storyPhotoList.add(StoryPhoto.of(putToS3(multipartFile, key)));
         }
-        return storyImgInfoList;
+        return storyPhotoList;
     }
 
     private String putToS3(MultipartFile multipartFile, String key) {

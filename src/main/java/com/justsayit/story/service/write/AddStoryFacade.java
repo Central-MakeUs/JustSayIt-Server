@@ -1,6 +1,6 @@
 package com.justsayit.story.service.write;
 
-import com.justsayit.infra.s3.dto.StoryImgInfo;
+import com.justsayit.infra.s3.dto.StoryPhoto;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
 import com.justsayit.story.controller.request.AddStoryReq;
 import com.justsayit.story.service.write.command.AddStoryCommand;
@@ -22,7 +22,7 @@ public class AddStoryFacade {
     private final AddStoryUseCase addStoryUseCase;
 
     public void addStory(Long memberId, AddStoryReq req, List<MultipartFile> multipartFileList) {
-        List<StoryImgInfo> imgInfoList = new ArrayList<>();
+        List<StoryPhoto> imgInfoList = new ArrayList<>();
         if (multipartFileList != null) {
             imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
         }
@@ -30,7 +30,7 @@ public class AddStoryFacade {
                 .memberId(memberId)
                 .emotion(req.getEmotion())
                 .content(req.getContent())
-                .storyImgInfoList(imgInfoList)
+                .storyPhotoList(imgInfoList)
                 .opened(req.isOpened())
                 .anonymous(req.isAnonymous())
                 .feelingsOfEmpathy(req.getFeelingsOfEmpathy())

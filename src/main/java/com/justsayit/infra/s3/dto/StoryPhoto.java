@@ -3,11 +3,11 @@ package com.justsayit.infra.s3.dto;
 import lombok.Getter;
 
 @Getter
-public class StoryImgInfo {
+public class StoryPhoto {
 
     private String url;
 
-    private StoryImgInfo(String url) {
+    private StoryPhoto(String url) {
         this.url = url;
     }
 
@@ -16,7 +16,7 @@ public class StoryImgInfo {
      * @param url 업로드한 이미지 주소
      * @return
      */
-    public static StoryImgInfo of(String url) {
-        return new StoryImgInfo(url);
+    public static StoryPhoto of(String url) {
+        return new StoryPhoto(url);
     }
 }

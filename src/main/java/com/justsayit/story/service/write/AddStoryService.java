@@ -1,6 +1,6 @@
 package com.justsayit.story.service.write;
 
-import com.justsayit.infra.s3.dto.StoryImgInfo;
+import com.justsayit.infra.s3.dto.StoryPhoto;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.exception.NoMemberException;
 import com.justsayit.member.repository.MemberRepository;
@@ -32,19 +32,19 @@ public class AddStoryService implements AddStoryUseCase {
         Story story = Story.createStory(
                 member.getId(),
                 MainContent.of(cmd.getEmotion(), cmd.getContent()),
-                MetaInfo.newMetaInfo(cmd.isOpened(), cmd.isAnonymous()),
+                MetaInfo.ofNew(cmd.isOpened(), cmd.isAnonymous()),
                 FeelingsOfEmpathy.of(cmd.getFeelingsOfEmpathy()));
         storyRepository.save(story);
-        List<StoryImgInfo> imgInfoList = cmd.getStoryImgInfoList();
+        List<StoryPhoto> imgInfoList = cmd.getStoryPhotoList();
         if (!imgInfoList.isEmpty()) {
             saveImg(story, imgInfoList);
         }
     }
 
-    private void saveImg(Story story, List<StoryImgInfo> imgInfoList) {
+    private void saveImg(Story story, List<StoryPhoto> imgInfoList) {
         List<Photo> photoList = new ArrayList<>();
-        for (StoryImgInfo storyImgInfo : imgInfoList) {
-            photoList.add(Photo.createPhoto(story, storyImgInfo.getUrl()));
+        for (StoryPhoto storyPhoto : imgInfoList) {
+            photoList.add(Photo.createPhoto(story, storyPhoto.getUrl()));
         }
         photoRepository.saveAll(photoList);
     }

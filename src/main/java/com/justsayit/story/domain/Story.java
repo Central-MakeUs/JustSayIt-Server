@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Entity
@@ -22,15 +21,15 @@ public class Story extends BaseJpaEntity {
     @Column(name = "story_id")
     private Long id;
 
-    @Column(name = "uuid", nullable = false)
-    private String uuid;
+    @Column(name = "UUID", nullable = false)
+    private String UUID;
 
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
     @Embedded
     @AttributeOverride(name = "bodyText", column = @Column(name = "body_text", nullable = false))
-    @AttributeOverride(name = "emotion", column = @Column(name = "emotion", nullable = false))
+    @AttributeOverride(name = "feeling", column = @Column(name = "feeling", nullable = false))
     private MainContent mainContent;
 
     @OneToMany(mappedBy = "story")
@@ -39,25 +38,31 @@ public class Story extends BaseJpaEntity {
     @Embedded
     @AttributeOverride(name = "opened", column = @Column(name = "is_opened", nullable = false))
     @AttributeOverride(name = "anonymous", column = @Column(name = "is_anonymous", nullable = false))
-    @AttributeOverride(name = "deleted", column = @Column(name = "is_deleted", nullable = false))
     @AttributeOverride(name = "modified", column = @Column(name = "is_modified", nullable = false))
     private MetaInfo metaInfo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "feeling_id")
+    @Embedded
+    @AttributeOverride(name = "angrySelected", column = @Column(name = "is_angry_selected", nullable = false))
+    @AttributeOverride(name = "happinessSelected", column = @Column(name = "is_happiness_selected", nullable = false))
+    @AttributeOverride(name = "sadnessSelected", column = @Column(name = "is_sadness_selected", nullable = false))
+    @AttributeOverride(name = "surprisedSelected", column = @Column(name = "is_surprised_selected", nullable = false))
     private FeelingsOfEmpathy feelingsOfEmpathy;
 
+    @Enumerated(EnumType.STRING)
+    private StoryStatus status;
+
     private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
-        this.uuid = createUUID();
+        this.UUID = createUUID();
         this.memberId = memberId;
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
         this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.status = StoryStatus.POSTED;
     }
 
     private String createUUID() {
         StringBuilder sb = new StringBuilder();
-        return sb.append(UUID.randomUUID())
+        return sb.append(java.util.UUID.randomUUID())
                 .append(LocalDateTime.now())
                 .toString();
     }
