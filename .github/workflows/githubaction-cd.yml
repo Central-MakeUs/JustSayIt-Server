@@ -41,14 +41,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build image and push to DockerHub
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: latest
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t simhani1/justsayit:latest .
+          docker push simhani1/justsayit:latest
 #      - name: Get current time
 #        uses: 1466587594/get-current-time@v2
 #        id: current-time
