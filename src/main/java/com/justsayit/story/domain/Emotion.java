@@ -8,31 +8,31 @@ import java.util.Map;
 import java.util.Optional;
 
 @Getter
-public enum Feeling {
+public enum Emotion {
 
-    HAPPINESS("FEELING001"),
-    SADNESS("FEELING002"),
-    SURPRISED("FEELING003"),
-    ANGRY("FEELING004"),
+    HAPPINESS("EMOTION001"),
+    SADNESS("EMOTION002"),
+    SURPRISED("EMOTION003"),
+    ANGRY("EMOTION004"),
     ;
 
 
-    private static final Map<String, Feeling> BY_CODE = new HashMap<>();
+    private static final Map<String, Emotion> BY_CODE = new HashMap<>();
 
     static {
-        for (Feeling f : values()) {
-            BY_CODE.put(f.code, f);
+        for (Emotion e : values()) {
+            BY_CODE.put(e.code, e);
         }
     }
 
-    public static Feeling valueOfCode(String code) {
+    public static Emotion valueOfCode(String code) {
         return Optional.ofNullable(BY_CODE.get(code))
                 .orElseThrow(InvalidEmotionCodeException::new);
     }
 
     private final String code;
 
-    Feeling(String code) {
+    Emotion(String code) {
         this.code = code;
     }
 }

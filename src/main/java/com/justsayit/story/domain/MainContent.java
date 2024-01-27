@@ -20,17 +20,17 @@ public class MainContent {
     @Transient
     private final int MIN_BODY_TEXT_LENGTH = 0;
     @Enumerated(value = EnumType.STRING)
-    private Feeling feeling;
+    private Emotion emotion;
     private String bodyText;
 
-    private MainContent(Feeling feeling, String bodyText) {
+    private MainContent(Emotion emotion, String bodyText) {
         validateBodyTextLength(bodyText);
-        this.feeling = feeling;
+        this.emotion = emotion;
         this.bodyText = bodyText;
     }
 
     public static MainContent of(String emotionCode, String bodyText) {
-        return new MainContent(Feeling.valueOfCode(emotionCode), bodyText);
+        return new MainContent(Emotion.valueOfCode(emotionCode), bodyText);
     }
 
     private void validateBodyTextLength(String bodyText) {

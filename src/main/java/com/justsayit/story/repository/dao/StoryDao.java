@@ -1,6 +1,6 @@
 package com.justsayit.story.repository.dao;
 
-import com.justsayit.story.domain.FeelingsOfEmpathy;
+import com.justsayit.story.domain.EmotionOfEmpathy;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
@@ -16,10 +16,10 @@ public class StoryDao {
     private boolean anonymous;
     private boolean deleted;
     private boolean modified;
-    private FeelingsOfEmpathy feelingsOfEmpathy;
+    private EmotionOfEmpathy emotionOfEmpathy;
 
     @QueryProjection
-    public StoryDao(Long storyId, Long writerId, String uuid, String emotion, String bodyText, boolean opened, boolean anonymous, boolean deleted, boolean modified, FeelingsOfEmpathy feelingsOfEmpathy) {
+    public StoryDao(Long storyId, Long writerId, String uuid, String emotion, String bodyText, boolean opened, boolean anonymous, boolean deleted, boolean modified, EmotionOfEmpathy emotionOfEmpathy) {
         this.storyId = storyId;
         this.writerId = writerId;
         this.uuid = uuid;
@@ -29,6 +29,6 @@ public class StoryDao {
         this.anonymous = anonymous;
         this.deleted = deleted;
         this.modified = modified;
-        this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.emotionOfEmpathy = emotionOfEmpathy;
     }
 }

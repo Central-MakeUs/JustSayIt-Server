@@ -28,10 +28,10 @@ public class EmpathyCount {
     private Story story;
 
     @Enumerated(EnumType.STRING)
-    private Feeling type;
+    private Emotion type;
 
     @Builder
-    public EmpathyCount(Member member, Story story, Feeling type) {
+    public EmpathyCount(Member member, Story story, Emotion type) {
         this.member = member;
         this.story = story;
         this.type = type;
