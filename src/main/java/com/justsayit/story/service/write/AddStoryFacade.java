@@ -3,6 +3,7 @@ package com.justsayit.story.service.write;
 import com.justsayit.infra.s3.dto.StoryPhoto;
 import com.justsayit.infra.s3.usecase.UploadImageUseCase;
 import com.justsayit.story.controller.request.AddStoryReq;
+import com.justsayit.story.exception.InvalidNumberOfImgException;
 import com.justsayit.story.service.write.command.AddStoryCommand;
 import com.justsayit.story.service.write.usecase.AddStoryUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,15 @@ import java.util.List;
 @Transactional
 public class AddStoryFacade {
 
+    private final int MAX_IMG_SIZE = 4;
     private final UploadImageUseCase uploadImageUseCase;
     private final AddStoryUseCase addStoryUseCase;
 
     public void addStory(Long memberId, AddStoryReq req, List<MultipartFile> multipartFileList) {
         List<StoryPhoto> imgInfoList = new ArrayList<>();
+        if (multipartFileList.size() > MAX_IMG_SIZE) {
+            throw new InvalidNumberOfImgException();
+        }
         if (multipartFileList != null) {
             imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
         }
