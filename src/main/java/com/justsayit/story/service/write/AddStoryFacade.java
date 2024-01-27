@@ -9,6 +9,7 @@ import com.justsayit.story.service.write.usecase.AddStoryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -25,10 +26,10 @@ public class AddStoryFacade {
 
     public void addStory(Long memberId, AddStoryReq req, List<MultipartFile> multipartFileList) {
         List<StoryPhoto> imgInfoList = new ArrayList<>();
-        if (multipartFileList.size() > MAX_IMG_SIZE) {
-            throw new InvalidNumberOfImgException();
-        }
-        if (multipartFileList != null) {
+        if (!CollectionUtils.isEmpty(multipartFileList)) {
+            if (multipartFileList.size() > MAX_IMG_SIZE) {
+                throw new InvalidNumberOfImgException();
+            }
             imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
         }
         addStoryUseCase.addStory(AddStoryCommand.builder()
