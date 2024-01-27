@@ -29,12 +29,12 @@ public class GetStoryRes {
         private ProfileInfo profileInfo;
         private StoryMainContent storyMainContent;
         private StoryMetaInfo storyMetaInfo;
-        private FeelingsOfEmpathy feelingsOfEmpathy;
+        private EmotionOfEmpathy emotionOfEmpathy;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
 
         @Builder
-        public StoryInfo(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainContent storyMainContent, StoryMetaInfo storyMetaInfo, FeelingsOfEmpathy feelingsOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        public StoryInfo(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainContent storyMainContent, StoryMetaInfo storyMetaInfo, EmotionOfEmpathy emotionOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
             this.storyId = storyId;
             this.storyUUID = storyUUID;
             this.writerId = writerId;
@@ -42,7 +42,7 @@ public class GetStoryRes {
             this.profileInfo = profileInfo;
             this.storyMainContent = storyMainContent;
             this.storyMetaInfo = storyMetaInfo;
-            this.feelingsOfEmpathy = feelingsOfEmpathy;
+            this.emotionOfEmpathy = emotionOfEmpathy;
             this.createdAt = createdAt;
             this.updatedAt = updatedAt;
         }
@@ -108,7 +108,7 @@ public class GetStoryRes {
         }
 
         @Getter
-        public static class FeelingsOfEmpathy {
+        public static class EmotionOfEmpathy {
 
             private Long totalCount;
             private Long angryCount;
@@ -125,7 +125,7 @@ public class GetStoryRes {
             private boolean surprisedSelected;
 
             @Builder
-            public FeelingsOfEmpathy(Long totalCount, Long angryCount, boolean angrySelected, Long happinessCount, boolean happinessSelected, Long sadnessCount, boolean sadnessSelected, Long surprisedCount, boolean surprisedSelected) {
+            public EmotionOfEmpathy(Long totalCount, Long angryCount, boolean angrySelected, Long happinessCount, boolean happinessSelected, Long sadnessCount, boolean sadnessSelected, Long surprisedCount, boolean surprisedSelected) {
                 this.totalCount = totalCount;
                 this.angryCount = angryCount;
                 this.angrySelected = angrySelected;

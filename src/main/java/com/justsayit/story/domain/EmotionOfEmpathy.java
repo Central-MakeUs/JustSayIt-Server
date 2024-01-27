@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeelingsOfEmpathy {
+public class EmotionOfEmpathy {
 
     private boolean angrySelected;
     private boolean happinessSelected;
@@ -20,37 +20,37 @@ public class FeelingsOfEmpathy {
     private boolean surprisedSelected;
 
     @Builder
-    private FeelingsOfEmpathy(boolean angrySelected, boolean happinessSelected, boolean sadnessSelected, boolean surprisedSelected) {
+    private EmotionOfEmpathy(boolean angrySelected, boolean happinessSelected, boolean sadnessSelected, boolean surprisedSelected) {
         this.angrySelected = angrySelected;
         this.happinessSelected = happinessSelected;
         this.sadnessSelected = sadnessSelected;
         this.surprisedSelected = surprisedSelected;
     }
 
-    public static FeelingsOfEmpathy of(List<String> feelingsOfEmpathy) {
+    public static EmotionOfEmpathy of(List<String> feelingsOfEmpathy) {
         boolean angrySelected = false;
         boolean happinessSelected = false;
         boolean sadnessSelected = false;
         boolean surprisedSelected = false;
         for (String feeling : feelingsOfEmpathy) {
             switch (feeling) {
-                case "FEELING001":
+                case "EMOTION001":
                     happinessSelected = true;
                     break;
-                case "FEELING002":
+                case "EMOTION002":
                     sadnessSelected = true;
                     break;
-                case "FEELING003":
+                case "EMOTION003":
                     surprisedSelected = true;
                     break;
-                case "FEELING004":
+                case "EMOTION004":
                     angrySelected = true;
                     break;
                 default:
                     throw new InvalidEmotionCodeException();
             }
         }
-        return FeelingsOfEmpathy.builder()
+        return EmotionOfEmpathy.builder()
                 .angrySelected(angrySelected)
                 .happinessSelected(happinessSelected)
                 .sadnessSelected(sadnessSelected)

@@ -46,17 +46,17 @@ public class Story extends BaseJpaEntity {
     @AttributeOverride(name = "happinessSelected", column = @Column(name = "is_happiness_selected", nullable = false))
     @AttributeOverride(name = "sadnessSelected", column = @Column(name = "is_sadness_selected", nullable = false))
     @AttributeOverride(name = "surprisedSelected", column = @Column(name = "is_surprised_selected", nullable = false))
-    private FeelingsOfEmpathy feelingsOfEmpathy;
+    private EmotionOfEmpathy emotionOfEmpathy;
 
     @Enumerated(EnumType.STRING)
     private StoryStatus status;
 
-    private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
+    private Story(Long memberId, MainContent mainContent, MetaInfo metaInfo, EmotionOfEmpathy emotionOfEmpathy) {
         this.UUID = createUUID();
         this.memberId = memberId;
         this.mainContent = mainContent;
         this.metaInfo = metaInfo;
-        this.feelingsOfEmpathy = feelingsOfEmpathy;
+        this.emotionOfEmpathy = emotionOfEmpathy;
         this.status = StoryStatus.POSTED;
     }
 
@@ -67,8 +67,8 @@ public class Story extends BaseJpaEntity {
                 .toString();
     }
 
-    public static Story createStory(Long memberId, MainContent mainContent, MetaInfo metaInfo, FeelingsOfEmpathy feelingsOfEmpathy) {
-        return new Story(memberId, mainContent, metaInfo, feelingsOfEmpathy);
+    public static Story createStory(Long memberId, MainContent mainContent, MetaInfo metaInfo, EmotionOfEmpathy emotionOfEmpathy) {
+        return new Story(memberId, mainContent, metaInfo, emotionOfEmpathy);
     }
 
     public void changeMainContent(MainContent mainContent) {
@@ -83,7 +83,7 @@ public class Story extends BaseJpaEntity {
         this.metaInfo = metaInfo;
     }
 
-    public void changeFeelingsOfEmpathy(FeelingsOfEmpathy feelingsOfEmpathy) {
-        this.feelingsOfEmpathy = feelingsOfEmpathy;
+    public void changeFeelingsOfEmpathy(EmotionOfEmpathy emotionOfEmpathy) {
+        this.emotionOfEmpathy = emotionOfEmpathy;
     }
 }
