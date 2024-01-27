@@ -1,9 +1,11 @@
 package com.justsayit.story.domain;
 
+import com.justsayit.story.exception.InvalidEmotionCodeException;
 import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Getter
 public enum Feeling {
@@ -24,7 +26,8 @@ public enum Feeling {
     }
 
     public static Feeling valueOfCode(String code) {
-        return BY_CODE.get(code);
+        return Optional.ofNullable(BY_CODE.get(code))
+                .orElseThrow(InvalidEmotionCodeException::new);
     }
 
     private final String code;
