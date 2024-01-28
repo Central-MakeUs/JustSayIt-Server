@@ -10,4 +10,6 @@ public interface StoryRepositoryCustom {
     List<Story> searchMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond);
 
     List<Story> searchMyPostedStoriesOrderByOldest(Long memberId, StorySearchCondition cond);
+
+    List<Story> searchAllPostedStoriesOrderByLatest(List<Long> blockedMemberList, StorySearchCondition cond);
 }

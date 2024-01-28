@@ -19,7 +19,7 @@ public class EmpathyCountRepositoryImpl implements EmpathyRepositoryCustom {
     }
 
     @Override
-    public List<EmpathyCountDao> searchMyPostedStoriesEmpathyCount(Long memberId, Long storyId) {
+    public List<EmpathyCountDao> searchStoriesEmpathyCount(Long memberId, Long storyId) {
         return queryFactory.select(
                         new QEmpathyCountDao(
                                 empathyCount.type.as("type"),

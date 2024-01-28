@@ -136,6 +136,23 @@ public class GetStoryRes {
                 this.surprisedCount = surprisedCount;
                 this.surprisedSelected = surprisedSelected;
             }
+
+            public EmotionOfEmpathy calcTotalCount() {
+                this.totalCount = 0L;
+                if (angrySelected) {
+                    totalCount += angryCount;
+                }
+                if (happinessSelected) {
+                    totalCount += happinessCount;
+                }
+                if (sadnessSelected) {
+                    totalCount += sadnessCount;
+                }
+                if (surprisedSelected) {
+                    totalCount += surprisedCount;
+                }
+                return this;
+            }
         }
     }
 }

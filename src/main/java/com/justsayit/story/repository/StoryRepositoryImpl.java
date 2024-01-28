@@ -44,6 +44,22 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Story> searchAllPostedStoriesOrderByLatest(List<Long> blockedMemberList, StorySearchCondition cond) {
+        return queryFactory.selectFrom(story)
+                .where(gtStoryId(cond.getStoryId()),
+                        isPosted(),
+                        emotionEq(cond.getEmotion()),
+                        writerNotIn(blockedMemberList))
+                .orderBy(story.id.desc())
+                .limit(cond.getSize() + 1)
+                .fetch();
+    }
+
+    private BooleanExpression writerNotIn(List<Long> blockedMemberList) {
+        return blockedMemberList.isEmpty() ? null : story.memberId.notIn(blockedMemberList);
+    }
+
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? story.memberId.eq(memberId) : null;
     }
