@@ -3,6 +3,7 @@ package com.justsayit.story.service.read;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
+import com.justsayit.member.service.management.repository.BlockListRepository;
 import com.justsayit.story.domain.Emotion;
 import com.justsayit.story.domain.Story;
 import com.justsayit.story.repository.EmpathyCountRepository;
@@ -27,6 +28,7 @@ public class GetStoryService implements GetStoryUseCase {
     private final MemberRepository memberRepository;
     private final StoryRepository storyRepository;
     private final EmpathyCountRepository empathyCountRepository;
+    private final BlockListRepository blockListRepository;
 
     @Override
     public GetStoryRes getMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
@@ -42,7 +44,7 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchMyPostedStoriesEmpathyCount(memberId, story.getId());
+                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(memberId, story.getId());
                     Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
                             .collect(Collectors.toMap(
                                     EmpathyCountDao::getType,
@@ -81,19 +83,16 @@ public class GetStoryService implements GetStoryUseCase {
 
                             // 공감받고 싶은 감정 정보
                             .emotionOfEmpathy(GetStoryRes.StoryInfo.EmotionOfEmpathy.builder()
-                                    .totalCount(empathyCountMap.values()
-                                            .stream()
-                                            .mapToLong(Long::longValue)
-                                            .sum())
                                     .angrySelected(story.getEmotionOfEmpathy().isAngrySelected())
                                     .sadnessSelected(story.getEmotionOfEmpathy().isSadnessSelected())
                                     .surprisedSelected(story.getEmotionOfEmpathy().isSurprisedSelected())
                                     .happinessSelected(story.getEmotionOfEmpathy().isHappinessSelected())
-                                    .angryCount(empathyCountMap.get(Emotion.ANGRY))
-                                    .sadnessCount(empathyCountMap.get(Emotion.SADNESS))
-                                    .surprisedCount(empathyCountMap.get(Emotion.SURPRISED))
-                                    .happinessCount(empathyCountMap.get(Emotion.HAPPINESS))
-                                    .build())
+                                    .angryCount(empathyCountMap.getOrDefault(Emotion.ANGRY, 0L))
+                                    .sadnessCount(empathyCountMap.getOrDefault(Emotion.SADNESS, 0L))
+                                    .surprisedCount(empathyCountMap.getOrDefault(Emotion.SURPRISED, 0L))
+                                    .happinessCount(empathyCountMap.getOrDefault(Emotion.HAPPINESS, 0L))
+                                    .build()
+                                    .calcTotalCount())
 
                             .createdAt(story.getCreatedAt())
                             .updatedAt(story.getUpdatedAt())
@@ -118,7 +117,7 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchMyPostedStoriesEmpathyCount(memberId, story.getId());
+                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(memberId, story.getId());
                     Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
                             .collect(Collectors.toMap(
                                     EmpathyCountDao::getType,
@@ -157,23 +156,98 @@ public class GetStoryService implements GetStoryUseCase {
 
                             // 공감받고 싶은 감정 정보
                             .emotionOfEmpathy(GetStoryRes.StoryInfo.EmotionOfEmpathy.builder()
-                                    .totalCount(empathyCountMap.values()
-                                            .stream()
-                                            .mapToLong(Long::longValue)
-                                            .sum())
                                     .angrySelected(story.getEmotionOfEmpathy().isAngrySelected())
                                     .sadnessSelected(story.getEmotionOfEmpathy().isSadnessSelected())
                                     .surprisedSelected(story.getEmotionOfEmpathy().isSurprisedSelected())
                                     .happinessSelected(story.getEmotionOfEmpathy().isHappinessSelected())
-                                    .angryCount(empathyCountMap.get(Emotion.ANGRY))
-                                    .sadnessCount(empathyCountMap.get(Emotion.SADNESS))
-                                    .surprisedCount(empathyCountMap.get(Emotion.SURPRISED))
-                                    .happinessCount(empathyCountMap.get(Emotion.HAPPINESS))
-                                    .build())
+                                    .angryCount(empathyCountMap.getOrDefault(Emotion.ANGRY, 0L))
+                                    .sadnessCount(empathyCountMap.getOrDefault(Emotion.SADNESS, 0L))
+                                    .surprisedCount(empathyCountMap.getOrDefault(Emotion.SURPRISED, 0L))
+                                    .happinessCount(empathyCountMap.getOrDefault(Emotion.HAPPINESS, 0L))
+                                    .build()
+                                    .calcTotalCount())
 
                             .createdAt(story.getCreatedAt())
                             .updatedAt(story.getUpdatedAt())
 
+                            .build();
+                })
+                .collect(Collectors.toList());
+        return new GetStoryRes(hasNext, res);
+    }
+
+    @Override
+    public GetStoryRes getAllStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+        Member reader = MemberServiceHelper.findExistingMember(memberRepository, memberId);
+
+        // 조회한 사람의 차단 사용자 목록
+        List<Long> blockedMemberList = blockListRepository.findAllByBlocker(reader);
+
+        // 차단한 사람의 스토리를 제외한 나머지 페이징 처리
+        List<Story> storyList = storyRepository.searchAllPostedStoriesOrderByLatest(blockedMemberList, cond);
+
+        // 조회 결과가 요청한 size보다 큰 경우
+        boolean hasNext = false;
+        if (storyList.size() > cond.getSize()) {
+            hasNext = true;
+            storyList.remove(cond.getSize());
+        }
+
+        List<GetStoryRes.StoryInfo> res = storyList.stream()
+                .map(story -> {
+                    Member writer = MemberServiceHelper.findExistingMember(memberRepository, story.getMemberId());
+                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(writer.getId(), story.getId());
+                    Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
+                            .collect(Collectors.toMap(
+                                    EmpathyCountDao::getType,
+                                    EmpathyCountDao::getCount
+                            ));
+                    return GetStoryRes.StoryInfo.builder()
+                            // id 정보
+                            .storyId(story.getId())
+                            .storyUUID(story.getUUID())
+                            .writerId(writer.getId())
+                            .mine(reader.getId().equals(writer.getId()))
+
+                            // 작성자 프로필 정보
+                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.builder()
+                                    .nickname(writer.getProfileInfo().getNickname())
+                                    .profileImg(writer.getProfileInfo().getProfileImg())
+                                    .build())
+
+                            // 스토리 메타정보
+                            .storyMetaInfo(GetStoryRes.StoryInfo.StoryMetaInfo.builder()
+                                    .modified(story.getMetaInfo().isModified())
+                                    .anonymous(story.getMetaInfo().isAnonymous())
+                                    .opened(story.getMetaInfo().isOpened())
+                                    .build())
+
+                            // 스토리 메인 컨텐츠
+                            .storyMainContent(GetStoryRes.StoryInfo.StoryMainContent.builder()
+                                    .bodyText(story.getMainContent().getBodyText())
+                                    .photo(story.getPhotoList().stream()
+                                            .map(photo -> GetStoryRes.StoryInfo.Photo.builder()
+                                                    .photoId(photo.getId())
+                                                    .photoUrl(photo.getImgUrl()).build())
+                                            .collect(Collectors.toList()))
+                                    .writerEmotion(story.getMainContent().getEmotion().getCode())
+                                    .build())
+
+                            // 공감받고 싶은 감정 정보
+                            .emotionOfEmpathy(GetStoryRes.StoryInfo.EmotionOfEmpathy.builder()
+                                    .angrySelected(story.getEmotionOfEmpathy().isAngrySelected())
+                                    .sadnessSelected(story.getEmotionOfEmpathy().isSadnessSelected())
+                                    .surprisedSelected(story.getEmotionOfEmpathy().isSurprisedSelected())
+                                    .happinessSelected(story.getEmotionOfEmpathy().isHappinessSelected())
+                                    .angryCount(empathyCountMap.getOrDefault(Emotion.ANGRY, 0L))
+                                    .sadnessCount(empathyCountMap.getOrDefault(Emotion.SADNESS, 0L))
+                                    .surprisedCount(empathyCountMap.getOrDefault(Emotion.SURPRISED, 0L))
+                                    .happinessCount(empathyCountMap.getOrDefault(Emotion.HAPPINESS, 0L))
+                                    .build()
+                                    .calcTotalCount())
+
+                            .createdAt(story.getCreatedAt())
+                            .updatedAt(story.getUpdatedAt())
                             .build();
                 })
                 .collect(Collectors.toList());
