@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EmpathyRepositoryCustom {
 
-    List<EmpathyCountDao> searchMyPostedStoriesEmpathyCount(Long memberId, Long storyId);
+    List<EmpathyCountDao> searchStoriesEmpathyCount(Long memberId, Long storyId);
 }

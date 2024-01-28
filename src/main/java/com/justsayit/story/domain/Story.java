@@ -29,7 +29,6 @@ public class Story extends BaseJpaEntity {
 
     @Embedded
     @AttributeOverride(name = "bodyText", column = @Column(name = "body_text", nullable = false))
-    @AttributeOverride(name = "feeling", column = @Column(name = "feeling", nullable = false))
     private MainContent mainContent;
 
     @OneToMany(mappedBy = "story")
@@ -81,9 +80,5 @@ public class Story extends BaseJpaEntity {
 
     public void changeMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
-    }
-
-    public void changeFeelingsOfEmpathy(EmotionOfEmpathy emotionOfEmpathy) {
-        this.emotionOfEmpathy = emotionOfEmpathy;
     }
 }
