@@ -31,11 +31,11 @@ public class StoryController {
     }
 
     @GetMapping("/me/latest/{member-id}")
-    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByLatest(@PathVariable(name = "member-id") Long memberId,
+    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesOrderByLatest(@PathVariable(name = "member-id") Long memberId,
                                                                                     @RequestParam(name = "story-id", required = false) Long storyId,
                                                                                     @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                                     @RequestParam(name = "size") int size) {
-        GetStoryRes res = getStoryUseCase.getMyPostedStoriesOrderByLatest(
+        GetStoryRes res = getStoryUseCase.getMyStoriesOrderByLatest(
                 memberId,
                 StorySearchCondition.builder()
                         .storyId(storyId)
@@ -46,12 +46,26 @@ public class StoryController {
     }
 
     @GetMapping("/me/oldest/{member-id}")
-    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesSortByOldest(@PathVariable(name = "member-id") Long memberId,
+    public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesOrderByOldest(@PathVariable(name = "member-id") Long memberId,
                                                                               @RequestParam(name = "story-id", required = false) Long storyId,
                                                                               @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                               @RequestParam(name = "size") int size) {
-        GetStoryRes res = getStoryUseCase.getMyPostedStoriesOrderByOldest(
+        GetStoryRes res = getStoryUseCase.getMyStoriesOrderByOldest(
                 memberId,
+                StorySearchCondition.builder()
+                        .storyId(storyId)
+                        .emotion(emotionCode)
+                        .size(size)
+                        .build());
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
+
+    @GetMapping("/all/latest/{member-id}")
+    public ResponseEntity<BaseResponse<GetStoryRes>> getAllStoriesOrderByLatest(@PathVariable(name = "member-id") Long memberId,
+                                                                                @RequestParam(name = "story-id", required = false) Long storyId,
+                                                                                @RequestParam(name = "emotion-code", required = false) String emotionCode,
+                                                                                @RequestParam(name = "size") int size) {
+        GetStoryRes res = getStoryUseCase.getAllStoriesOrderByLatest(memberId,
                 StorySearchCondition.builder()
                         .storyId(storyId)
                         .emotion(emotionCode)

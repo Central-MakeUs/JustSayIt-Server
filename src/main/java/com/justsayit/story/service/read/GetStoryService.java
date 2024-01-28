@@ -29,7 +29,7 @@ public class GetStoryService implements GetStoryUseCase {
     private final EmpathyCountRepository empathyCountRepository;
 
     @Override
-    public GetStoryRes getMyPostedStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByLatest(memberId, cond);
 
@@ -105,7 +105,7 @@ public class GetStoryService implements GetStoryUseCase {
     }
 
     @Override
-    public GetStoryRes getMyPostedStoriesOrderByOldest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByOldest(Long memberId, StorySearchCondition cond) {
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByOldest(memberId, cond);
 
