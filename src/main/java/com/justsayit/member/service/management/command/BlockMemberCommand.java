@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class BlockMemberCommand {
 
-    private Long memberId;
-    private Long blockedMemberId;
+    private Long blockerId;
+    private Long blockedId;
 
-    public BlockMemberCommand(Long memberId, Long blockedMemberId) {
-        this.memberId = memberId;
-        this.blockedMemberId = blockedMemberId;
+    public BlockMemberCommand(Long blockerId, Long blockedId) {
+        this.blockerId = blockerId;
+        this.blockedId = blockedId;
     }
 }

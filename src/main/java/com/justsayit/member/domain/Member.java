@@ -2,7 +2,6 @@ package com.justsayit.member.domain;
 
 import com.justsayit.core.entity.BaseJpaEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,14 +46,22 @@ public class Member extends BaseJpaEntity {
     @CollectionTable(name = "AUTHORITY", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> authorities = new ArrayList<>();
 
-    @Builder
-    public Member(String token, String loginType, ProfileInfo profileInfo, PersonalInfo personalInfo) {
+    public static Member ofNew(String token, String loginType, ProfileInfo profileInfo, PersonalInfo personalInfo) {
+        return new Member(null, token, LoginType.valueOf(loginType), profileInfo, personalInfo, MemberStatus.ACTIVE, List.of("MEMBER"));
+    }
+
+    public static Member ofRef(Long memberId) {
+        return new Member(memberId, null, null, null, null, null, null);
+    }
+
+    private  Member(Long id, String token, LoginType loginType, ProfileInfo profileInfo, PersonalInfo personalInfo, MemberStatus status, List<String> authorities) {
+        this.id = id;
         this.token = token;
-        this.loginType = LoginType.valueOf(loginType);
+        this.loginType = loginType;
         this.profileInfo = profileInfo;
         this.personalInfo = personalInfo;
-        this.status = MemberStatus.ACTIVE;
-        this.authorities = List.of("MEMBER");
+        this.status = status;
+        this.authorities = authorities;
     }
 
     public void updateProfile(ProfileInfo profileInfo) {

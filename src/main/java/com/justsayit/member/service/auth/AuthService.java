@@ -44,18 +44,19 @@ public class AuthService implements AuthUseCase {
     }
 
     private Member createMember(LoginCommand cmd) {
-        return Member.builder()
-                .token(cmd.getToken())
-                .loginType(cmd.getLoginType())
-                .profileInfo(ProfileInfo.builder()
+        return Member.ofNew(
+                cmd.getToken(),
+                cmd.getLoginType(),
+                ProfileInfo.builder()
                         .nickname(cmd.getNickname())
                         .profileImg(cmd.getProfileImg())
-                        .build())
-                .personalInfo(PersonalInfo.builder()
+                        .build(),
+                PersonalInfo.builder()
                         .gender(cmd.getGender())
                         .birth(cmd.getBirth())
-                        .build())
-                .build();
+                        .build()
+        );
+
     }
 
     @Override
