@@ -21,7 +21,7 @@ public class BlockList extends BaseJpaEntity {
 
     // 차단한 회원
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blocker_id", referencedColumnName = "member_Id")
+    @JoinColumn(name = "blocker_id", referencedColumnName = "member_id")
     private Member blocker;
 
     // 차단된 회원
