@@ -23,7 +23,7 @@ public class ManagementService implements ManagementUseCase {
     public void blockMember(BlockMemberCommand cmd) {
         Member blockerMember = MemberServiceHelper.findExistingMember(memberRepository, cmd.getBlockerId());
         Member blockedMember = MemberServiceHelper.findExistingMember(memberRepository, cmd.getBlockedId());
-        BlockList blockList = new BlockList(Member.ofRef(blockerMember.getId()), Member.ofRef(blockedMember.getId()));
+        BlockList blockList = new BlockList(blockerMember, blockedMember);
         blockListRepository.save(blockList);
     }
 }
