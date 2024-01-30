@@ -29,6 +29,10 @@ public enum ResponseCode {
     ALREADY_DELETED_STORY("5003", "이미 삭제된 스토리입니다."),
     NO_STORY("5004", "스토리가 존재하지 않습니다."),
     NOT_MY_STORY("5005", "다른 회원이 작성한 스토리입니다."),
+
+    // 6000 - report
+    INVALID_REPORT_CODE("6000", "잘못된 신고 코드입니다."),
+    REPORT_MY_STORY("6001", "본인의 스토리를 신고할 수 없습니다."),
     ;
     private String code;
     private String message;
