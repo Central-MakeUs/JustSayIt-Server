@@ -2,6 +2,8 @@ package com.justsayit.story.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
+import com.justsayit.story.service.edit.command.RemoveStoryCommand;
+import com.justsayit.story.service.edit.usecase.EditStoryUseCase;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.justsayit.story.service.read.dto.GetStoryRes;
 import com.justsayit.story.service.read.usecase.GetStoryUseCase;
@@ -20,6 +22,7 @@ public class StoryController {
 
     private final AddStoryFacade addStoryFacade;
     private final GetStoryUseCase getStoryUseCase;
+    private final EditStoryUseCase editStoryUseCase;
 
     @PostMapping("/new/{member-id}")
     public ResponseEntity<BaseResponse<Object>> addStory(
@@ -72,5 +75,12 @@ public class StoryController {
                         .size(size)
                         .build());
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
+
+    @PatchMapping("/remove/{member-id}")
+    public ResponseEntity<BaseResponse<Object>> removeMyStory(@PathVariable(name = "member-id") Long memberId,
+                                                              @RequestParam(name = "story-id") Long storyId) {
+        editStoryUseCase.remove(new RemoveStoryCommand(memberId, storyId));
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
