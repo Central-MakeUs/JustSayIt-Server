@@ -35,9 +35,9 @@ public class StoryController {
 
     @GetMapping("/me/latest/{member-id}")
     public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesOrderByLatest(@PathVariable(name = "member-id") Long memberId,
-                                                                                    @RequestParam(name = "story-id", required = false) Long storyId,
-                                                                                    @RequestParam(name = "emotion-code", required = false) String emotionCode,
-                                                                                    @RequestParam(name = "size") int size) {
+                                                                               @RequestParam(name = "story-id", required = false) Long storyId,
+                                                                               @RequestParam(name = "emotion-code", required = false) String emotionCode,
+                                                                               @RequestParam(name = "size") int size) {
         GetStoryRes res = getStoryUseCase.getMyStoriesOrderByLatest(
                 memberId,
                 StorySearchCondition.builder()
@@ -50,9 +50,9 @@ public class StoryController {
 
     @GetMapping("/me/oldest/{member-id}")
     public ResponseEntity<BaseResponse<GetStoryRes>> getMyStoriesOrderByOldest(@PathVariable(name = "member-id") Long memberId,
-                                                                              @RequestParam(name = "story-id", required = false) Long storyId,
-                                                                              @RequestParam(name = "emotion-code", required = false) String emotionCode,
-                                                                              @RequestParam(name = "size") int size) {
+                                                                               @RequestParam(name = "story-id", required = false) Long storyId,
+                                                                               @RequestParam(name = "emotion-code", required = false) String emotionCode,
+                                                                               @RequestParam(name = "size") int size) {
         GetStoryRes res = getStoryUseCase.getMyStoriesOrderByOldest(
                 memberId,
                 StorySearchCondition.builder()

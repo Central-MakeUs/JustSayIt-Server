@@ -9,7 +9,7 @@ import com.justsayit.member.service.auth.dto.CheckIsJoinedRes;
 import com.justsayit.member.service.auth.dto.LoginRes;
 import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import com.justsayit.member.service.management.command.BlockMemberCommand;
-import com.justsayit.member.service.management.usecase.ManagementUseCase;
+import com.justsayit.member.service.management.usecase.ManageMemberUseCase;
 import com.justsayit.member.service.profile.UpdateProfileFacade;
 import com.justsayit.member.service.profile.command.GetProfileCmd;
 import com.justsayit.member.service.profile.dto.GetProfileRes;
@@ -28,7 +28,7 @@ public class MemberController {
     private final UpdateProfileFacade updateProfileFacade;
     private final AuthUseCase authUseCase;
     private final ProfileUseCase profileUseCase;
-    private final ManagementUseCase managementUseCase;
+    private final ManageMemberUseCase manageMemberUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
@@ -65,7 +65,7 @@ public class MemberController {
     @PostMapping("/block/{blocker-id}")
     public ResponseEntity<BaseResponse<Object>> blockMember(@PathVariable(name = "blocker-id") Long blockerId,
                                                             @RequestParam(name = "blocked-id") Long blockedId) {
-        managementUseCase.blockMember(new BlockMemberCommand(blockerId, blockedId));
+        manageMemberUseCase.blockMember(new BlockMemberCommand(blockerId, blockedId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
