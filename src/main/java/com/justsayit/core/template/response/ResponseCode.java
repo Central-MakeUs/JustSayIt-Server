@@ -26,6 +26,9 @@ public enum ResponseCode {
     INVALID_BODY_TEXT("5000", "본문 내용은 0자 이상 300자 이하까지 작성 가능하며 공백으로만 작성할 수 없습니다."),
     INVALID_EMOTION_CODE("5001", "잘못된 감정코드입니다."),
     INVALID_NUMBER_OF_IMG("5002", "스토리에 업로드 가능한 사진은 최대 4장입니다."),
+    ALREADY_DELETED_STORY("5003", "이미 삭제된 스토리입니다."),
+    NO_STORY("5004", "스토리가 존재하지 않습니다."),
+    NOT_MY_STORY("5005", "다른 회원이 작성한 스토리입니다."),
     ;
     private String code;
     private String message;
