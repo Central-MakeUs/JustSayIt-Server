@@ -4,6 +4,7 @@ import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.report.domain.Report;
+import com.justsayit.report.exception.ReportMyStoryException;
 import com.justsayit.report.repository.ReportRepository;
 import com.justsayit.report.service.story.command.ReportStoryCommand;
 import com.justsayit.report.service.story.usecase.ReportStoryUseCase;
@@ -28,7 +29,14 @@ public class ReportStoryService implements ReportStoryUseCase {
         Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
         Story story = storyRepository.findById(cmd.getStoryId())
                 .orElseThrow(NoStoryException::new);
+        if (isMyStory(member, story)) {
+            throw new ReportMyStoryException();
+        }
         Report report = Report.of(member, story, cmd.getReportCode());
         reportRepository.save(report);
+    }
+
+    private boolean isMyStory(Member member, Story story) {
+        return story.getMemberId().equals(member.getId());
     }
 }
