@@ -1,6 +1,7 @@
 package com.justsayit.story.domain;
 
 import com.justsayit.core.entity.BaseJpaEntity;
+import com.justsayit.story.exception.AlreadyDeletedStoryException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,5 +81,12 @@ public class Story extends BaseJpaEntity {
 
     public void changeMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
+    }
+
+    public void remove() {
+        if (this.status.equals(StoryStatus.DELETED)) {
+            throw new AlreadyDeletedStoryException();
+        }
+        this.status = StoryStatus.DELETED;
     }
 }
