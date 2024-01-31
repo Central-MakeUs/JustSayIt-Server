@@ -6,9 +6,9 @@ import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.member.service.management.repository.BlockListRepository;
 import com.justsayit.story.domain.Emotion;
 import com.justsayit.story.domain.Story;
-import com.justsayit.story.repository.EmpathyCountRepository;
+import com.justsayit.story.repository.EmpathyRepository;
 import com.justsayit.story.repository.StoryRepository;
-import com.justsayit.story.repository.dao.EmpathyCountDao;
+import com.justsayit.story.repository.dto.EmpathyCountDto;
 import com.justsayit.story.service.read.command.StorySearchCondition;
 import com.justsayit.story.service.read.dto.GetStoryRes;
 import com.justsayit.story.service.read.usecase.GetStoryUseCase;
@@ -27,7 +27,7 @@ public class GetStoryService implements GetStoryUseCase {
 
     private final MemberRepository memberRepository;
     private final StoryRepository storyRepository;
-    private final EmpathyCountRepository empathyCountRepository;
+    private final EmpathyRepository empathyRepository;
     private final BlockListRepository blockListRepository;
 
     @Override
@@ -44,11 +44,11 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(memberId, story.getId());
-                    Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(memberId, story.getId());
+                    Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
-                                    EmpathyCountDao::getType,
-                                    EmpathyCountDao::getCount
+                                    EmpathyCountDto::getType,
+                                    EmpathyCountDto::getCount
                             ));
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보
@@ -117,11 +117,11 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(memberId, story.getId());
-                    Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(memberId, story.getId());
+                    Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
-                                    EmpathyCountDao::getType,
-                                    EmpathyCountDao::getCount
+                                    EmpathyCountDto::getType,
+                                    EmpathyCountDto::getCount
                             ));
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보
@@ -196,11 +196,11 @@ public class GetStoryService implements GetStoryUseCase {
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
                     Member writer = MemberServiceHelper.findExistingMember(memberRepository, story.getMemberId());
-                    List<EmpathyCountDao> empathyCountDaos = empathyCountRepository.searchStoriesEmpathyCount(writer.getId(), story.getId());
-                    Map<Emotion, Long> empathyCountMap = empathyCountDaos.stream()
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(writer.getId(), story.getId());
+                    Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
-                                    EmpathyCountDao::getType,
-                                    EmpathyCountDao::getCount
+                                    EmpathyCountDto::getType,
+                                    EmpathyCountDto::getCount
                             ));
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보

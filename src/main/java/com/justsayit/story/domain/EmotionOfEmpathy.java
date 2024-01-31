@@ -27,13 +27,13 @@ public class EmotionOfEmpathy {
         this.surprisedSelected = surprisedSelected;
     }
 
-    public static EmotionOfEmpathy of(List<String> feelingsOfEmpathy) {
+    public static EmotionOfEmpathy of(List<String> emotionList) {
         boolean angrySelected = false;
         boolean happinessSelected = false;
         boolean sadnessSelected = false;
         boolean surprisedSelected = false;
-        for (String feeling : feelingsOfEmpathy) {
-            switch (feeling) {
+        for (String emotion : emotionList) {
+            switch (emotion) {
                 case "EMOTION001":
                     happinessSelected = true;
                     break;
