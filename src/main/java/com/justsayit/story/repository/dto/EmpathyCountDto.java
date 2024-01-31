@@ -1,17 +1,17 @@
-package com.justsayit.story.repository.dao;
+package com.justsayit.story.repository.dto;
 
 import com.justsayit.story.domain.Emotion;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
-public class EmpathyCountDao {
+public class EmpathyCountDto {
 
     private Emotion type;
     private Long count;
 
     @QueryProjection
-    public EmpathyCountDao(Emotion type, Long count) {
+    public EmpathyCountDto(Emotion type, Long count) {
         this.type = type;
         this.count = count;
     }

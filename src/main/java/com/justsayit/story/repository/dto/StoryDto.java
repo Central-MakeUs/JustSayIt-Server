@@ -1,11 +1,11 @@
-package com.justsayit.story.repository.dao;
+package com.justsayit.story.repository.dto;
 
 import com.justsayit.story.domain.EmotionOfEmpathy;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
-public class StoryDao {
+public class StoryDto {
 
     private Long storyId;
     private Long writerId;
@@ -19,7 +19,7 @@ public class StoryDao {
     private EmotionOfEmpathy emotionOfEmpathy;
 
     @QueryProjection
-    public StoryDao(Long storyId, Long writerId, String uuid, String emotion, String bodyText, boolean opened, boolean anonymous, boolean deleted, boolean modified, EmotionOfEmpathy emotionOfEmpathy) {
+    public StoryDto(Long storyId, Long writerId, String uuid, String emotion, String bodyText, boolean opened, boolean anonymous, boolean deleted, boolean modified, EmotionOfEmpathy emotionOfEmpathy) {
         this.storyId = storyId;
         this.writerId = writerId;
         this.uuid = uuid;

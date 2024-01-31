@@ -45,4 +45,16 @@ public class StoryExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(BaseResponse.ofFail(ResponseCode.NOT_MY_STORY));
     }
+
+    @ExceptionHandler(EmpathizeMyStoryException.class)
+    public ResponseEntity<BaseResponse<Object>> empathizeMyStoryException(EmpathizeMyStoryException e) {
+        return ResponseEntity.badRequest()
+                .body(BaseResponse.ofFail(ResponseCode.EMPATHIZE_MY_STORY));
+    }
+
+    @ExceptionHandler(AlreadyEmpathizeException.class)
+    public ResponseEntity<BaseResponse<Object>> alreadyEmpathizeException(AlreadyEmpathizeException e) {
+        return ResponseEntity.badRequest()
+                .body(BaseResponse.ofFail(ResponseCode.ALREADY_EMPATHIZE));
+    }
 }
