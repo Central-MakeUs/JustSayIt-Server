@@ -1,10 +1,13 @@
 package com.justsayit.story.repository;
 
-import com.justsayit.story.repository.dao.EmpathyCountDao;
+import com.justsayit.story.domain.Empathy;
+import com.justsayit.story.repository.dto.EmpathyCountDto;
 
 import java.util.List;
 
 public interface EmpathyRepositoryCustom {
 
-    List<EmpathyCountDao> searchStoriesEmpathyCount(Long memberId, Long storyId);
+    List<EmpathyCountDto> searchStoriesEmpathyCount(Long memberId, Long storyId);
+
+    Empathy searchValidEmpathy(Long memberId, Long storyId);
 }
