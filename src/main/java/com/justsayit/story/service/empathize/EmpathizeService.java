@@ -1,4 +1,4 @@
-package com.justsayit.story.service.empathy;
+package com.justsayit.story.service.empathize;
 
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
@@ -10,8 +10,8 @@ import com.justsayit.story.exception.EmpathizeMyStoryException;
 import com.justsayit.story.exception.NoStoryException;
 import com.justsayit.story.repository.EmpathyRepository;
 import com.justsayit.story.repository.StoryRepository;
-import com.justsayit.story.service.empathy.command.EmpathizeCommand;
-import com.justsayit.story.service.empathy.usecase.EmpathizeUseCase;
+import com.justsayit.story.service.empathize.command.EmpathizeCommand;
+import com.justsayit.story.service.empathize.usecase.EmpathizeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
