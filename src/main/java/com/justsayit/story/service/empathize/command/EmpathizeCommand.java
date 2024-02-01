@@ -1,4 +1,4 @@
-package com.justsayit.story.service.empathy.command;
+package com.justsayit.story.service.empathize.command;
 
 import lombok.Builder;
 import lombok.Getter;
