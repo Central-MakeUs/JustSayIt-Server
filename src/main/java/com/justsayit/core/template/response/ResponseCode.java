@@ -29,7 +29,7 @@ public enum ResponseCode {
     ALREADY_DELETED_STORY("5003", "이미 삭제된 스토리입니다."),
     NO_STORY("5004", "스토리가 존재하지 않습니다."),
     NOT_MY_STORY("5005", "다른 회원이 작성한 스토리입니다."),
-    EMPATHIZE_MY_STORY("5006", "본인 스토리에는 공감할 수 없습니다."),
+    EMPATHIZE_MY_STORY("5006", "본인 스토리에는 공감 관련 동작을 수행할 수 없습니다."),
     ALREADY_EMPATHIZE("5007", "이미 공감한 기록이 있습니다."),
     NO_EMPATHIZE("5008", "공감 기록이 존재하지 않습니다."),
 
