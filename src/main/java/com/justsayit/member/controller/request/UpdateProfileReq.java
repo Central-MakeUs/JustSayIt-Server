@@ -10,4 +10,5 @@ public class UpdateProfileReq {
 
     private String nickname;
     private String profileImg;
+    private boolean defaultProfileImg;
 }
