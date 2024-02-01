@@ -31,6 +31,7 @@ public enum ResponseCode {
     NOT_MY_STORY("5005", "다른 회원이 작성한 스토리입니다."),
     EMPATHIZE_MY_STORY("5006", "본인 스토리에는 공감할 수 없습니다."),
     ALREADY_EMPATHIZE("5007", "이미 공감한 기록이 있습니다."),
+    NO_EMPATHIZE("5008", "공감 기록이 존재하지 않습니다."),
 
     // 6000 - REPORT
     INVALID_REPORT_CODE("6000", "잘못된 신고 코드입니다."),
