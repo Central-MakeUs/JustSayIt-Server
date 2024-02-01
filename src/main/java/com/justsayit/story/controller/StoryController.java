@@ -4,6 +4,7 @@ import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
 import com.justsayit.story.service.edit.command.RemoveStoryCommand;
 import com.justsayit.story.service.edit.usecase.EditStoryUseCase;
+import com.justsayit.story.service.empathize.command.CancelEmpathizeCommand;
 import com.justsayit.story.service.empathize.command.EmpathizeCommand;
 import com.justsayit.story.service.empathize.usecase.EmpathizeUseCase;
 import com.justsayit.story.service.read.command.StorySearchCondition;
@@ -86,7 +87,7 @@ public class StoryController {
         editStoryUseCase.remove(new RemoveStoryCommand(memberId, storyId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
-    
+
     @PostMapping("/empathy/{member-id}")
     public ResponseEntity<BaseResponse<Object>> empathize(@PathVariable(name = "member-id") Long memberId,
                                                           @RequestParam(name = "story-id") Long storyId,
@@ -96,6 +97,13 @@ public class StoryController {
                 .storyId(storyId)
                 .emotionCode(emotionCode)
                 .build());
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
+    }
+
+    @PatchMapping("/empathy/{member-id}")
+    public ResponseEntity<BaseResponse<Object>> cancelEmmpathize(@PathVariable(name = "member-id") Long memberId,
+                                                                 @RequestParam(name = "story-id") Long storyId) {
+        empathizeUseCase.cancelEmpathize(new CancelEmpathizeCommand(memberId, storyId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
