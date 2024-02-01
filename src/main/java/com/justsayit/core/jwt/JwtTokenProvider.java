@@ -28,6 +28,7 @@ public class JwtTokenProvider {
 
     @Value("${jwt.secret.expiration-time}")
     private int ACCESS_TOKEN_EXPRIATION_TIME;
+    private final String ROLE_MEMBER = "MEMBER";
 
     public JwtToken createToken(Long memberId) {
         String accessToken = createAccessToken(memberId);
@@ -37,15 +38,15 @@ public class JwtTokenProvider {
     public String createAccessToken(Long memberId) {
         log.info("secret key: {}", SECRET_KEY);
         StringBuilder sb = new StringBuilder();
-        sb.append("Bearer ");
-        sb.append(
-                Jwts.builder()
-                        .setSubject(memberId.toString())
-                        .claim("memberId", memberId)
-                        .claim("authorities", "MEMBER")
-                        .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPRIATION_TIME))
-                        .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
-                        .compact());
+        sb.append("Bearer ")
+                .append(
+                        Jwts.builder()
+                                .setSubject(memberId.toString())
+                                .claim("memberId", memberId)
+                                .claim("authorities", ROLE_MEMBER)
+                                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPRIATION_TIME))
+                                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
+                                .compact());
         return sb.toString();
     }
 
