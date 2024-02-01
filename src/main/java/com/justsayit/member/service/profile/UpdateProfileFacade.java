@@ -21,7 +21,7 @@ public class UpdateProfileFacade {
     private final ProfileUseCase profileUseCase;
 
     public void updateProfile(Long memberId, UpdateProfileReq req, MultipartFile multipartFile) {
-        ProfileImgInfo profileImgInfo = ProfileImgInfo.of(req.getProfileImg());
+        ProfileImgInfo profileImgInfo = createProfileImgInfo(req);
         if (Objects.nonNull(multipartFile)) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
@@ -30,5 +30,9 @@ public class UpdateProfileFacade {
                 .nickname(req.getNickname())
                 .profileImg(profileImgInfo.getUrl())
                 .build());
+    }
+
+    private ProfileImgInfo createProfileImgInfo(UpdateProfileReq req) {
+        return req.isDefaultProfileImg() ? ProfileImgInfo.ofDefault() : ProfileImgInfo.of(req.getProfileImg());
     }
 }
