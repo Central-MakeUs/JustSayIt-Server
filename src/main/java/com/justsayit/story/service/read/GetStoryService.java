@@ -1,5 +1,6 @@
 package com.justsayit.story.service.read;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
@@ -31,7 +32,8 @@ public class GetStoryService implements GetStoryUseCase {
     private final BlockListRepository blockListRepository;
 
     @Override
-    public GetStoryRes getMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByLatest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByLatest(memberId, cond);
 
