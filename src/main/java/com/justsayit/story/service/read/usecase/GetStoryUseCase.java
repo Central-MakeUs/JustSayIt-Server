@@ -7,7 +7,7 @@ public interface GetStoryUseCase {
 
     GetStoryRes getMyStoriesOrderByLatest(StorySearchCondition cond);
 
-    GetStoryRes getMyStoriesOrderByOldest(Long memberId, StorySearchCondition cond);
+    GetStoryRes getMyStoriesOrderByOldest(StorySearchCondition cond);
 
     GetStoryRes getAllStoriesOrderByLatest(Long memberId, StorySearchCondition cond);
 }

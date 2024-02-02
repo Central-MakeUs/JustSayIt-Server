@@ -106,7 +106,8 @@ public class GetStoryService implements GetStoryUseCase {
     }
 
     @Override
-    public GetStoryRes getMyStoriesOrderByOldest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByOldest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByOldest(memberId, cond);
 
