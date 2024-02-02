@@ -11,7 +11,6 @@ import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import com.justsayit.member.service.management.command.BlockMemberCommand;
 import com.justsayit.member.service.management.usecase.ManageMemberUseCase;
 import com.justsayit.member.service.profile.UpdateProfileFacade;
-import com.justsayit.member.service.profile.command.GetProfileCmd;
 import com.justsayit.member.service.profile.dto.GetProfileRes;
 import com.justsayit.member.service.profile.usecase.ProfileUseCase;
 import lombok.RequiredArgsConstructor;
@@ -42,30 +41,28 @@ public class MemberController {
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @PostMapping("/quit/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> quit(@PathVariable(name = "member-id") Long memberId) {
-        authUseCase.quit(memberId);
+    @PostMapping("/quit")
+    public ResponseEntity<BaseResponse<Object>> quit() {
+        authUseCase.quit();
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @PatchMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> updateProfile(@PathVariable(name = "member-id") Long memberId,
-                                                              @RequestPart(value = "updateProfile") UpdateProfileReq req,
+    @PatchMapping("/profile/me")
+    public ResponseEntity<BaseResponse<Object>> updateProfile(@RequestPart(value = "updateProfile") UpdateProfileReq req,
                                                               @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
-        updateProfileFacade.updateProfile(memberId, req, multipartFile);
+        updateProfileFacade.updateProfile(req, multipartFile);
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @GetMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<GetProfileRes>> getProfile(@PathVariable(name = "member-id") Long memberId) {
-        GetProfileRes getProfileRes = profileUseCase.getProfile(new GetProfileCmd(memberId));
+    @GetMapping("/profile/me")
+    public ResponseEntity<BaseResponse<GetProfileRes>> getProfile() {
+        GetProfileRes getProfileRes = profileUseCase.getProfile();
         return ResponseEntity.ok(BaseResponse.ofSuccess(getProfileRes));
     }
 
-    @PostMapping("/block/{blocker-id}")
-    public ResponseEntity<BaseResponse<Object>> blockMember(@PathVariable(name = "blocker-id") Long blockerId,
-                                                            @RequestParam(name = "blocked-id") Long blockedId) {
-        manageMemberUseCase.blockMember(new BlockMemberCommand(blockerId, blockedId));
+    @PostMapping("/block")
+    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestParam(name = "blocked-id") Long blockedId) {
+        manageMemberUseCase.blockMember(new BlockMemberCommand(blockedId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }

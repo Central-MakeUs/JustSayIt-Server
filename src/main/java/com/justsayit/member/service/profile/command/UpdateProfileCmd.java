@@ -6,13 +6,11 @@ import lombok.Getter;
 @Getter
 public class UpdateProfileCmd {
 
-    private Long memberId;
     private String nickname;
     private String profileImg;
 
     @Builder
-    public UpdateProfileCmd(Long memberId, String nickname, String profileImg) {
-        this.memberId = memberId;
+    public UpdateProfileCmd(String nickname, String profileImg) {
         this.nickname = nickname;
         this.profileImg = profileImg;
     }

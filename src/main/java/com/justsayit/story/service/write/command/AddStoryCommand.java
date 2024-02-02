@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AddStoryCommand {
 
-    private Long memberId;
     private String emotion;
     private String content;
     private List<StoryPhoto> storyPhotoList;

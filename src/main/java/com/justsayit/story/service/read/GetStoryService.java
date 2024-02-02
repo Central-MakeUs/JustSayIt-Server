@@ -1,5 +1,6 @@
 package com.justsayit.story.service.read;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
@@ -31,7 +32,8 @@ public class GetStoryService implements GetStoryUseCase {
     private final BlockListRepository blockListRepository;
 
     @Override
-    public GetStoryRes getMyStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByLatest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByLatest(memberId, cond);
 
@@ -104,7 +106,8 @@ public class GetStoryService implements GetStoryUseCase {
     }
 
     @Override
-    public GetStoryRes getMyStoriesOrderByOldest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getMyStoriesOrderByOldest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         List<Story> storyList = storyRepository.searchMyPostedStoriesOrderByOldest(memberId, cond);
 
@@ -177,7 +180,8 @@ public class GetStoryService implements GetStoryUseCase {
     }
 
     @Override
-    public GetStoryRes getAllStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getAllStoriesOrderByLatest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member reader = MemberServiceHelper.findExistingMember(memberRepository, memberId);
 
         // 조회한 사람의 차단 사용자 목록

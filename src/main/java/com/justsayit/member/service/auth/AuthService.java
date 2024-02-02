@@ -2,6 +2,7 @@ package com.justsayit.member.service.auth;
 
 import com.justsayit.core.jwt.JwtTokenProvider;
 import com.justsayit.core.jwt.dto.JwtToken;
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.domain.PersonalInfo;
 import com.justsayit.member.domain.ProfileInfo;
@@ -60,7 +61,8 @@ public class AuthService implements AuthUseCase {
     }
 
     @Override
-    public void quit(Long memberId) {
+    public void quit() {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoMemberException::new);
         member.deleteAccount();

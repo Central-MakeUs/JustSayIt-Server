@@ -1,5 +1,6 @@
 package com.justsayit.story.service.edit;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
@@ -24,7 +25,8 @@ public class EditStoryService implements EditStoryUseCase {
 
     @Override
     public void remove(RemoveStoryCommand cmd) {
-        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         Story story = storyRepository.findById(cmd.getStoryId())
                 .orElseThrow(NoStoryException::new);
         if (!story.getMemberId().equals(member.getId())) {
