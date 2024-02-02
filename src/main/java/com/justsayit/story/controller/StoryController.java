@@ -91,10 +91,9 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @PatchMapping("/empathy/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> cancelEmmpathize(@PathVariable(name = "member-id") Long memberId,
-                                                                 @RequestParam(name = "story-id") Long storyId) {
-        empathizeUseCase.cancelEmpathize(new CancelEmpathizeCommand(memberId, storyId));
+    @PatchMapping("/empathy")
+    public ResponseEntity<BaseResponse<Object>> cancelEmmpathize(@RequestParam(name = "story-id") Long storyId) {
+        empathizeUseCase.cancelEmpathize(new CancelEmpathizeCommand(storyId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }

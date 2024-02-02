@@ -5,11 +5,9 @@ import lombok.Getter;
 @Getter
 public class CancelEmpathizeCommand {
 
-    private Long memberId;
     private Long storyId;
 
-    public CancelEmpathizeCommand(Long memberId, Long storyId) {
-        this.memberId = memberId;
+    public CancelEmpathizeCommand(Long storyId) {
         this.storyId = storyId;
     }
 }

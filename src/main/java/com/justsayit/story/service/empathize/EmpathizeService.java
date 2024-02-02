@@ -50,13 +50,14 @@ public class EmpathizeService implements EmpathizeUseCase {
 
     @Override
     public void cancelEmpathize(CancelEmpathizeCommand cmd) {
-        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         Story story = storyRepository.findById(cmd.getStoryId())
                 .orElseThrow(NoStoryException::new);
         if (isMyStory(member, story)) {
             throw new EmpathizeMyStoryException();
         }
-        Empathy empathy = empathyRepository.searchValidEmpathy(cmd.getMemberId(), cmd.getStoryId());
+        Empathy empathy = empathyRepository.searchValidEmpathy(member.getId(), story.getId());
         if (isNull(empathy)) {
             throw new NoEmpathizeException();
         }
