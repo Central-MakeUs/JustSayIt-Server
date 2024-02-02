@@ -50,10 +50,15 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
                 .where(gtStoryId(cond.getStoryId()),
                         isPosted(),
                         emotionEq(cond.getEmotion()),
+                        isOpened(),
                         writerNotIn(blockedMemberList))
                 .orderBy(story.id.desc())
                 .limit(cond.getSize() + 1)
                 .fetch();
+    }
+
+    private BooleanExpression isOpened() {
+        return story.metaInfo.opened.isTrue();
     }
 
     private BooleanExpression writerNotIn(List<Long> blockedMemberList) {
