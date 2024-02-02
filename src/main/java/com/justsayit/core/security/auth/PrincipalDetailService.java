@@ -22,7 +22,7 @@ public class PrincipalDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException {
         Member member = memberRepository.findByToken(token).orElseThrow();
-        return new User(member.getToken(), null, mapToSimpleGrandAuthority(member));
+        return new User(String.valueOf(member.getId()), null, mapToSimpleGrandAuthority(member));
     }
 
     private List<SimpleGrantedAuthority> mapToSimpleGrandAuthority(Member member) {
