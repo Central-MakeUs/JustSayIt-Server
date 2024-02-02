@@ -6,6 +6,7 @@ import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.member.service.management.repository.BlockListRepository;
 import com.justsayit.story.domain.Emotion;
+import com.justsayit.story.domain.Empathy;
 import com.justsayit.story.domain.Story;
 import com.justsayit.story.repository.EmpathyRepository;
 import com.justsayit.story.repository.StoryRepository;
@@ -52,6 +53,7 @@ public class GetStoryService implements GetStoryUseCase {
                                     EmpathyCountDto::getType,
                                     EmpathyCountDto::getCount
                             ));
+                    Empathy empathy = empathyRepository.searchValidEmpathy(memberId, story.getId());
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보
                             .storyId(story.getId())
@@ -95,6 +97,11 @@ public class GetStoryService implements GetStoryUseCase {
                                     .happinessCount(empathyCountMap.getOrDefault(Emotion.HAPPINESS, 0L))
                                     .build()
                                     .calcTotalCount())
+
+                            // 조회한 사람의 공감 결과
+                            .resultOfEmpathize(GetStoryRes.StoryInfo.ResultOfEmpathize.builder()
+                                    .emotionCode(Emotion.codeOfValue(getType(empathy)))
+                                    .build())
 
                             .createdAt(story.getCreatedAt())
                             .updatedAt(story.getUpdatedAt())
@@ -126,6 +133,7 @@ public class GetStoryService implements GetStoryUseCase {
                                     EmpathyCountDto::getType,
                                     EmpathyCountDto::getCount
                             ));
+                    Empathy empathy = empathyRepository.searchValidEmpathy(memberId, story.getId());
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보
                             .storyId(story.getId())
@@ -169,6 +177,11 @@ public class GetStoryService implements GetStoryUseCase {
                                     .happinessCount(empathyCountMap.getOrDefault(Emotion.HAPPINESS, 0L))
                                     .build()
                                     .calcTotalCount())
+
+                            // 조회한 사람의 공감 결과
+                            .resultOfEmpathize(GetStoryRes.StoryInfo.ResultOfEmpathize.builder()
+                                    .emotionCode(Emotion.codeOfValue(getType(empathy)))
+                                    .build())
 
                             .createdAt(story.getCreatedAt())
                             .updatedAt(story.getUpdatedAt())
@@ -206,6 +219,7 @@ public class GetStoryService implements GetStoryUseCase {
                                     EmpathyCountDto::getType,
                                     EmpathyCountDto::getCount
                             ));
+                    Empathy empathy = empathyRepository.searchValidEmpathy(memberId, story.getId());
                     return GetStoryRes.StoryInfo.builder()
                             // id 정보
                             .storyId(story.getId())
@@ -250,11 +264,20 @@ public class GetStoryService implements GetStoryUseCase {
                                     .build()
                                     .calcTotalCount())
 
+                            // 조회한 사람의 공감 결과
+                            .resultOfEmpathize(GetStoryRes.StoryInfo.ResultOfEmpathize.builder()
+                                    .emotionCode(Emotion.codeOfValue(getType(empathy)))
+                                    .build())
+
                             .createdAt(story.getCreatedAt())
                             .updatedAt(story.getUpdatedAt())
                             .build();
                 })
                 .collect(Collectors.toList());
         return new GetStoryRes(hasNext, res);
+    }
+
+    private Emotion getType(Empathy empathy) {
+        return empathy != null ? empathy.getType() : null;
     }
 }
