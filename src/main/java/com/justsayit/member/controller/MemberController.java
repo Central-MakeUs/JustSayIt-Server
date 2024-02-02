@@ -60,10 +60,9 @@ public class MemberController {
         return ResponseEntity.ok(BaseResponse.ofSuccess(getProfileRes));
     }
 
-    @PostMapping("/block/{blocker-id}")
-    public ResponseEntity<BaseResponse<Object>> blockMember(@PathVariable(name = "blocker-id") Long blockerId,
-                                                            @RequestParam(name = "blocked-id") Long blockedId) {
-        manageMemberUseCase.blockMember(new BlockMemberCommand(blockerId, blockedId));
+    @PostMapping("/block")
+    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestParam(name = "blocked-id") Long blockedId) {
+        manageMemberUseCase.blockMember(new BlockMemberCommand(blockedId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }

@@ -1,5 +1,6 @@
 package com.justsayit.member.service.management.service;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.BlockList;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
@@ -21,7 +22,8 @@ public class ManageMemberService implements ManageMemberUseCase {
 
     @Override
     public void blockMember(BlockMemberCommand cmd) {
-        Member blockerMember = MemberServiceHelper.findExistingMember(memberRepository, cmd.getBlockerId());
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member blockerMember = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         Member blockedMember = MemberServiceHelper.findExistingMember(memberRepository, cmd.getBlockedId());
         BlockList blockList = new BlockList(blockerMember, blockedMember);
         blockListRepository.save(blockList);
