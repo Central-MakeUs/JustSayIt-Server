@@ -48,11 +48,10 @@ public class MemberController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @PatchMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> updateProfile(@PathVariable(name = "member-id") Long memberId,
-                                                              @RequestPart(value = "updateProfile") UpdateProfileReq req,
+    @PatchMapping("/profile/me")
+    public ResponseEntity<BaseResponse<Object>> updateProfile(@RequestPart(value = "updateProfile") UpdateProfileReq req,
                                                               @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
-        updateProfileFacade.updateProfile(memberId, req, multipartFile);
+        updateProfileFacade.updateProfile(req, multipartFile);
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 

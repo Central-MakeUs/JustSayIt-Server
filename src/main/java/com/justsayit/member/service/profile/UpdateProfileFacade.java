@@ -20,13 +20,12 @@ public class UpdateProfileFacade {
     private final UploadImageUseCase uploadImageUseCase;
     private final ProfileUseCase profileUseCase;
 
-    public void updateProfile(Long memberId, UpdateProfileReq req, MultipartFile multipartFile) {
+    public void updateProfile(UpdateProfileReq req, MultipartFile multipartFile) {
         ProfileImgInfo profileImgInfo = createProfileImgInfo(req);
         if (Objects.nonNull(multipartFile)) {
             profileImgInfo = uploadImageUseCase.uploadProfileImg(multipartFile);
         }
         profileUseCase.updateProfile(UpdateProfileCmd.builder()
-                .memberId(memberId)
                 .nickname(req.getNickname())
                 .profileImg(profileImgInfo.getUrl())
                 .build());

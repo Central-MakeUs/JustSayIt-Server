@@ -1,5 +1,6 @@
 package com.justsayit.member.service.profile;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.domain.ProfileInfo;
 import com.justsayit.member.repository.MemberRepository;
@@ -21,7 +22,8 @@ public class ProfileService implements ProfileUseCase {
 
     @Override
     public void updateProfile(UpdateProfileCmd cmd) {
-        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         member.updateProfile(ProfileInfo.builder()
                 .nickname(cmd.getNickname())
                 .profileImg(cmd.getProfileImg())
