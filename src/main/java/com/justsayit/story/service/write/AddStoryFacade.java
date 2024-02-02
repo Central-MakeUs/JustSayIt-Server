@@ -24,7 +24,7 @@ public class AddStoryFacade {
     private final UploadImageUseCase uploadImageUseCase;
     private final AddStoryUseCase addStoryUseCase;
 
-    public void addStory(Long memberId, AddStoryReq req, List<MultipartFile> multipartFileList) {
+    public void addStory(AddStoryReq req, List<MultipartFile> multipartFileList) {
         List<StoryPhoto> imgInfoList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(multipartFileList)) {
             if (multipartFileList.size() > MAX_IMG_SIZE) {
@@ -33,7 +33,6 @@ public class AddStoryFacade {
             imgInfoList = uploadImageUseCase.uploadStoryImg(multipartFileList);
         }
         addStoryUseCase.addStory(AddStoryCommand.builder()
-                .memberId(memberId)
                 .emotion(req.getEmotion())
                 .content(req.getContent())
                 .storyPhotoList(imgInfoList)

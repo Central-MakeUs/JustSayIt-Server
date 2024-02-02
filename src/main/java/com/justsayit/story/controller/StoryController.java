@@ -28,12 +28,11 @@ public class StoryController {
     private final EditStoryUseCase editStoryUseCase;
     private final EmpathizeUseCase empathizeUseCase;
 
-    @PostMapping("/new/{member-id}")
+    @PostMapping("/new")
     public ResponseEntity<BaseResponse<Object>> addStory(
-            @PathVariable(name = "member-id") Long memberId,
             @RequestPart(value = "storyInfo") AddStoryReq req,
             @RequestPart(value = "storyImg", required = false) List<MultipartFile> multipartFileList) {
-        addStoryFacade.addStory(memberId, req, multipartFileList);
+        addStoryFacade.addStory(req, multipartFileList);
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
