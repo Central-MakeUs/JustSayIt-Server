@@ -81,12 +81,10 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @PostMapping("/empathy/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> empathize(@PathVariable(name = "member-id") Long memberId,
-                                                          @RequestParam(name = "story-id") Long storyId,
+    @PostMapping("/empathy")
+    public ResponseEntity<BaseResponse<Object>> empathize(@RequestParam(name = "story-id") Long storyId,
                                                           @RequestParam(name = "emotion-code") String emotionCode) {
         empathizeUseCase.empathize(EmpathizeCommand.builder()
-                .memberId(memberId)
                 .storyId(storyId)
                 .emotionCode(emotionCode)
                 .build());
