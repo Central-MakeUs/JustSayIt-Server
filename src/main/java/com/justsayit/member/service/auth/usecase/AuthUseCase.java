@@ -9,7 +9,7 @@ public interface AuthUseCase {
 
     LoginRes login(LoginCommand cmd);
 
-    void quit(Long memberId);
+    void quit();
 
     CheckIsJoinedRes checkIsJoined(CheckIsJoinedCmd checkIsJoinedCmd);
 }

@@ -42,9 +42,9 @@ public class MemberController {
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @PostMapping("/quit/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> quit(@PathVariable(name = "member-id") Long memberId) {
-        authUseCase.quit(memberId);
+    @PostMapping("/quit")
+    public ResponseEntity<BaseResponse<Object>> quit() {
+        authUseCase.quit();
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
