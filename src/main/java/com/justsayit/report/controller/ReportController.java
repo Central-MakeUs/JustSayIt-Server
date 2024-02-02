@@ -5,7 +5,10 @@ import com.justsayit.report.service.story.command.ReportStoryCommand;
 import com.justsayit.report.service.story.usecase.ReportStoryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/report")
 @RestController
@@ -15,12 +18,10 @@ public class ReportController {
     private final ReportStoryUseCase reportStoryUseCase;
 
 
-    @PostMapping("/stories/{story-id}/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> reportStory(@PathVariable(name = "member-id") Long memberId,
-                                                            @PathVariable(name = "story-id") Long storyId,
+    @PostMapping("/stories")
+    public ResponseEntity<BaseResponse<Object>> reportStory(@RequestParam(name = "story-id") Long storyId,
                                                             @RequestParam(name = "report-code") String reportCode) {
         reportStoryUseCase.reportStory(ReportStoryCommand.builder()
-                .memberId(memberId)
                 .storyId(storyId)
                 .reportCode(reportCode)
                 .build());

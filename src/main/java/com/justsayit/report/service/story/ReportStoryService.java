@@ -1,5 +1,6 @@
 package com.justsayit.report.service.story;
 
+import com.justsayit.core.security.auth.AuthServiceHelper;
 import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
@@ -26,7 +27,8 @@ public class ReportStoryService implements ReportStoryUseCase {
 
     @Override
     public void reportStory(ReportStoryCommand cmd) {
-        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         Story story = storyRepository.findById(cmd.getStoryId())
                 .orElseThrow(NoStoryException::new);
         if (isMyStory(member, story)) {
