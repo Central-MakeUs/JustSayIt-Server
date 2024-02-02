@@ -30,11 +30,12 @@ public class GetStoryRes {
         private StoryMainContent storyMainContent;
         private StoryMetaInfo storyMetaInfo;
         private EmotionOfEmpathy emotionOfEmpathy;
+        private ResultOfEmpathize resultOfEmpathize;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
 
         @Builder
-        public StoryInfo(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainContent storyMainContent, StoryMetaInfo storyMetaInfo, EmotionOfEmpathy emotionOfEmpathy, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        public StoryInfo(Long storyId, String storyUUID, Long writerId, boolean mine, ProfileInfo profileInfo, StoryMainContent storyMainContent, StoryMetaInfo storyMetaInfo, EmotionOfEmpathy emotionOfEmpathy, ResultOfEmpathize resultOfEmpathize, LocalDateTime createdAt, LocalDateTime updatedAt) {
             this.storyId = storyId;
             this.storyUUID = storyUUID;
             this.writerId = writerId;
@@ -43,6 +44,7 @@ public class GetStoryRes {
             this.storyMainContent = storyMainContent;
             this.storyMetaInfo = storyMetaInfo;
             this.emotionOfEmpathy = emotionOfEmpathy;
+            this.resultOfEmpathize = resultOfEmpathize;
             this.createdAt = createdAt;
             this.updatedAt = updatedAt;
         }
@@ -152,6 +154,16 @@ public class GetStoryRes {
                     totalCount += surprisedCount;
                 }
                 return this;
+            }
+        }
+
+        @Getter
+        public static class ResultOfEmpathize {
+            private String emotionCode;
+
+            @Builder
+            public ResultOfEmpathize(String emotionCode) {
+                this.emotionCode = emotionCode;
             }
         }
     }
