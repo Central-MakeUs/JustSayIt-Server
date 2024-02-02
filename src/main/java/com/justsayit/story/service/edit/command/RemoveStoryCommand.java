@@ -5,11 +5,9 @@ import lombok.Getter;
 @Getter
 public class RemoveStoryCommand {
 
-    private Long memberId;
     private Long storyId;
 
-    public RemoveStoryCommand(Long memberId, Long storyId) {
-        this.memberId = memberId;
+    public RemoveStoryCommand(Long storyId) {
         this.storyId = storyId;
     }
 }

@@ -75,10 +75,9 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @PatchMapping("/remove/{member-id}")
-    public ResponseEntity<BaseResponse<Object>> removeMyStory(@PathVariable(name = "member-id") Long memberId,
-                                                              @RequestParam(name = "story-id") Long storyId) {
-        editStoryUseCase.remove(new RemoveStoryCommand(memberId, storyId));
+    @PatchMapping("/remove")
+    public ResponseEntity<BaseResponse<Object>> removeMyStory(@RequestParam(name = "story-id") Long storyId) {
+        editStoryUseCase.remove(new RemoveStoryCommand(storyId));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
