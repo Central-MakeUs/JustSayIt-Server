@@ -62,12 +62,11 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @GetMapping("/all/latest/{member-id}")
-    public ResponseEntity<BaseResponse<GetStoryRes>> getAllStoriesOrderByLatest(@PathVariable(name = "member-id") Long memberId,
-                                                                                @RequestParam(name = "story-id", required = false) Long storyId,
+    @GetMapping("/all/latest")
+    public ResponseEntity<BaseResponse<GetStoryRes>> getAllStoriesOrderByLatest(@RequestParam(name = "story-id", required = false) Long storyId,
                                                                                 @RequestParam(name = "emotion-code", required = false) String emotionCode,
                                                                                 @RequestParam(name = "size") int size) {
-        GetStoryRes res = getStoryUseCase.getAllStoriesOrderByLatest(memberId,
+        GetStoryRes res = getStoryUseCase.getAllStoriesOrderByLatest(
                 StorySearchCondition.builder()
                         .storyId(storyId)
                         .emotion(emotionCode)

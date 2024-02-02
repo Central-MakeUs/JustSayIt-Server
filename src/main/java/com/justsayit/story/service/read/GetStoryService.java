@@ -180,7 +180,8 @@ public class GetStoryService implements GetStoryUseCase {
     }
 
     @Override
-    public GetStoryRes getAllStoriesOrderByLatest(Long memberId, StorySearchCondition cond) {
+    public GetStoryRes getAllStoriesOrderByLatest(StorySearchCondition cond) {
+        Long memberId = AuthServiceHelper.getMemberId();
         Member reader = MemberServiceHelper.findExistingMember(memberRepository, memberId);
 
         // 조회한 사람의 차단 사용자 목록
