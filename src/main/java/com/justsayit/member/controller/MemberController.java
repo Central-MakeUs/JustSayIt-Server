@@ -11,7 +11,6 @@ import com.justsayit.member.service.auth.usecase.AuthUseCase;
 import com.justsayit.member.service.management.command.BlockMemberCommand;
 import com.justsayit.member.service.management.usecase.ManageMemberUseCase;
 import com.justsayit.member.service.profile.UpdateProfileFacade;
-import com.justsayit.member.service.profile.command.GetProfileCmd;
 import com.justsayit.member.service.profile.dto.GetProfileRes;
 import com.justsayit.member.service.profile.usecase.ProfileUseCase;
 import lombok.RequiredArgsConstructor;
@@ -55,9 +54,9 @@ public class MemberController {
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
-    @GetMapping("/profile/me/{member-id}")
-    public ResponseEntity<BaseResponse<GetProfileRes>> getProfile(@PathVariable(name = "member-id") Long memberId) {
-        GetProfileRes getProfileRes = profileUseCase.getProfile(new GetProfileCmd(memberId));
+    @GetMapping("/profile/me")
+    public ResponseEntity<BaseResponse<GetProfileRes>> getProfile() {
+        GetProfileRes getProfileRes = profileUseCase.getProfile();
         return ResponseEntity.ok(BaseResponse.ofSuccess(getProfileRes));
     }
 

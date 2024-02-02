@@ -5,7 +5,6 @@ import com.justsayit.member.domain.Member;
 import com.justsayit.member.domain.ProfileInfo;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
-import com.justsayit.member.service.profile.command.GetProfileCmd;
 import com.justsayit.member.service.profile.command.UpdateProfileCmd;
 import com.justsayit.member.service.profile.dto.GetProfileRes;
 import com.justsayit.member.service.profile.usecase.ProfileUseCase;
@@ -31,8 +30,9 @@ public class ProfileService implements ProfileUseCase {
     }
 
     @Override
-    public GetProfileRes getProfile(GetProfileCmd cmd) {
-        Member member = MemberServiceHelper.findExistingMember(memberRepository, cmd.getMemberId());
+    public GetProfileRes getProfile() {
+        Long memberId = AuthServiceHelper.getMemberId();
+        Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         return GetProfileRes.builder()
                 .memberId(member.getId())
                 .loginType(member.getLoginType().toString())
