@@ -36,7 +36,11 @@ public enum ResponseCode {
     // 6000 - REPORT
     INVALID_REPORT_CODE("6000", "잘못된 신고 코드입니다."),
     REPORT_MY_STORY("6001", "본인의 스토리를 신고할 수 없습니다."),
+
+    // 7000 - MOOD
+    INVALID_MOOD_CODE("7000", "잘못된 감정코드입니다."),
     ;
+
     private String code;
     private String message;
 
