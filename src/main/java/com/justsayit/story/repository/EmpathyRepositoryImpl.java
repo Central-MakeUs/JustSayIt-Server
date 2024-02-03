@@ -30,6 +30,7 @@ public class EmpathyRepositoryImpl implements EmpathyRepositoryCustom {
                 )
                 .from(empathy)
                 .where(
+                        isValid(),
                         memberEq(memberId),
                         storyEq(storyId))
                 .groupBy(empathy.type)

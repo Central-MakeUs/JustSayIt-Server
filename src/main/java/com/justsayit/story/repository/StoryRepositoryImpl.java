@@ -47,7 +47,7 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom {
     @Override
     public List<Story> searchAllPostedStoriesOrderByLatest(List<Long> blockedMemberList, StorySearchCondition cond) {
         return queryFactory.selectFrom(story)
-                .where(gtStoryId(cond.getStoryId()),
+                .where(ltStoryId(cond.getStoryId()),
                         isPosted(),
                         emotionEq(cond.getEmotion()),
                         isOpened(),
