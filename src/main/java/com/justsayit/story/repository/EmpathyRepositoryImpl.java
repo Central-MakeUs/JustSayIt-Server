@@ -21,7 +21,7 @@ public class EmpathyRepositoryImpl implements EmpathyRepositoryCustom {
     }
 
     @Override
-    public List<EmpathyCountDto> searchStoriesEmpathyCount(Long memberId, Long storyId) {
+    public List<EmpathyCountDto> searchStoriesEmpathyCount(Long storyId) {
         return queryFactory.select(
                         new QEmpathyCountDto(
                                 empathy.type.as("type"),
@@ -31,7 +31,6 @@ public class EmpathyRepositoryImpl implements EmpathyRepositoryCustom {
                 .from(empathy)
                 .where(
                         isValid(),
-                        memberEq(memberId),
                         storyEq(storyId))
                 .groupBy(empathy.type)
                 .fetch();

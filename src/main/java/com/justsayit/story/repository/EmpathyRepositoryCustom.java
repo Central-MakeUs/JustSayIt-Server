@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmpathyRepositoryCustom {
 
-    List<EmpathyCountDto> searchStoriesEmpathyCount(Long memberId, Long storyId);
+    List<EmpathyCountDto> searchStoriesEmpathyCount(Long storyId);
 
     Empathy searchValidEmpathy(Long memberId, Long storyId);
 }
