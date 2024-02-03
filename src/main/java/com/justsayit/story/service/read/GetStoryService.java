@@ -47,7 +47,7 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(memberId, story.getId());
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(story.getId());
                     Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
                                     EmpathyCountDto::getType,
@@ -127,7 +127,7 @@ public class GetStoryService implements GetStoryUseCase {
 
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
-                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(memberId, story.getId());
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(story.getId());
                     Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
                                     EmpathyCountDto::getType,
@@ -213,7 +213,7 @@ public class GetStoryService implements GetStoryUseCase {
         List<GetStoryRes.StoryInfo> res = storyList.stream()
                 .map(story -> {
                     Member writer = MemberServiceHelper.findExistingMember(memberRepository, story.getMemberId());
-                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(writer.getId(), story.getId());
+                    List<EmpathyCountDto> empathyCountDtos = empathyRepository.searchStoriesEmpathyCount(story.getId());
                     Map<Emotion, Long> empathyCountMap = empathyCountDtos.stream()
                             .collect(Collectors.toMap(
                                     EmpathyCountDto::getType,
