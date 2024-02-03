@@ -5,7 +5,7 @@ import com.justsayit.member.domain.Member;
 import com.justsayit.member.repository.MemberRepository;
 import com.justsayit.member.service.MemberServiceHelper;
 import com.justsayit.mood.domain.Mood;
-import com.justsayit.mood.exception.OneMinuteWithinException;
+import com.justsayit.mood.exception.RecentSavedMoodExistsException;
 import com.justsayit.mood.repository.MoodRepository;
 import com.justsayit.mood.service.save.command.SaveMoodCommand;
 import com.justsayit.mood.service.save.usecase.SaveMoodUseCase;
@@ -33,7 +33,7 @@ public class SaveMoodService implements SaveMoodUseCase {
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         Mood lastSavedMood = moodRepository.searchLatestMood(memberId);
         if (nonNull(lastSavedMood) && isWithinOneMinute(lastSavedMood)) {
-            throw new OneMinuteWithinException();
+            throw new RecentSavedMoodExistsException();
         }
         Mood mood = Mood.of(member, cmd.getMoodCode());
         moodRepository.save(mood);
