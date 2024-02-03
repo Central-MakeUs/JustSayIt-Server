@@ -39,6 +39,7 @@ public enum ResponseCode {
 
     // 7000 - MOOD
     INVALID_MOOD_CODE("7000", "잘못된 감정코드입니다."),
+    RECENT_SAVED_MOOD_EXISTS("7001", "최근에 저장한 감정이 있습니다."),
     ;
 
     private String code;

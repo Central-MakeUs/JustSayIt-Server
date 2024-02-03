@@ -7,4 +7,6 @@ import java.util.List;
 public interface MoodRepositoryCustom {
 
     List<Mood> searchTodayMoodOrderByOldest(Long memberId);
+
+    Mood searchLatestMood(Long memberId);
 }
