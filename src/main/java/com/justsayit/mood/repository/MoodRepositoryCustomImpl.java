@@ -45,7 +45,6 @@ public class MoodRepositoryCustomImpl implements MoodRepositoryCustom {
                 .orderBy(mood.createdAt.desc())
                 .limit(ONE)
                 .fetchOne();
-
     }
 
     private BooleanExpression memberEq(Long memberId) {
