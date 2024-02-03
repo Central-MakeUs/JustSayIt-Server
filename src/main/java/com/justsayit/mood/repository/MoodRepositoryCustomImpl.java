@@ -27,10 +27,7 @@ public class MoodRepositoryCustomImpl implements MoodRepositoryCustom {
         return queryFactory.selectFrom(mood)
                 .where(
                         memberEq(memberId),
-                        mood.createdAt.between(
-                                today.toLocalDate().atStartOfDay(),
-                                today.toLocalDate().atTime(LocalTime.MAX)
-                        )
+                        isCreated(today)
                 )
                 .orderBy(mood.createdAt.asc())
                 .fetch();
@@ -38,9 +35,11 @@ public class MoodRepositoryCustomImpl implements MoodRepositoryCustom {
 
     @Override
     public Mood searchLatestMood(Long memberId) {
+        LocalDateTime today = LocalDateTime.now();
         return queryFactory.selectFrom(mood)
                 .where(
-                        memberEq(memberId)
+                        memberEq(memberId),
+                        isCreated(today)
                 )
                 .orderBy(mood.createdAt.desc())
                 .limit(ONE)
@@ -49,5 +48,12 @@ public class MoodRepositoryCustomImpl implements MoodRepositoryCustom {
 
     private BooleanExpression memberEq(Long memberId) {
         return mood.member.id.eq(memberId);
+    }
+
+    private BooleanExpression isCreated(LocalDateTime today) {
+        return mood.createdAt.between(
+                today.toLocalDate().atStartOfDay(),
+                today.toLocalDate().atTime(LocalTime.MAX)
+        );
     }
 }
