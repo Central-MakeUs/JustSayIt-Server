@@ -1,4 +1,4 @@
-package com.justsayit.mood.service.command;
+package com.justsayit.mood.service.save.command;
 
 import lombok.Getter;
 

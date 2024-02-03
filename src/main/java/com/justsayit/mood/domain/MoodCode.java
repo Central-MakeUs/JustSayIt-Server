@@ -17,16 +17,22 @@ public enum MoodCode {
     ;
 
     private static final Map<String, MoodCode> BY_CODE = new HashMap<>();
+    private static final Map<MoodCode, String> BY_VALUE = new HashMap<>();
 
     static {
         for (MoodCode moodCode : values()) {
             BY_CODE.put(moodCode.getCode(), moodCode);
+            BY_VALUE.put(moodCode, moodCode.getCode());
         }
     }
 
     public static MoodCode valueOfCode(String code) {
         return Optional.ofNullable(BY_CODE.get(code))
                 .orElseThrow(InvalidMoodCodeException::new);
+    }
+
+    public static String codeOfValue(MoodCode moodCode) {
+        return BY_VALUE.get(moodCode);
     }
 
     private final String code;
