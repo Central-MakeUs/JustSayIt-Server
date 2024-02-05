@@ -3,6 +3,7 @@ package com.justsayit.story.controller;
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
 import com.justsayit.story.controller.request.EditStoryReq;
+import com.justsayit.story.controller.request.EmpathizeReq;
 import com.justsayit.story.service.edit.EditStoryFacade;
 import com.justsayit.story.service.edit.command.RemoveStoryCommand;
 import com.justsayit.story.service.edit.usecase.EditStoryUseCase;
@@ -85,11 +86,10 @@ public class StoryController {
     }
 
     @PostMapping("/empathy")
-    public ResponseEntity<BaseResponse<Object>> empathize(@RequestParam(name = "story-id") Long storyId,
-                                                          @RequestParam(name = "emotion-code") String emotionCode) {
+    public ResponseEntity<BaseResponse<Object>> empathize(@RequestBody EmpathizeReq req) {
         empathizeUseCase.empathize(EmpathizeCommand.builder()
-                .storyId(storyId)
-                .emotionCode(emotionCode)
+                .storyId(req.getStoryId())
+                .emotionCode(req.getEmotionCode())
                 .build());
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }

@@ -1,6 +1,7 @@
 package com.justsayit.member.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
+import com.justsayit.member.controller.request.BlockMemberReq;
 import com.justsayit.member.controller.request.LoginReq;
 import com.justsayit.member.controller.request.UpdateProfileReq;
 import com.justsayit.member.service.auth.LoginFacade;
@@ -61,8 +62,8 @@ public class MemberController {
     }
 
     @PostMapping("/block")
-    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestParam(name = "blocked-id") Long blockedId) {
-        manageMemberUseCase.blockMember(new BlockMemberCommand(blockedId));
+    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestBody BlockMemberReq req) {
+        manageMemberUseCase.blockMember(new BlockMemberCommand(req.getBlockedId()));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
