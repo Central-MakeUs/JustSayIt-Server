@@ -63,7 +63,7 @@ public class MemberController {
 
     @PostMapping("/block")
     public ResponseEntity<BaseResponse<Object>> blockMember(@RequestBody BlockMemberReq req) {
-        manageMemberUseCase.blockMember(new BlockMemberCommand(req));
+        manageMemberUseCase.blockMember(new BlockMemberCommand(req.getBlockedId()));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
