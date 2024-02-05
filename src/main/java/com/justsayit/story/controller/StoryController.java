@@ -2,6 +2,8 @@ package com.justsayit.story.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.story.controller.request.AddStoryReq;
+import com.justsayit.story.controller.request.EditStoryReq;
+import com.justsayit.story.service.edit.EditStoryFacade;
 import com.justsayit.story.service.edit.command.RemoveStoryCommand;
 import com.justsayit.story.service.edit.usecase.EditStoryUseCase;
 import com.justsayit.story.service.empathize.command.CancelEmpathizeCommand;
@@ -24,6 +26,7 @@ import java.util.List;
 public class StoryController {
 
     private final AddStoryFacade addStoryFacade;
+    private final EditStoryFacade editStoryFacade;
     private final GetStoryUseCase getStoryUseCase;
     private final EditStoryUseCase editStoryUseCase;
     private final EmpathizeUseCase empathizeUseCase;
@@ -92,8 +95,15 @@ public class StoryController {
     }
 
     @PatchMapping("/empathy")
-    public ResponseEntity<BaseResponse<Object>> cancelEmmpathize(@RequestParam(name = "story-id") Long storyId) {
+    public ResponseEntity<BaseResponse<Object>> cancelEmpathize(@RequestParam(name = "story-id") Long storyId) {
         empathizeUseCase.cancelEmpathize(new CancelEmpathizeCommand(storyId));
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
+    }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<BaseResponse<Object>> edit(@RequestPart(value = "storyInfo") EditStoryReq req,
+                                                          @RequestPart(value = "newImg", required = false) List<MultipartFile> multipartFileList) {
+        editStoryFacade.edit(req, multipartFileList);
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }

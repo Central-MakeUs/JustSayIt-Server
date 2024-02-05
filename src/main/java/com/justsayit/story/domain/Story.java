@@ -75,12 +75,12 @@ public class Story extends BaseJpaEntity {
         this.mainContent = mainContent;
     }
 
-    public void changePhotoList(List<Photo> photoList) {
-        this.photoList = photoList;
-    }
-
     public void changeMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
+    }
+
+    public void changeEmotionOfEmpathy(EmotionOfEmpathy emotionOfEmpathy) {
+        this.emotionOfEmpathy = emotionOfEmpathy;
     }
 
     public void remove() {
