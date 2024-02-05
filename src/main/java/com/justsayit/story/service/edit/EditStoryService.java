@@ -52,7 +52,6 @@ public class EditStoryService implements EditStoryUseCase {
         }
 
         /* 제거된 사진 */
-
         photoRepository.deleteAllById(cmd.getRemovedPhoto());
 
         /* 스토리 내용 수정 */
