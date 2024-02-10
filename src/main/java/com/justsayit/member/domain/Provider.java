@@ -1,6 +1,6 @@
 package com.justsayit.member.domain;
 
-public enum LoginType {
+public enum Provider {
 
     NAVER,
     APPLE,;
