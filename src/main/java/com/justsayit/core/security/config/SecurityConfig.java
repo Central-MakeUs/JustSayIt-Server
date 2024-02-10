@@ -47,6 +47,12 @@ public class SecurityConfig {
             http.apply(new MyCustomDsl())
                     .and()
                     .authorizeRequests()
+                    // HEALTH
+                    .antMatchers("/health")
+                    .permitAll()
+                    // TEMP
+                    .antMatchers("/temp")
+                    .authenticated()
                     // MEMBER
                     .antMatchers("/members/oauth/**", "/members/management/join")
                     .permitAll()
