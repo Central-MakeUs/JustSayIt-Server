@@ -27,3 +27,8 @@ jwt:
   secret:
     key: secretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortestsecretkeyfortest
     expiration-time: 60000  # 1분 -> 30분으로 변경
+
+oauth:
+  naver:
+    url:
+      api: https://openapi.naver.com/v1/nid/me
