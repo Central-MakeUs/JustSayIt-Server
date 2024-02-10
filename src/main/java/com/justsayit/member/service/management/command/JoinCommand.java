@@ -1,4 +1,4 @@
-package com.justsayit.member.service.auth.command;
+package com.justsayit.member.service.management.command;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,19 +6,19 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class LoginCommand {
+public class JoinCommand {
 
-    private String token;
-    private String loginType;
+    private String email;
+    private String provider;
     private String nickname;
     private String profileImg;
     private String gender;
     private LocalDate birth;
 
     @Builder
-    public LoginCommand(String token, String loginType, String nickname, String profileImg, String gender, LocalDate birth) {
-        this.token = token;
-        this.loginType = loginType;
+    public JoinCommand(String email, String provider, String nickname, String profileImg, String gender, LocalDate birth) {
+        this.email = email;
+        this.provider = provider;
         this.nickname = nickname;
         this.profileImg = profileImg;
         this.gender = gender;
