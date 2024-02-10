@@ -48,12 +48,18 @@ public class SecurityConfig {
                     .and()
                     .authorizeRequests()
                     // MEMBER
-                    .antMatchers("/members/login", "/members/check")
+                    .antMatchers("/members/oauth/**", "/members/management/join")
                     .permitAll()
                     .antMatchers("/members/**")
                     .authenticated()
                     // STORY
                     .antMatchers("/stories/**")
+                    .authenticated()
+                    // MOOD
+                    .antMatchers("/mood/**")
+                    .authenticated()
+                    // REPORT
+                    .antMatchers("/report/**")
                     .authenticated();
             return http.build();
         } catch (Exception e) {
