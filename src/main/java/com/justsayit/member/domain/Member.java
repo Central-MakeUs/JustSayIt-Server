@@ -20,12 +20,12 @@ public class Member extends BaseJpaEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "token", nullable = false)
-    private String token;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "login_type", nullable = false)
-    private LoginType loginType;
+    @Column(name = "provider", nullable = false)
+    private Provider provider;
 
     @Embedded
     @AttributeOverride(name = "nickname", column = @Column(name = "nickname", nullable = false))
@@ -46,18 +46,18 @@ public class Member extends BaseJpaEntity {
     @CollectionTable(name = "AUTHORITY", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> authorities = new ArrayList<>();
 
-    public static Member ofNew(String token, String loginType, ProfileInfo profileInfo, PersonalInfo personalInfo) {
-        return new Member(null, token, LoginType.valueOf(loginType), profileInfo, personalInfo, MemberStatus.ACTIVE, List.of("MEMBER"));
+    public static Member ofNew(String email, String provider, ProfileInfo profileInfo, PersonalInfo personalInfo) {
+        return new Member(null, email, Provider.valueOf(provider), profileInfo, personalInfo, MemberStatus.ACTIVE, List.of("MEMBER"));
     }
 
     public static Member ofRef(Long memberId) {
         return new Member(memberId, null, null, null, null, null, null);
     }
 
-    private  Member(Long id, String token, LoginType loginType, ProfileInfo profileInfo, PersonalInfo personalInfo, MemberStatus status, List<String> authorities) {
+    private  Member(Long id, String email, Provider provider, ProfileInfo profileInfo, PersonalInfo personalInfo, MemberStatus status, List<String> authorities) {
         this.id = id;
-        this.token = token;
-        this.loginType = loginType;
+        this.email = email;
+        this.provider = provider;
         this.profileInfo = profileInfo;
         this.personalInfo = personalInfo;
         this.status = status;

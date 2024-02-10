@@ -47,13 +47,25 @@ public class SecurityConfig {
             http.apply(new MyCustomDsl())
                     .and()
                     .authorizeRequests()
+                    // HEALTH
+                    .antMatchers("/health")
+                    .permitAll()
+                    // TEMP
+                    .antMatchers("/temp")
+                    .authenticated()
                     // MEMBER
-                    .antMatchers("/members/login", "/members/check")
+                    .antMatchers("/members/oauth/**", "/members/management/join")
                     .permitAll()
                     .antMatchers("/members/**")
                     .authenticated()
                     // STORY
                     .antMatchers("/stories/**")
+                    .authenticated()
+                    // MOOD
+                    .antMatchers("/mood/**")
+                    .authenticated()
+                    // REPORT
+                    .antMatchers("/report/**")
                     .authenticated();
             return http.build();
         } catch (Exception e) {

@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LoginReq {
+public class JoinReq {
 
     private String nickname;
     private String gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
-    private String loginType;
-    private String token;
+    private String provider;
+    private String email;
 }

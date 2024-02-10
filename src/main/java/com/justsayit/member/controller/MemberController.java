@@ -2,15 +2,16 @@ package com.justsayit.member.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
 import com.justsayit.member.controller.request.BlockMemberReq;
-import com.justsayit.member.controller.request.LoginReq;
+import com.justsayit.member.controller.request.JoinReq;
+import com.justsayit.member.controller.request.NaverLoginReq;
 import com.justsayit.member.controller.request.UpdateProfileReq;
-import com.justsayit.member.service.auth.LoginFacade;
-import com.justsayit.member.service.auth.command.CheckIsJoinedCmd;
-import com.justsayit.member.service.auth.dto.CheckIsJoinedRes;
-import com.justsayit.member.service.auth.dto.LoginRes;
-import com.justsayit.member.service.auth.usecase.AuthUseCase;
+import com.justsayit.member.service.auth.dto.OAuthLoginRes;
+import com.justsayit.member.service.auth.naver.NaverLoginCommand;
+import com.justsayit.member.service.auth.usecase.OAuthUseCase;
+import com.justsayit.member.service.management.JoinFacade;
 import com.justsayit.member.service.management.command.BlockMemberCommand;
-import com.justsayit.member.service.management.usecase.ManageMemberUseCase;
+import com.justsayit.member.service.management.dto.JoinRes;
+import com.justsayit.member.service.management.usecase.MemberManagementUseCase;
 import com.justsayit.member.service.profile.UpdateProfileFacade;
 import com.justsayit.member.service.profile.dto.GetProfileRes;
 import com.justsayit.member.service.profile.usecase.ProfileUseCase;
@@ -24,27 +25,33 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final LoginFacade loginFacade;
+    private final JoinFacade joinFacade;
     private final UpdateProfileFacade updateProfileFacade;
-    private final AuthUseCase authUseCase;
+    private final OAuthUseCase oAuthUseCase;
     private final ProfileUseCase profileUseCase;
-    private final ManageMemberUseCase manageMemberUseCase;
+    private final MemberManagementUseCase memberManagementUseCase;
 
-    @PostMapping("/login")
-    public ResponseEntity<BaseResponse<LoginRes>> login(@RequestPart(value = "loginInfo") LoginReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
-        LoginRes res = loginFacade.login(req, multipartFile);
+    @PostMapping("/oauth/naver")
+    public ResponseEntity<BaseResponse<OAuthLoginRes>> naverLogin(@RequestBody NaverLoginReq req) {
+        OAuthLoginRes res = oAuthUseCase.naverLogin(new NaverLoginCommand(req.getToken()));
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @GetMapping("/check")
-    public ResponseEntity<BaseResponse<CheckIsJoinedRes>> checkIsJoined(@RequestParam("token") String token) {
-        CheckIsJoinedRes res = authUseCase.checkIsJoined(new CheckIsJoinedCmd(token));
+    @PostMapping("/management/join")
+    public ResponseEntity<BaseResponse<JoinRes>> join(@RequestPart(value = "joinInfo") JoinReq req, @RequestPart(value = "profileImg", required = false) MultipartFile multipartFile) {
+        JoinRes res = joinFacade.login(req, multipartFile);
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 
-    @PostMapping("/quit")
+    @PostMapping("/management/quit")
     public ResponseEntity<BaseResponse<Object>> quit() {
-        authUseCase.quit();
+        memberManagementUseCase.quit();
+        return ResponseEntity.ok(BaseResponse.ofSuccess());
+    }
+
+    @PostMapping("/management/block")
+    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestBody BlockMemberReq req) {
+        memberManagementUseCase.blockMember(new BlockMemberCommand(req.getBlockedId()));
         return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 
@@ -59,11 +66,5 @@ public class MemberController {
     public ResponseEntity<BaseResponse<GetProfileRes>> getProfile() {
         GetProfileRes getProfileRes = profileUseCase.getProfile();
         return ResponseEntity.ok(BaseResponse.ofSuccess(getProfileRes));
-    }
-
-    @PostMapping("/block")
-    public ResponseEntity<BaseResponse<Object>> blockMember(@RequestBody BlockMemberReq req) {
-        manageMemberUseCase.blockMember(new BlockMemberCommand(req.getBlockedId()));
-        return ResponseEntity.ok(BaseResponse.ofSuccess());
     }
 }
