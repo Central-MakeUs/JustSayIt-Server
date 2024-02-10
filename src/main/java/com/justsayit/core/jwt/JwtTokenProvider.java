@@ -36,7 +36,6 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(Long memberId) {
-        log.info("secret key: {}", SECRET_KEY);
         StringBuilder sb = new StringBuilder();
         sb.append("Bearer ")
                 .append(
@@ -51,7 +50,6 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(ServletRequest request, String accessToken) {
-        log.info("secret key: {}", SECRET_KEY);
         if (!accessToken.startsWith("Bearer ")) {
             return false;
         }
