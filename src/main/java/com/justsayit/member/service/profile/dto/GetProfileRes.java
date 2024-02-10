@@ -9,14 +9,14 @@ import java.time.LocalDate;
 public class GetProfileRes {
 
     private Long memberId;
-    private String loginType;
+    private String provider;
     private ProfileInfo profileInfo;
     private PersonalInfo personalInfo;
 
     @Builder
-    public GetProfileRes(Long memberId, String loginType, ProfileInfo profileInfo, PersonalInfo personalInfo) {
+    public GetProfileRes(Long memberId, String provider, ProfileInfo profileInfo, PersonalInfo personalInfo) {
         this.memberId = memberId;
-        this.loginType = loginType;
+        this.provider = provider;
         this.profileInfo = profileInfo;
         this.personalInfo = personalInfo;
     }
