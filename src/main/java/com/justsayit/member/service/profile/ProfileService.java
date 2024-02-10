@@ -35,7 +35,7 @@ public class ProfileService implements ProfileUseCase {
         Member member = MemberServiceHelper.findExistingMember(memberRepository, memberId);
         return GetProfileRes.builder()
                 .memberId(member.getId())
-                .loginType(member.getProvider().toString())
+                .provider(member.getProvider().toString())
                 .profileInfo(
                         new GetProfileRes.ProfileInfo(
                                 member.getProfileInfo().getNickname(),
