@@ -5,5 +5,7 @@ import com.justsayit.member.service.auth.dto.OAuthLoginRes;
 
 public interface OAuthUseCase {
 
-    OAuthLoginRes naverLogin(OAuthLoginCommand req);
+    OAuthLoginRes naverLogin(OAuthLoginCommand cmd);
+
+    OAuthLoginRes appleLogin(OAuthLoginCommand cmd);
 }
