@@ -35,7 +35,7 @@ public final class AppleJwtUtils {
         try {
             /* JWT header */
             Map<String, String> header = new ObjectMapper().readValue(base64Decode(getHeaderOfIdentityToken(identityToken)), Map.class);
-            ApplePublicKeyResponse.Key key = findPublicKey(r다esponse, header);
+            ApplePublicKeyResponse.Key key = findPublicKey(response, header);
 
             /* RSA 복호화를 위한 공개키 생성 */
             byte[] nBytes = Base64.getUrlDecoder().decode(key.getN());
