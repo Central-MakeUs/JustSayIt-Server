@@ -1,10 +1,8 @@
 package com.justsayit.member.controller;
 
 import com.justsayit.core.template.response.BaseResponse;
-import com.justsayit.member.controller.request.BlockMemberReq;
-import com.justsayit.member.controller.request.JoinReq;
-import com.justsayit.member.controller.request.NaverLoginReq;
-import com.justsayit.member.controller.request.UpdateProfileReq;
+import com.justsayit.member.controller.request.*;
+import com.justsayit.member.service.auth.apple.AppleLoginCommand;
 import com.justsayit.member.service.auth.dto.OAuthLoginRes;
 import com.justsayit.member.service.auth.naver.NaverLoginCommand;
 import com.justsayit.member.service.auth.usecase.OAuthUseCase;
@@ -34,6 +32,12 @@ public class MemberController {
     @PostMapping("/oauth/naver")
     public ResponseEntity<BaseResponse<OAuthLoginRes>> naverLogin(@RequestBody NaverLoginReq req) {
         OAuthLoginRes res = oAuthUseCase.naverLogin(new NaverLoginCommand(req.getToken()));
+        return ResponseEntity.ok(BaseResponse.ofSuccess(res));
+    }
+
+    @PostMapping("/oauth/apple")
+    public ResponseEntity<BaseResponse<OAuthLoginRes>> appleLogin(@RequestBody AppleLoginReq req) {
+        OAuthLoginRes res = oAuthUseCase.appleLogin(new AppleLoginCommand(req.getToken()));
         return ResponseEntity.ok(BaseResponse.ofSuccess(res));
     }
 

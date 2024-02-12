@@ -36,4 +36,17 @@ public class OAuthService implements OAuthUseCase {
         JwtToken jwtToken = jwtTokenProvider.createToken(member.getId());
         return OAuthLoginRes.isJoined(email, jwtToken.getAccessToken());
     }
+
+    @Override
+    public OAuthLoginRes appleLogin(OAuthLoginCommand cmd) {
+        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(cmd);
+        String email = oAuthInfoResponse.getEmail();
+        Provider provider = oAuthInfoResponse.getProvider();
+        Member member = memberRepository.findByEmailAndProvider(email, provider);
+        if (isNull(member)) {
+            return OAuthLoginRes.isNotJoined(email);
+        }
+        JwtToken jwtToken = jwtTokenProvider.createToken(member.getId());
+        return OAuthLoginRes.isJoined(email, jwtToken.getAccessToken());
+    }
 }

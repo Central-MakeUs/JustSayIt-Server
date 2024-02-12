@@ -25,9 +25,9 @@ public class NaverApiClient implements OAuthApiClient {
     private final RestTemplate restTemplate;
 
     @Override
-    public OAuthInfoResponse requestOauthInfo(String token) {
+    public OAuthInfoResponse requestOauthInfo(String accessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setBearerAuth(token);
+        httpHeaders.setBearerAuth(accessToken);
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
         /* 헤더 토큰을 전달하기 위해 get 대신 post 메서드 사용 */
