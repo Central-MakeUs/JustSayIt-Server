@@ -29,6 +29,11 @@ jwt:
     expiration-time: 60000  # 1분 -> 30분으로 변경
 
 oauth:
+  apple:
+    issuer: apple-issuer
+    client-id: app-client-id
+    url:
+      api: https://appleid.apple.com/auth/keys
   naver:
     url:
       api: https://openapi.naver.com/v1/nid/me
