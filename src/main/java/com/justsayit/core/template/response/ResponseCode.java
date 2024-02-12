@@ -17,6 +17,9 @@ public enum ResponseCode {
     NO_MEMBER("3000", "회원이 존재하지 않습니다."),
     ALREADY_EXISTS_MEMBER("3001", "이미 가입한 회원입니다."),
     INVALID_NICKNAME_LENGTH("3002", "닉네임은 2글자 이상, 12글자 이하여야 합니다."),
+    INVALID_APPLE_IDENTITY_TOKEN("3003", "유효하지 않은 identity token입니다."),
+    FAIL_TO_VERIFY_APPLE_IDENTITY_TOKEN("3004", "identity token 검증에 실패했습니다."),
+    FAIL_TO_GET_APPLE_PUBLIC_KEY("3005", "공개키 재료값을 찾는데 실패했습니다."),
 
     // 4000 - S3
     FILE_SIZE_OVERFLOW("4000", "개별 사진 사이즈는 최대 10MB, 총합 사이즈는 최대 100MB를 초과할 수 없습니다."),
@@ -39,8 +42,7 @@ public enum ResponseCode {
 
     // 7000 - MOOD
     INVALID_MOOD_CODE("7000", "잘못된 감정코드입니다."),
-    RECENT_SAVED_MOOD_EXISTS("7001", "최근에 저장한 감정이 있습니다."),
-    ;
+    RECENT_SAVED_MOOD_EXISTS("7001", "최근에 저장한 감정이 있습니다."),;
 
     private String code;
     private String message;
