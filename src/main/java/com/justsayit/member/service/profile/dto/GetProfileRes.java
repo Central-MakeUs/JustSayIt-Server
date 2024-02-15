@@ -10,13 +10,15 @@ public class GetProfileRes {
 
     private Long memberId;
     private String provider;
+    private String email;
     private ProfileInfo profileInfo;
     private PersonalInfo personalInfo;
 
     @Builder
-    public GetProfileRes(Long memberId, String provider, ProfileInfo profileInfo, PersonalInfo personalInfo) {
+    public GetProfileRes(Long memberId, String provider, String email, ProfileInfo profileInfo, PersonalInfo personalInfo) {
         this.memberId = memberId;
         this.provider = provider;
+        this.email = email;
         this.profileInfo = profileInfo;
         this.personalInfo = personalInfo;
     }

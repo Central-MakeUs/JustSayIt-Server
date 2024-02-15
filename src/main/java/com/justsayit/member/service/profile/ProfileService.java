@@ -36,6 +36,7 @@ public class ProfileService implements ProfileUseCase {
         return GetProfileRes.builder()
                 .memberId(member.getId())
                 .provider(member.getProvider().toString())
+                .email(member.getEmail())
                 .profileInfo(
                         new GetProfileRes.ProfileInfo(
                                 member.getProfileInfo().getNickname(),
