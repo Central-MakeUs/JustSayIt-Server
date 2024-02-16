@@ -62,10 +62,7 @@ public class GetStoryService implements GetStoryUseCase {
                             .mine(memberId.equals(story.getMemberId()))
 
                             // 작성자 프로필 정보
-                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.builder()
-                                    .nickname(member.getProfileInfo().getNickname())
-                                    .profileImg(member.getProfileInfo().getProfileImg())
-                                    .build())
+                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.of(member.getProfileInfo().getProfileImg(), member.getProfileInfo().getNickname()))
 
                             // 스토리 메타정보
                             .storyMetaInfo(GetStoryRes.StoryInfo.StoryMetaInfo.builder()
@@ -142,10 +139,7 @@ public class GetStoryService implements GetStoryUseCase {
                             .mine(memberId.equals(story.getMemberId()))
 
                             // 작성자 프로필 정보
-                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.builder()
-                                    .nickname(member.getProfileInfo().getNickname())
-                                    .profileImg(member.getProfileInfo().getProfileImg())
-                                    .build())
+                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.of(member.getProfileInfo().getProfileImg(), member.getProfileInfo().getNickname()))
 
                             // 스토리 메타정보
                             .storyMetaInfo(GetStoryRes.StoryInfo.StoryMetaInfo.builder()
@@ -228,10 +222,10 @@ public class GetStoryService implements GetStoryUseCase {
                             .mine(reader.getId().equals(writer.getId()))
 
                             // 작성자 프로필 정보
-                            .profileInfo(GetStoryRes.StoryInfo.ProfileInfo.builder()
-                                    .nickname(writer.getProfileInfo().getNickname())
-                                    .profileImg(writer.getProfileInfo().getProfileImg())
-                                    .build())
+                            .profileInfo(
+                                    story.getMetaInfo().isAnonymous() ?
+                                            GetStoryRes.StoryInfo.ProfileInfo.ofDefault() :
+                                            GetStoryRes.StoryInfo.ProfileInfo.of(writer.getProfileInfo().getProfileImg(), writer.getProfileInfo().getNickname()))
 
                             // 스토리 메타정보
                             .storyMetaInfo(GetStoryRes.StoryInfo.StoryMetaInfo.builder()

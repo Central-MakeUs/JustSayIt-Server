@@ -53,13 +53,22 @@ public class GetStoryRes {
         @Getter
         public static class ProfileInfo {
 
+            private static final String DEFAULT_IMG = "https://jsi-bucket.s3.ap-northeast-2.amazonaws.com/default_profile.png";
+            private static final String DEFAULT_NICKNAME = "익명";
             private String profileImg;
             private String nickname;
 
-            @Builder
-            public ProfileInfo(String profileImg, String nickname) {
+            private ProfileInfo(String profileImg, String nickname) {
                 this.profileImg = profileImg;
                 this.nickname = nickname;
+            }
+
+            public static ProfileInfo ofDefault() {
+                return new ProfileInfo(DEFAULT_IMG, DEFAULT_NICKNAME);
+            }
+
+            public static ProfileInfo of(String profileImg, String nickname) {
+                return new ProfileInfo(profileImg, nickname);
             }
         }
 
